@@ -1,21 +1,19 @@
 const express = require('express');
+const {
+  getListings,
+  createListing,
+  updateListing,
+  deleteListing,
+} = require('../controllers/listingController');
 
 const router = express.Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({ message: 'Get Listings' });
-});
+router.get('/', getListings);
 
-router.post('/', (req, res) => {
-  res.status(200).json({ message: 'Create Listing' });
-});
+router.post('/', createListing);
 
-router.put('/:id', (req, res) => {
-  res.status(200).json({ message: `Update Listing ${req.params.id}` });
-});
+router.put('/:id', updateListing);
 
-router.delete('/:id', (req, res) => {
-  res.status(200).json({ message: `Delete Listing ${req.params.id}` });
-});
+router.delete('/:id', deleteListing);
 
 module.exports = router;
