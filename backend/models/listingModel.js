@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const listingSchema = mongoose.Schema(
   {
-    description: {
+    text: {
       type: String,
       required: [true, 'Please add a text value'],
     },
