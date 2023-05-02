@@ -1,9 +1,12 @@
 const asyncHandler = require('express-async-handler');
+const Listing = require('../models/listingModel');
+
 // @desc Get Listings
 // @route GET /api/listings
 // @access Private
 const getListings = asyncHandler(async (req, res) => {
-  res.status(200).json({ message: 'Get Listings' });
+  const listings = await Listing.find();
+  res.status(200).json(listings);
 });
 // @desc Create a Listing
 // @route POST /api/listings
