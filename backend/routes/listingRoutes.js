@@ -6,10 +6,12 @@ const {
   deleteListing,
 } = require('../controllers/listingController');
 
+const { protect } = require('../middleware/authMiddleware');
+
 const router = express.Router();
 
-router.route('/').get(getListings).post(createListing);
+router.route('/').get(protect, getListings).post(protect, createListing);
 
-router.route('/:id').put(updateListing).delete(deleteListing);
+router.route('/:id').put(protect, updateListing).delete(protect, deleteListing);
 
 module.exports = router;

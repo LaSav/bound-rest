@@ -1,11 +1,13 @@
 const asyncHandler = require('express-async-handler');
+
 const Listing = require('../models/listingModel');
+const User = require('../models/userModel');
 
 // @desc Get Listings
 // @route GET /api/listings
 // @access Private
 const getListings = asyncHandler(async (req, res) => {
-  const listings = await Listing.find();
+  const listings = await Listing.find({ user: req.user.id });
   res.status(200).json(listings);
 });
 
@@ -20,6 +22,7 @@ const createListing = asyncHandler(async (req, res) => {
 
   const listing = await Listing.create({
     text: req.body.text,
+    user: req.user.id,
   });
 
   res.status(200).json(listing);
@@ -34,6 +37,19 @@ const updateListing = asyncHandler(async (req, res) => {
   if (!listing) {
     res.status(400);
     throw new Error('Listing not found');
+  }
+
+  const user = await User.findById(req.user.id);
+
+  // Check for user
+  if (!user) {
+    res.status(401);
+    throw new Error('User not found');
+  }
+  // Make sure the logged in user matched the Listing user
+  if (listing.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error('User not authorized');
   }
 
   const updatedListing = await Listing.findByIdAndUpdate(
@@ -55,6 +71,19 @@ const deleteListing = asyncHandler(async (req, res) => {
   if (!listing) {
     res.status(400);
     throw new Error('Listing not found');
+  }
+
+  const user = await User.findById(req.user.id);
+
+  // Check for user
+  if (!user) {
+    res.status(401);
+    throw new Error('User not found');
+  }
+  // Make sure the logged in user matched the Listing user
+  if (listing.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error('User not authorized');
   }
 
   await listing.deleteOne();
