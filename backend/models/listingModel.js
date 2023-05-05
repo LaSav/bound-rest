@@ -12,6 +12,7 @@ const listingSchema = mongoose.Schema(
       required: [true, 'Please add a text value'],
     },
     requests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
   },
   {
     timestamps: true,
