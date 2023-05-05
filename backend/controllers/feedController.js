@@ -22,9 +22,7 @@ const requestListing = asyncHandler(async (req, res) => {
 
   const requestedListing = await Listing.findByIdAndUpdate(
     req.params.id,
-    {
-      requests: user._id,
-    },
+    { $addToSet: { requests: user._id } },
     { new: true }
   );
 
