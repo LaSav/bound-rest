@@ -6,6 +6,6 @@ const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
 router.route('/').get(getFeed);
-router.route('/:id').put(requestListing);
+router.route('/:id').put(protect, requestListing);
 
 module.exports = router;
