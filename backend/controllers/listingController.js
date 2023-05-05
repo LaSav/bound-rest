@@ -11,6 +11,41 @@ const getListings = asyncHandler(async (req, res) => {
   res.status(200).json(listings);
 });
 
+//@desc Show Requests
+//@route GET /api/listings/:id
+//@access Private
+const showRequests = asyncHandler(async (req, res) => {
+  const listing = await Listing.findById(req.params.id);
+
+  if (!listing) {
+    res.status(400);
+    throw new Error('Listing not found');
+  }
+
+  const user = await User.findById(req.user.id);
+
+  // Check for user
+  if (!user) {
+    res.status(401);
+    throw new Error('User not found');
+  }
+  // Make sure the logged in user matched the Listing user
+  if (listing.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
+
+  const listingRequests = await listing.requests;
+
+  const requestedUsers = await Promise.all(
+    listingRequests.map((listingRequest) => {
+      return User.findById(listingRequest).select('-password');
+    })
+  );
+
+  res.status(200).json(requestedUsers);
+});
+
 // @desc Create a Listing
 // @route POST /api/listings
 // @access Private
@@ -95,4 +130,5 @@ module.exports = {
   createListing,
   updateListing,
   deleteListing,
+  showRequests,
 };
