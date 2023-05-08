@@ -169,7 +169,7 @@ const matchRequests = asyncHandler(async (req, res) => {
 });
 
 //@desc Show Listings a User has Requested to
-//@route GET /api/listings...
+//@route GET /api/listings/requested
 //@access Private
 const showRequested = asyncHandler(async (req, res) => {
   // Get all Listings
@@ -192,6 +192,30 @@ const showRequested = asyncHandler(async (req, res) => {
   res.status(200).json(requestedListings);
 });
 
+//@desc Show Listings a User has Matched With
+//@route GET /api/listings/matched
+//@access Private
+const showMatched = asyncHandler(async (req, res) => {
+  // Get all Listings
+  const listings = await Listing.find();
+  // Get User Id
+  const user = await User.findById(req.user.id);
+
+  const matchedListings = [];
+
+  for (i = 0; i < listings.length; i++) {
+    if (
+      listings[i].matches.some(
+        (match) => match.toString() === user._id.toString()
+      )
+    ) {
+      matchedListings.push(listings[i]);
+    }
+  }
+
+  res.status(200).json(matchedListings);
+});
+
 //@desc Delete a Request from another User's Listing
 //@route DELETE /api/listings...
 //@access Private
@@ -204,4 +228,5 @@ module.exports = {
   showRequests,
   matchRequests,
   showRequested,
+  showMatched,
 };

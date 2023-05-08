@@ -7,6 +7,7 @@ const {
   showRequests,
   matchRequests,
   showRequested,
+  showMatched,
 } = require('../controllers/listingController');
 
 const { protect } = require('../middleware/authMiddleware');
@@ -23,5 +24,6 @@ router
   .put(protect, matchRequests);
 
 router.route('/requested').get(protect, showRequested);
+router.route('/matched').get(protect, showMatched);
 
 module.exports = router;
