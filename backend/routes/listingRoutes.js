@@ -6,6 +6,7 @@ const {
   deleteListing,
   showRequests,
   matchRequests,
+  showRequested,
 } = require('../controllers/listingController');
 
 const { protect } = require('../middleware/authMiddleware');
@@ -20,5 +21,7 @@ router
   .route('/requests/:id')
   .get(protect, showRequests)
   .put(protect, matchRequests);
+
+router.route('/requested').get(protect, showRequested);
 
 module.exports = router;

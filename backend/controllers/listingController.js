@@ -3,6 +3,8 @@ const asyncHandler = require('express-async-handler');
 const Listing = require('../models/listingModel');
 const User = require('../models/userModel');
 
+//-------------- CRUD Functions for a User's Listing ------------//
+
 // @desc Get Listings
 // @route GET /api/listings
 // @access Private
@@ -91,6 +93,8 @@ const deleteListing = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id });
 });
 
+//-------------------- Requests of a User's Listing Functions ------------ //
+
 //@desc Show Your Listing Requests
 //@route GET /api/listings/requests/:id
 //@access Private
@@ -164,6 +168,34 @@ const matchRequests = asyncHandler(async (req, res) => {
   res.status(200).json(updatedMatchedListing);
 });
 
+//@desc Show Listings a User has Requested to
+//@route GET /api/listings...
+//@access Private
+const showRequested = asyncHandler(async (req, res) => {
+  // Get all Listings
+  const listings = await Listing.find();
+  // Get User Id
+  const user = await User.findById(req.user.id);
+
+  const requestedListings = [];
+
+  for (i = 0; i < listings.length; i++) {
+    if (
+      listings[i].requests.some(
+        (request) => request.toString() === user._id.toString()
+      )
+    ) {
+      requestedListings.push(listings[i]);
+    }
+  }
+
+  res.status(200).json(requestedListings);
+});
+
+//@desc Delete a Request from another User's Listing
+//@route DELETE /api/listings...
+//@access Private
+
 module.exports = {
   getListings,
   createListing,
@@ -171,4 +203,5 @@ module.exports = {
   deleteListing,
   showRequests,
   matchRequests,
+  showRequested,
 };
