@@ -3,6 +3,7 @@ const asyncHandler = require('express-async-handler');
 const Listing = require('../models/listingModel');
 const User = require('../models/userModel');
 
+// I might need to remove matches and requests from this response
 const getFeed = asyncHandler(async (req, res) => {
   const listings = await Listing.find();
   res.status(200).json(listings);

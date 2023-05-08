@@ -91,9 +91,84 @@ const deleteListing = asyncHandler(async (req, res) => {
   res.status(200).json({ id: req.params.id });
 });
 
+//@desc Show Your Listing Requests
+//@route GET /api/listings/requests/:id
+//@access Private
+const showRequests = asyncHandler(async (req, res) => {
+  const listing = await Listing.findById(req.params.id);
+
+  if (!listing) {
+    res.status(400);
+    throw new Error('Listing not found');
+  }
+
+  const user = await User.findById(req.user.id);
+
+  // Check for user
+  if (!user) {
+    res.status(401);
+    throw new Error('User not found');
+  }
+  // Make sure the logged in user matched the Listing user
+  if (listing.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
+
+  const listingRequests = await listing.requests;
+
+  const requestedUsers = await Promise.all(
+    listingRequests.map((listingRequest) => {
+      return User.findById(listingRequest).select('-password');
+    })
+  );
+
+  res.status(200).json(requestedUsers);
+});
+
+//@desc Match with Listing Requests
+//@route PUT /api/listings/requests/:id
+//@access Private
+const matchRequests = asyncHandler(async (req, res) => {
+  const listing = await Listing.findById(req.params.id);
+
+  if (!listing) {
+    res.status(400);
+    throw new Error('Listing not found');
+  }
+
+  const user = await User.findById(req.user.id);
+
+  // Check for user
+  if (!user) {
+    res.status(401);
+    throw new Error('User not found');
+  }
+  // Make sure the logged in user matched the Listing user
+  if (listing.user.toString() !== user.id) {
+    res.status(401);
+    throw new Error('User not authorized');
+  }
+
+  // Send matched id from body into Listing Document field 'matches'
+  const updatedMatchedListing = await Listing.findByIdAndUpdate(
+    req.params.id,
+    { $addToSet: { matches: req.body._id } },
+    { new: true }
+  )
+    .populate({
+      path: 'matches',
+      select: 'name',
+    })
+    .exec();
+  res.status(200).json(updatedMatchedListing);
+});
+
 module.exports = {
   getListings,
   createListing,
   updateListing,
   deleteListing,
+  showRequests,
+  matchRequests,
 };
