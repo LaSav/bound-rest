@@ -34,20 +34,22 @@ Bound is a networking app for digital creatives. Built using the MERN stack and 
 - Creators of a Listing can match with the requested Users. :ok_hand:
 - Getting Listings a User has requested to. :ok_hand:
 - Getting Listings a User has matched with. :ok_hand:
-- Populate a Listing with User Fields for sorting in feed.
 - Users can remove themselves from requests.
 
 #### Frontend
 
-- Feed, quick view, quick request, sorting by User credentials.
+- Feed: quick view, quick request, sorting.
 - Show a single Listing, full view, request.
 - User profile, update profile.
 - Show User's created Listings.
 - Show User their Listing, update Listing, delete Listing, match.
 - Show what Listings a User has Requested to.
 - Show what Listings a User has matched with.
+- PWA
 
-## Thinking about...
+#### Deployment
+
+## Thinking About...
 
 I need to decide on what to do when a Creator of a Listing matches with a requested User. So far, I have come up with:
 
