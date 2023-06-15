@@ -37,7 +37,6 @@ function Login() {
       ...prevState,
       [e.target.name]: e.target.value,
     }));
-    console.log([e.target.name]);
   };
 
   const onSubmit = (e) => {

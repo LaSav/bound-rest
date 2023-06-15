@@ -3,7 +3,6 @@ import axios from 'axios';
 const API_URL = '/api/listings/';
 
 // Create new Listing
-
 const createListing = async (listingData, token) => {
   const config = {
     headers: {
@@ -16,8 +15,22 @@ const createListing = async (listingData, token) => {
   return response.data;
 };
 
+// Get User Listings
+const getListings = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL, config);
+
+  return response.data;
+};
+
 const listingService = {
   createListing,
+  getListings,
 };
 
 export default listingService;
