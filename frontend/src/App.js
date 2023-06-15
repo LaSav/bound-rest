@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Header from './components/Header';
+import Feed from './pages/Feed';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
             <Route path={'/'} element={<Dashboard />} />
             <Route path={'/register'} element={<Register />} />
             <Route path={'/login'} element={<Login />} />
+            <Route path={'/feed'} element={<Feed />} />
           </Routes>
         </div>
       </Router>
