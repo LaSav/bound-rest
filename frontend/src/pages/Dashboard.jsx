@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import ListingForm from '../components/ListingForm';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -11,7 +12,15 @@ function Dashboard() {
       navigate('/login');
     }
   }, [user, navigate]);
-  return <div>Dashboard</div>;
+  return (
+    <>
+      <section className='heading'>
+        <h1>Welcome {user && user.name}</h1>
+        <p>Listings Dashboard</p>
+      </section>
+      <ListingForm />
+    </>
+  );
 }
 
 export default Dashboard;
