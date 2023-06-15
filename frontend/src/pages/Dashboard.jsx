@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import ListingForm from '../components/ListingForm';
 import { getListings, reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
+import ListingItem from '../components/ListingItem';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function Dashboard() {
     return () => {
       dispatch(reset());
     };
-  }, []);
+  }, [dispatch]);
 
   if (isLoading) {
     return <Spinner />;
@@ -42,6 +43,17 @@ function Dashboard() {
         <p>Listings Dashboard</p>
       </section>
       <ListingForm />
+      <section className='content'>
+        {listings.length > 0 ? (
+          <div className='listings'>
+            {listings.map((listing) => (
+              <ListingItem key={listing._id} listing={listing} />
+            ))}
+          </div>
+        ) : (
+          <h3>You haven't made any Listings yet</h3>
+        )}
+      </section>
     </>
   );
 }
