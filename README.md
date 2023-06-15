@@ -36,7 +36,10 @@ Bound is a networking app for digital creatives. Built using the MERN stack and 
 
 #### Frontend
 
-- Authentication api + UI.
+- Authentication api + UI :ok_hand:
+- Listings api + UI :ok_hand:
+- Requests api + UI
+- Feed api + UI
 - Feed: quick view, quick request, sorting.
 - Show a single Listing, full view, request.
 - User profile, update profile.
