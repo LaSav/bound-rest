@@ -48,7 +48,7 @@ const updateListing = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('User not found');
   }
-  // Make sure the logged in user matched the Listing user
+  // Make sure the logged in user matches the Listing user
   if (listing.user.toString() !== user.id) {
     res.status(401);
     throw new Error('User not authorized');

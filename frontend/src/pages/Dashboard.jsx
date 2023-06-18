@@ -40,7 +40,7 @@ function Dashboard() {
     <>
       <section className='heading'>
         <h1>Welcome {user && user.name}</h1>
-        <p>Listings Dashboard</p>
+        <p>Dashboard</p>
       </section>
       <ListingForm />
       <section className='content'>

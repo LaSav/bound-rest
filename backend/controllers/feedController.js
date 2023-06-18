@@ -4,17 +4,29 @@ const Listing = require('../models/listingModel');
 const User = require('../models/userModel');
 
 // I might need to remove matches and requests from this response
+// @desc Get Feed
+// @route GET /api/feed
+// @access Public
 const getFeed = asyncHandler(async (req, res) => {
   const listings = await Listing.find();
   res.status(200).json(listings);
 });
 
+// Only authenticated users can send a request
+// @desc Request a listing
+// @route PUT /api/feed/:id
+// @access Public
 const requestListing = asyncHandler(async (req, res) => {
   const listing = await Listing.findById(req.params.id);
 
   if (!listing) {
     res.status(400);
     throw new Error('Listing not found');
+  }
+
+  if (!user) {
+    res.status(400);
+    throw new Error('Not authenticated user');
   }
 
   const user = await User.findById(req.user.id);
