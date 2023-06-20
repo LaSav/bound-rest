@@ -6,6 +6,7 @@ function ListingItem({ listing }) {
   return (
     <div className='listing'>
       <h2>{listing.text}</h2>
+      <h3>required skills: {listing.requiredSkill}</h3>
       <button
         className='close'
         onClick={() => dispatch(deleteListing(listing._id))}

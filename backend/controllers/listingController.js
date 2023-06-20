@@ -24,6 +24,7 @@ const createListing = asyncHandler(async (req, res) => {
 
   const listing = await Listing.create({
     text: req.body.text,
+    requiredSkill: req.body.requiredSkill,
     user: req.user.id,
   });
 

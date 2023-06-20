@@ -4,18 +4,16 @@ import { createListing } from '../features/listings/listingSlice';
 
 function ListingForm() {
   const [text, setText] = useState('');
-  const [selectedSkill, setSelectedSkill] = useState('');
+  const [requiredSkill, setRequiredSkill] = useState('');
 
   const dispatch = useDispatch();
 
   const onSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(createListing({ text }));
-    console.log(selectedSkill);
-
+    dispatch(createListing({ text, requiredSkill }));
     setText('');
-    setSelectedSkill('');
+    setRequiredSkill('');
   };
   return (
     <section className='form'>
@@ -35,8 +33,8 @@ function ListingForm() {
             Enter the Skill required for this listing:
             <select
               name='requiredSkill'
-              value={selectedSkill}
-              onChange={(e) => setSelectedSkill(e.target.value)}
+              value={requiredSkill}
+              onChange={(e) => setRequiredSkill(e.target.value)}
             >
               <option value='fullstack developer'>Fullstack developer</option>
               <option value='frontend developer'>Frontend developer</option>
