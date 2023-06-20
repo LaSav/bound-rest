@@ -40,9 +40,10 @@ function Dashboard() {
     <>
       <section className='heading'>
         <h1>Welcome {user && user.name}</h1>
-        <p>Dashboard</p>
       </section>
+      <h2>Create a New Listing</h2>
       <ListingForm />
+      <h2>Your Active Listings:</h2>
       <section className='content'>
         {listings.length > 0 ? (
           <div className='listings'>
