@@ -12,21 +12,6 @@ const getFeed = asyncHandler(async (req, res) => {
   res.status(200).json(listings);
 });
 
-//@desc Get One Feed Listing
-//@ route GET /api/feed/:id
-//@access Public
-
-const getFeedListing = asyncHandler(async (req, res) => {
-  const listing = await Listing.findById(req.params.id);
-
-  if (!listing) {
-    res.status(400);
-    throw new Error('Listing not found');
-  }
-
-  res.status(200).json(listing);
-});
-
 // Only authenticated users can send a request
 // @desc Request a listing
 // @route PUT /api/feed/:id
@@ -82,4 +67,4 @@ const requestListing = asyncHandler(async (req, res) => {
   res.json(requestedListing);
 });
 
-module.exports = { getFeed, getFeedListing, requestListing };
+module.exports = { getFeed, requestListing };

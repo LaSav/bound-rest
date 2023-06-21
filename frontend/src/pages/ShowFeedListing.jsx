@@ -1,5 +1,8 @@
+import { useLocation } from 'react-router-dom';
+
 function ShowFeedListing() {
-  return <div>ShowFeedListing</div>;
+  const { state } = useLocation();
+  return <div>{state.listing.text}</div>;
 }
 
 export default ShowFeedListing;
