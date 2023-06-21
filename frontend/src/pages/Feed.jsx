@@ -45,13 +45,14 @@ function Feed() {
   return (
     <>
       <section className='heading'>
-        <label htmlFor='searchTerm'>Find Listings for:</label>
+        <label htmlFor='searchTerm'>Filter:</label>
         <select
           name='searchTerm'
           id='searchTerm'
           value={searchTerm}
           onChange={handleSearch}
         >
+          <option value=''>All</option>
           <option value='fullstack developer'>Fullstack developer</option>
           <option value='frontend developer'>Frontend developer</option>
           <option value='backend developer'>Backend developer</option>

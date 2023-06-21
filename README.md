@@ -39,18 +39,14 @@ Bound is a networking app for digital creatives. Built using the MERN stack and 
 - Authentication api + UI :ok_hand:
 - Listings api + UI :ok_hand:
 - Feed api + UI :ok_hand:
-- Filtering feature
-- Requests api + UI
-- Feed: quick view, quick request, sorting.
-- Show a single Listing, full view, request.
-- User profile, update profile.
-- Show User's created Listings.
-- Show User their Listing, update Listing, delete Listing, match.
-- Show what Listings a User has Requested to.
-- Show what Listings a User has matched with.
+- Filtering feature :ok_hand:
+- Request api + UI
+- Match api + UI
+- User api + UI
+- Extra UX: In Feed: quick view, quick request. In Dashboard: Personalize Listings
 - Styling
 - PWA
 
 #### Deployment
 
-- render + netlify
+- AWS + netlify
