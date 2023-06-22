@@ -9,8 +9,21 @@ const getFeed = async () => {
   return response.data;
 };
 
+// Request Listing
+const requestListing = async (listingId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(API_URL + listingId, {}, config);
+
+  return response.data;
+};
+
 const feedService = {
   getFeed,
+  requestListing,
 };
 
 export default feedService;

@@ -15,9 +15,10 @@ const getFeed = asyncHandler(async (req, res) => {
 // Only authenticated users can send a request
 // @desc Request a listing
 // @route PUT /api/feed/:id
-// @access Public
+// @access Private
 const requestListing = asyncHandler(async (req, res) => {
   const listing = await Listing.findById(req.params.id);
+  const user = await User.findById(req.user.id);
 
   if (!listing) {
     res.status(400);
@@ -28,10 +29,6 @@ const requestListing = asyncHandler(async (req, res) => {
     res.status(400);
     throw new Error('Not authenticated user');
   }
-
-  const user = await User.findById(req.user.id);
-
-  console.log(user._id);
 
   const requestedListing = await Listing.findByIdAndUpdate(
     req.params.id,

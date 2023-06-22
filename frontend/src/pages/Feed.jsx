@@ -38,7 +38,6 @@ function Feed() {
   }
 
   const content = filteredListings.map((listing) => {
-    console.log(listing);
     return <FeedItem key={listing._id} listing={listing} />;
   });
 
