@@ -27,8 +27,6 @@ function Feed() {
       .includes(searchTerm.toLowerCase());
   });
 
-  console.log(filteredListings);
-
   const handleSearch = (e) => {
     setSearchTerm(e.target.value);
   };

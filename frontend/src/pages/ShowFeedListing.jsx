@@ -9,19 +9,25 @@ function ShowFeedListing() {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
-  const { isError, message } = useSelector((state) => state.feed);
+  const { isLoading, isError, message } = useSelector((state) => state.feed);
+  const { state } = useLocation();
 
   useEffect(() => {
     if (isError) {
       console.log(message);
     }
-    console.log(user);
     if (!user) {
       navigate('/login');
     }
   }, [user, navigate, isError, message, dispatch]);
 
-  const { state } = useLocation();
+  // const listingIsRequested = listings.map((listing) => {
+  //   if (listing.requests.includes(user._id)) {
+  //     console.log('user is requested to this listing');
+  //   }
+  // });
+
+  console.log(state.listing);
   return (
     <div>
       <h1>{state.listing.text}</h1>

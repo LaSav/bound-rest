@@ -4,7 +4,7 @@ import { createListing } from '../features/listings/listingSlice';
 
 function ListingForm() {
   const [text, setText] = useState('');
-  const [requiredSkill, setRequiredSkill] = useState('');
+  const [requiredSkill, setRequiredSkill] = useState('fullstack developer');
 
   const dispatch = useDispatch();
 

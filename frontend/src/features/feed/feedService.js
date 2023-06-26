@@ -10,13 +10,13 @@ const getFeed = async () => {
 };
 
 // Request Listing
-const requestListing = async (listingId, token) => {
+const requestListing = async (listingId, token, userId) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.put(API_URL + listingId, {}, config);
+  const response = await axios.put(API_URL + listingId, { userId }, config);
 
   return response.data;
 };
