@@ -2,14 +2,16 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { requestListing } from '../features/feed/feedSlice';
+import { requestListing } from '../features/feedListing/feedListingSlice';
 
 function ShowFeedListing() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
-  const { isLoading, isError, message } = useSelector((state) => state.feed);
+  const { listing, isLoading, isError, message } = useSelector(
+    (state) => state.feedListing
+  );
   const { state } = useLocation();
 
   useEffect(() => {
@@ -21,12 +23,9 @@ function ShowFeedListing() {
     }
   }, [user, navigate, isError, message, dispatch]);
 
-  // const listingIsRequested = listings.map((listing) => {
-  //   if (listing.requests.includes(user._id)) {
-  //     console.log('user is requested to this listing');
-  //   }
-  // });
-
+  // if (listing.requests.includes(user._id)) {
+  //   console.log('user is requested to this listing');
+  // }
   console.log(state.listing);
   return (
     <div>

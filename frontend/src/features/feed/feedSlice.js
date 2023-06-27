@@ -22,26 +22,6 @@ export const getFeed = createAsyncThunk('feed/getAll', async (_, thunkAPI) => {
   }
 });
 
-// Request a Listing
-export const requestListing = createAsyncThunk(
-  'feed/request',
-  async (id, thunkAPI, userId) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      const userId = thunkAPI.getState().auth.user._id;
-      return await feedService.requestListing(id, token, userId);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
 export const feedSlice = createSlice({
   name: 'feed',
   initialState,
@@ -59,22 +39,6 @@ export const feedSlice = createSlice({
         state.listings = action.payload;
       })
       .addCase(getFeed.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
-      .addCase(requestListing.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(requestListing.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.listings = state.listings.filter(
-          (listing) => listing._id !== action.payload.id
-        );
-        state.listings.requests.push(action.payload.userId);
-      })
-      .addCase(requestListing.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
