@@ -9,6 +9,24 @@ const initialState = {
   message: '',
 };
 
+// Get a Single Listing from Feed
+export const getFeedListing = createAsyncThunk(
+  'feedListing/getOne',
+  async (id, thunkAPI) => {
+    try {
+      return await feedListingService.getFeedListing(id);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 // Request a Listing
 export const requestListing = createAsyncThunk(
   'feedListing/request',
@@ -37,6 +55,19 @@ export const feedListingSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(getFeedListing.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getFeedListing.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.listing = action.payload;
+      })
+      .addCase(getFeedListing.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
       .addCase(requestListing.pending, (state) => {
         state.isLoading = true;
       })

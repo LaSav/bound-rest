@@ -1,8 +1,12 @@
+import Spinner from '../components/Spinner';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { requestListing } from '../features/feedListing/feedListingSlice';
+import {
+  getFeedListing,
+  requestListing,
+} from '../features/feedListing/feedListingSlice';
 
 function ShowFeedListing() {
   const dispatch = useDispatch();
@@ -21,12 +25,24 @@ function ShowFeedListing() {
     if (!user) {
       navigate('/login');
     }
+    dispatch(getFeedListing(state.listing._id));
   }, [user, navigate, isError, message, dispatch]);
 
-  // if (listing.requests.includes(user._id)) {
-  //   console.log('user is requested to this listing');
-  // }
-  console.log(state.listing);
+  // Check if user is creator of Listing
+  console.log(state.listing.requests);
+  console.log(listing.requests);
+  if (
+    state.listing.requests?.includes(user._id) ||
+    listing.requests?.includes(user._id)
+  ) {
+    console.log('user is requested to this listing');
+  }
+  // Show user is requested to Listing
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <div>
       <h1>{state.listing.text}</h1>

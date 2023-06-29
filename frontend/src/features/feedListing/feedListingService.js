@@ -2,6 +2,13 @@ import axios from 'axios';
 
 const API_URL = '/api/feed/';
 
+// Get a Single Listing
+const getFeedListing = async (listingId) => {
+  const response = await axios.get(API_URL + listingId);
+
+  return response.data;
+};
+
 // Request Listing
 const requestListing = async (listingId, token, userId) => {
   const config = {
@@ -15,6 +22,7 @@ const requestListing = async (listingId, token, userId) => {
 };
 
 const feedListingService = {
+  getFeedListing,
   requestListing,
 };
 

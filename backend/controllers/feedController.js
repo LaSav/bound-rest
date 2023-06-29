@@ -64,4 +64,13 @@ const requestListing = asyncHandler(async (req, res) => {
   res.json(requestedListing);
 });
 
-module.exports = { getFeed, requestListing };
+// @desc Geet a single listing
+// @route Get /api/feed/:id
+// @access Public
+const getFeedListing = asyncHandler(async (req, res) => {
+  const listing = await Listing.findById(req.params.id);
+
+  res.status(200).json(listing);
+});
+
+module.exports = { getFeed, requestListing, getFeedListing };
