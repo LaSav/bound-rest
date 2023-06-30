@@ -30,16 +30,16 @@ const requestListing = asyncHandler(async (req, res) => {
     throw new Error('Not authenticated user');
   }
 
-  const requestedListing = await Listing.findByIdAndUpdate(
-    req.params.id,
-    { $addToSet: { requests: user._id } },
-    { new: true }
-  )
-    .populate({
-      path: 'requests',
-      select: 'name',
-    })
-    .exec();
+  // const requestedListing = await Listing.findByIdAndUpdate(
+  //   req.params.id,
+  //   { $addToSet: { requests: user._id } },
+  //   { new: true }
+  // )
+  //   .populate({
+  //     path: 'requests',
+  //     select: 'name',
+  //   })
+  //   .exec();
 
   // const requestedListing = await Listing.findByIdAndUpdate(
   //   req.params.id,
@@ -48,20 +48,20 @@ const requestListing = asyncHandler(async (req, res) => {
   // );
 
   // Check if the user ID is already in the requests array
-  // const isRequested = listing.requests.some(
-  //   (request) => request.toString() === user._id.toString()
-  // );
+  const isRequested = listing.requests.some(
+    (request) => request.toString() === user._id.toString()
+  );
 
-  // if (isRequested) {
-  //   res.status(400);
-  //   throw new Error('Listing already requested by this user');
-  // }
+  if (isRequested) {
+    res.status(400);
+    throw new Error('Listing already requested by this user');
+  }
 
-  // listing.requests.push(user._id);
+  listing.requests.push(user._id);
 
-  // const requestedListing = await listing.save();
+  await listing.save();
 
-  res.json(requestedListing);
+  res.json(user._id);
 });
 
 // @desc Geet a single listing

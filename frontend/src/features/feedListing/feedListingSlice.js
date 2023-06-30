@@ -3,6 +3,7 @@ import feedListingService from './feedListingService';
 
 const initialState = {
   listing: {},
+  requested: '',
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -74,7 +75,8 @@ export const feedListingSlice = createSlice({
       .addCase(requestListing.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.listing = action.payload;
+        state.requested = action.payload;
+        console.log(action.payload);
       })
       .addCase(requestListing.rejected, (state, action) => {
         state.isLoading = false;

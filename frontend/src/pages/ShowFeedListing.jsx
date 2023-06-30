@@ -13,7 +13,7 @@ function ShowFeedListing() {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
-  const { listing, isLoading, isError, message } = useSelector(
+  const { listing, requested, isLoading, isError, message } = useSelector(
     (state) => state.feedListing
   );
   const { state } = useLocation();
@@ -31,12 +31,10 @@ function ShowFeedListing() {
   // Check if user is creator of Listing
   console.log(state.listing.requests);
   console.log(listing.requests);
-  if (
-    state.listing.requests?.includes(user._id) ||
-    listing.requests?.includes(user._id)
-  ) {
+  if (requested === user._id || listing.requests?.includes(user._id)) {
     console.log('user is requested to this listing');
   }
+
   // Show user is requested to Listing
 
   if (isLoading) {
