@@ -19,7 +19,7 @@ function App() {
             <Route path={'/register'} element={<Register />} />
             <Route path={'/login'} element={<Login />} />
             <Route path={'/feed'} element={<Feed />} />
-            <Route path={'/feed/:id'} element={<ShowFeedListing />} />
+            <Route path={'/feed/:listingId'} element={<ShowFeedListing />} />
           </Routes>
         </div>
       </Router>

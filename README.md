@@ -40,12 +40,70 @@ Bound is a networking app for digital creatives. Built using the MERN stack and 
 - Listings api + UI :ok_hand:
 - Feed api + UI :ok_hand:
 - Filtering feature :ok_hand:
-- Request api + UI
+- Request api + UI :ok_hand:
 - Match api + UI
 - User api + UI
 - Extra UX: In Feed: quick view, quick request. In Dashboard: Personalize Listings
 - Styling
 - PWA
+
+## App Map
+
+### Listings
+
+#### Dashboard
+
+Users see the listings they've created in the Dashboard. Here, they can view and create listings.
+
+GET /api/listings
+Protected route, returns array of all listings created by the logged in user.
+
+#### showListing
+
+Shows one listing. Here you can match with users who have requested to the listing, edit a listing, and delete a listing.
+
+GET /api/listings/:id
+Protected route, returns one listing object.
+
+{
+Title: string,
+text: string,
+requiredSkill: string,
+requests: [users],
+matches: [users],
+}
+
+PUT /api/listings/:id
+protected route, returns request userId as a string.
+
+#### Feed
+
+A user can view and filter listings created by other users.
+
+GET /api/feed
+Returns array of all listings
+
+#### showFeedListing
+
+A user can request to join a listing.
+
+GET /api/feed/:id
+returns listing object
+
+PUT /api/feed/:id
+returns id of logged in user as a string
+
+React:
+Listings are fetched using the url id parameters with useParams from React Router.
+
+Redux:
+Upon successful call to PUT endpoint, state is updated to:
+listing: {},
+requested: userId <-- logged in user
+
+### Profile
+
+A user can update their profile and view listings they have requested to.
 
 #### Deployment
 

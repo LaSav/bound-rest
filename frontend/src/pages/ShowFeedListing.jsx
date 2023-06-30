@@ -1,7 +1,6 @@
 import Spinner from '../components/Spinner';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   getFeedListing,
@@ -16,7 +15,7 @@ function ShowFeedListing() {
   const { listing, requested, isLoading, isError, message } = useSelector(
     (state) => state.feedListing
   );
-  const { state } = useLocation();
+  const { listingId } = useParams();
 
   useEffect(() => {
     if (isError) {
@@ -25,17 +24,19 @@ function ShowFeedListing() {
     if (!user) {
       navigate('/login');
     }
-    dispatch(getFeedListing(state.listing._id));
-  }, [user, navigate, isError, message, dispatch]);
+    dispatch(getFeedListing(listingId));
+  }, [user, navigate, isError, message, dispatch, listingId]);
 
-  // Check if user is creator of Listing
-  console.log(state.listing.requests);
+  // Check if user is creator of Listing, remove button
+
+  if (user._id === listing.user) {
+    console.log('You are the creator of this listing');
+  }
+  // Show user is already requested to Listing, remove button (show unrequest button)
   console.log(listing.requests);
   if (requested === user._id || listing.requests?.includes(user._id)) {
     console.log('user is requested to this listing');
   }
-
-  // Show user is requested to Listing
 
   if (isLoading) {
     return <Spinner />;
@@ -43,11 +44,11 @@ function ShowFeedListing() {
 
   return (
     <div>
-      <h1>{state.listing.text}</h1>
-      <h3>Looking for a {state.listing.requiredSkill} to join this project</h3>
+      <h1>{listing.text}</h1>
+      <h3>Looking for a {listing.requiredSkill} to join this project</h3>
       <button
         type='submit'
-        onClick={() => dispatch(requestListing(state.listing._id))}
+        onClick={() => dispatch(requestListing(listing._id))}
       >
         Request to Join this Project
       </button>
