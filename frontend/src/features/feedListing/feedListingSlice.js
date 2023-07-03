@@ -31,11 +31,10 @@ export const getFeedListing = createAsyncThunk(
 // Request a Listing
 export const requestListing = createAsyncThunk(
   'feedListing/request',
-  async (id, thunkAPI, userId) => {
+  async (id, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      const userId = thunkAPI.getState().auth.user._id;
-      return await feedListingService.requestListing(id, token, userId);
+      return await feedListingService.requestListing(id, token);
     } catch (error) {
       const message =
         (error.response &&

@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../features/auth/authSlice';
-import listingReducer from '../features/listings/listingSlice';
+import listingsReducer from '../features/listings/listingSlice';
+import listingReducer from '../features/listing/listingSlice';
 import feedReducer from '../features/feed/feedSlice';
 import feedListingReducer from '../features/feedListing/feedListingSlice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    listings: listingReducer,
+    listings: listingsReducer,
+    listing: listingReducer,
     feed: feedReducer,
     feedListing: feedListingReducer,
   },

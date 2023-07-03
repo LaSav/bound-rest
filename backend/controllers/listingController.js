@@ -13,6 +13,14 @@ const getListings = asyncHandler(async (req, res) => {
   res.status(200).json(listings);
 });
 
+// @desc Get one Listing
+// @route GET /api/listings/:id
+// @access Private
+const getListing = asyncHandler(async (req, res) => {
+  const listing = await Listing.findById(req.params.id);
+  res.status(200).json(listing);
+});
+
 // @desc Create a Listing
 // @route POST /api/listings
 // @access Private
@@ -223,6 +231,7 @@ const showMatched = asyncHandler(async (req, res) => {
 
 module.exports = {
   getListings,
+  getListing,
   createListing,
   updateListing,
   deleteListing,

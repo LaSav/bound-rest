@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Header from './components/Header';
 import Feed from './pages/Feed';
 import ShowFeedListing from './pages/ShowFeedListing';
+import ShowListing from './pages/ShowListing';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             <Route path={'/login'} element={<Login />} />
             <Route path={'/feed'} element={<Feed />} />
             <Route path={'/feed/:listingId'} element={<ShowFeedListing />} />
+            <Route path={'/listings/:listingId'} element={<ShowListing />} />
           </Routes>
         </div>
       </Router>
