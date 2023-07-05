@@ -57,6 +57,13 @@ const requestListing = asyncHandler(async (req, res) => {
     throw new Error('Listing already requested by this user');
   }
 
+  // Check if User is Creator of Listing.
+
+  if (user._id.toString() === listing.user.toString()) {
+    res.status(400);
+    throw new Error('User is creator of Listing');
+  }
+
   listing.requests.push(user._id);
 
   await listing.save();
