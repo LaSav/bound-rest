@@ -1,4 +1,5 @@
 import Spinner from '../components/Spinner';
+import RequestItem from '../components/RequestItem';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -9,7 +10,7 @@ function ShowListing() {
   const navigate = useNavigate();
 
   const { user } = useSelector((state) => state.auth);
-  const { listing, requested, isLoading, isError, message } = useSelector(
+  const { listing, requests, isLoading, isError, message } = useSelector(
     (state) => state.listing
   );
   const { listingId } = useParams();
@@ -32,7 +33,19 @@ function ShowListing() {
   return (
     <div>
       <h1>{listing.text}</h1>
-      <p>You have {listing.requests?.length} requests to this Listing</p>
+
+      <section className='content'>
+        {requests.length > 0 ? (
+          <div className='requests'>
+            <h2>You have {requests.length} requests to this Listing</h2>
+            {requests.map((request) => (
+              <RequestItem key={request._id} request={request} />
+            ))}
+          </div>
+        ) : (
+          <h3>You dont have any requests to this listing yet</h3>
+        )}
+      </section>
     </div>
   );
 }
