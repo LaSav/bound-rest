@@ -157,24 +157,41 @@ const matchRequests = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error('User not found');
   }
+
   // Make sure the logged in user matched the Listing user
   if (listing.user.toString() !== user.id) {
     res.status(401);
     throw new Error('User not authorized');
   }
 
+  // Check if the ID is already in the matches array
+  const isMatched = listing.matches.some(
+    (match) => match.toString() === req.body._id.toString()
+  );
+
+  if (isMatched) {
+    res.status(400);
+    throw new Error('Listing already Matched by this user');
+  }
+
+  listing.matches.push(req.body._id);
+
+  await listing.save();
+
+  res.json(req.body._id);
+
   // Send matched id from body into Listing Document field 'matches'
-  const updatedMatchedListing = await Listing.findByIdAndUpdate(
-    req.params.id,
-    { $addToSet: { matches: req.body._id } },
-    { new: true }
-  )
-    .populate({
-      path: 'matches',
-      select: 'name',
-    })
-    .exec();
-  res.status(200).json(updatedMatchedListing);
+  // const updatedMatchedListing = await Listing.findByIdAndUpdate(
+  //   req.params.id,
+  //   { $addToSet: { matches: req.body._id } },
+  //   { new: true }
+  // )
+  //   .populate({
+  //     path: 'matches',
+  //     select: 'name',
+  //   })
+  //   .exec();
+  // res.status(200).json(updatedMatchedListing);
 });
 
 //@desc Show Listings a User has Requested to

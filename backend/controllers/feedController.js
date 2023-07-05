@@ -58,7 +58,6 @@ const requestListing = asyncHandler(async (req, res) => {
   }
 
   // Check if User is Creator of Listing.
-
   if (user._id.toString() === listing.user.toString()) {
     res.status(400);
     throw new Error('User is creator of Listing');
