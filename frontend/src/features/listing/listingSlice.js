@@ -3,6 +3,7 @@ import listingService from './listingService';
 
 const initialState = {
   listing: {},
+  requests: [],
   matched: '',
   isError: false,
   isSuccess: false,
@@ -17,6 +18,25 @@ export const getListing = createAsyncThunk(
     try {
       const token = thunkAPI.getState().auth.user.token;
       return await listingService.getListing(id, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Get Requests from a single Listing
+export const getRequests = createAsyncThunk(
+  'listing/getRequests',
+  async (id, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await listingService.getRequests(id, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -46,6 +66,19 @@ export const listingSlice = createSlice({
         state.listing = action.payload;
       })
       .addCase(getListing.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getRequests.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getRequests.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.requests = action.payload;
+      })
+      .addCase(getRequests.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -2,7 +2,7 @@ import Spinner from '../components/Spinner';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getListing } from '../features/listing/listingSlice';
+import { getListing, getRequests } from '../features/listing/listingSlice';
 
 function ShowListing() {
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ function ShowListing() {
       navigate('/login');
     }
     dispatch(getListing(listingId));
+    dispatch(getRequests(listingId));
   }, [user, navigate, isError, message, dispatch, listingId]);
 
   if (isLoading) {
