@@ -49,6 +49,25 @@ export const getRequests = createAsyncThunk(
   }
 );
 
+// Match with a User requested to a Listing
+export const matchRequest = createAsyncThunk(
+  'listing/matchRequest',
+  async ({ id, data }, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await listingService.matchRequest(id, data, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const listingSlice = createSlice({
   name: 'listing',
   initialState,
@@ -79,6 +98,19 @@ export const listingSlice = createSlice({
         state.requests = action.payload;
       })
       .addCase(getRequests.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(matchRequest.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(matchRequest.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.matched = action.payload;
+      })
+      .addCase(matchRequest.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

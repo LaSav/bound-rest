@@ -14,7 +14,7 @@ const getListing = async (listingId, token) => {
   return response.data;
 };
 
-// Get a Single Listing
+// Get a Requests of a Listing
 const getRequests = async (listingId, token) => {
   const config = {
     headers: {
@@ -26,9 +26,26 @@ const getRequests = async (listingId, token) => {
   return response.data;
 };
 
+// Match a request of a Listing
+const matchRequest = async (listingId, data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(
+    API_URL + 'requests/' + listingId,
+    { _id: data },
+    config
+  );
+
+  return response.data;
+};
+
 const listingService = {
   getListing,
   getRequests,
+  matchRequest,
 };
 
 export default listingService;

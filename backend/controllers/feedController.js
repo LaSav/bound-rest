@@ -30,23 +30,6 @@ const requestListing = asyncHandler(async (req, res) => {
     throw new Error('Not authenticated user');
   }
 
-  // const requestedListing = await Listing.findByIdAndUpdate(
-  //   req.params.id,
-  //   { $addToSet: { requests: user._id } },
-  //   { new: true }
-  // )
-  //   .populate({
-  //     path: 'requests',
-  //     select: 'name',
-  //   })
-  //   .exec();
-
-  // const requestedListing = await Listing.findByIdAndUpdate(
-  //   req.params.id,
-  //   { $addToSet: { requests: user._id } },
-  //   { new: true }
-  // );
-
   // Check if the user ID is already in the requests array
   const isRequested = listing.requests.some(
     (request) => request.toString() === user._id.toString()

@@ -39,7 +39,11 @@ function ShowListing() {
           <div className='requests'>
             <h2>You have {requests.length} requests to this Listing</h2>
             {requests.map((request) => (
-              <RequestItem key={request._id} request={request} />
+              <RequestItem
+                key={request._id}
+                request={request}
+                listing={listing}
+              />
             ))}
           </div>
         ) : (

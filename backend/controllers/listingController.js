@@ -178,20 +178,7 @@ const matchRequests = asyncHandler(async (req, res) => {
 
   await listing.save();
 
-  res.json(req.body._id);
-
-  // Send matched id from body into Listing Document field 'matches'
-  // const updatedMatchedListing = await Listing.findByIdAndUpdate(
-  //   req.params.id,
-  //   { $addToSet: { matches: req.body._id } },
-  //   { new: true }
-  // )
-  //   .populate({
-  //     path: 'matches',
-  //     select: 'name',
-  //   })
-  //   .exec();
-  // res.status(200).json(updatedMatchedListing);
+  res.json({ id: req.body._id });
 });
 
 //@desc Show Listings a User has Requested to
