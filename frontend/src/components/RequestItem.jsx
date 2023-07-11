@@ -17,7 +17,7 @@ function RequestItem({ request, listing }) {
 
   const handleClick = (e) => {
     e.preventDefault();
-    dispatch(matchRequest({ id: listing._id }, request._id));
+    dispatch(matchRequest({ id: listing._id, data: request._id }));
   };
 
   return (

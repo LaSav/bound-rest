@@ -55,6 +55,8 @@ export const matchRequest = createAsyncThunk(
   async ({ id, data }, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
+      console.log('Token:', token);
+      console.log('Request Data:', data);
       return await listingService.matchRequest(id, data, token);
     } catch (error) {
       const message =
@@ -103,14 +105,17 @@ export const listingSlice = createSlice({
         state.message = action.payload;
       })
       .addCase(matchRequest.pending, (state) => {
+        console.log('matchRequest.pending');
         state.isLoading = true;
       })
       .addCase(matchRequest.fulfilled, (state, action) => {
+        console.log('matchRequest.fulfilled', action.payload);
         state.isLoading = false;
         state.isSuccess = true;
-        state.matched = action.payload;
+        state.matched = action.payload.id;
       })
       .addCase(matchRequest.rejected, (state, action) => {
+        console.log('matchRequest.rejected', action.payload);
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
