@@ -27,15 +27,24 @@ function ShowFeedListing() {
     dispatch(getFeedListing(listingId));
   }, [user, navigate, isError, message, dispatch, listingId]);
 
-  // Check if user is creator of Listing, remove button
-
+  let content;
   if (user._id === listing.user) {
-    console.log('You are the creator of this listing');
-  }
-  // Show user is already requested to Listing, remove button (show unrequest button)
-  console.log(listing.requests);
-  if (requested === user._id || listing.requests?.includes(user._id)) {
-    console.log('user is requested to this listing');
+    content = <h3 style={{ color: 'orange' }}>You created this listing</h3>;
+  } else if (requested === user._id || listing.requests?.includes(user._id)) {
+    content = (
+      <h3 style={{ color: 'orange' }}>
+        You have requested to join this listing
+      </h3>
+    );
+  } else {
+    content = (
+      <button
+        type='submit'
+        onClick={() => dispatch(requestListing(listing._id))}
+      >
+        Request to Join this Project
+      </button>
+    );
   }
 
   if (isLoading) {
@@ -46,12 +55,7 @@ function ShowFeedListing() {
     <div>
       <h1>{listing.text}</h1>
       <h3>Looking for a {listing.requiredSkill} to join this project</h3>
-      <button
-        type='submit'
-        onClick={() => dispatch(requestListing(listing._id))}
-      >
-        Request to Join this Project
-      </button>
+      {content}
     </div>
   );
 }
