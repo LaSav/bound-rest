@@ -31,6 +31,7 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password: hashedPassword,
+    profileCompleted: false,
   });
 
   if (user) {
@@ -39,6 +40,7 @@ const registerUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      profileCompleted: user.profileCompleted,
     });
   } else {
     res.status(400);
@@ -63,6 +65,7 @@ const loginUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       token: generateToken(user._id),
+      profileCompleted: user.profileCompleted,
     });
   } else {
     res.status(400);
@@ -91,11 +94,17 @@ const editMe = asyncHandler(async (req, res) => {
   const { name, email, bio, offeredSkill, portfolio } = req.body;
   const userId = req.user._id;
 
-  const user = await User.findById(userId);
+  const user = await User.findById(userId).select('-password');
 
   if (!user) {
     res.status(404);
     throw new Error('User not found');
+  }
+
+  // Check if profile is completed
+  if (!user.profileCompleted && (!bio || !offeredSkill || !portfolio)) {
+    res.status(400);
+    throw new Error('Please add fields for bio, skill and portfolio');
   }
 
   user.name = name || user.name;
@@ -103,6 +112,7 @@ const editMe = asyncHandler(async (req, res) => {
   user.bio = bio || user.bio;
   user.offeredSkill = offeredSkill || user.offeredSkill;
   user.portfolio = portfolio || user.portfolio;
+  user.profileCompleted = true;
 
   const updatedUser = await user.save();
 

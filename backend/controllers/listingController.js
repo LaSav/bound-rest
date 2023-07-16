@@ -145,6 +145,8 @@ const showRequests = asyncHandler(async (req, res) => {
 const matchRequests = asyncHandler(async (req, res) => {
   const listing = await Listing.findById(req.params.id);
 
+  // Need to get matching users email & logged in users email for postmark
+
   if (!listing) {
     res.status(400);
     throw new Error('Listing not found');

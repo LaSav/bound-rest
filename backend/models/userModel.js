@@ -17,15 +17,15 @@ const userSchema = mongoose.Schema(
     },
     bio: {
       type: String,
-      required: [true, 'Please add a bio'],
     },
     offeredSkill: {
       type: String,
-      required: [true, 'Please add a Skill'],
     },
     portfolio: {
       type: String,
-      required: [true, 'Please add your portfolio URL'],
+    },
+    profileCompleted: {
+      type: Boolean,
     },
   },
   {
