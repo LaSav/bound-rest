@@ -15,6 +15,18 @@ const userSchema = mongoose.Schema(
       type: String,
       required: [true, 'Please add a password'],
     },
+    bio: {
+      type: String,
+      required: [true, 'Please add a bio'],
+    },
+    offeredSkill: {
+      type: String,
+      required: [true, 'Please add a Skill'],
+    },
+    portfolio: {
+      type: String,
+      required: [true, 'Please add your portfolio URL'],
+    },
   },
   {
     timestamps: true,

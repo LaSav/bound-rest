@@ -70,13 +70,6 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc Get User data
-// @route GET /api/users/me
-// @access Private
-const getMe = asyncHandler(async (req, res) => {
-  res.status(200).json(req.user);
-});
-
 // Generate JWT
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -84,4 +77,62 @@ const generateToken = (id) => {
   });
 };
 
-module.exports = { registerUser, loginUser, getMe };
+// @desc Get User data
+// @route GET /api/users/me
+// @access Private
+const getMe = asyncHandler(async (req, res) => {
+  res.status(200).json(req.user);
+});
+
+// @desc Edit User Profile
+// @route PUT /api/users/me
+// @access Private
+const editMe = asyncHandler(async (req, res) => {
+  const { name, email, bio, offeredSkill, portfolio } = req.body;
+  const userId = req.user._id;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  user.name = name || user.name;
+  user.email = email || user.email;
+  user.bio = bio || user.bio;
+  user.offeredSkill = offeredSkill || user.offeredSkill;
+  user.portfolio = portfolio || user.portfolio;
+
+  const updatedUser = await user.save();
+
+  res.status(200).json(updatedUser);
+});
+
+// May need to use Postmark for MFA
+// @desc Delete User Profile
+// @route DELETE /api/users/me
+// @access Private
+const deleteMe = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+
+  const user = await User.findById(userId);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  await user.deleteOne();
+
+  res.status(200).json({ id: userId });
+});
+
+// @desc Get User by ID
+// @route GET /api/users/:id
+// @access Public
+const getUser = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id).select('-password -email');
+  res.status(200).json(user);
+});
+module.exports = { registerUser, loginUser, getMe, editMe, deleteMe, getUser };
