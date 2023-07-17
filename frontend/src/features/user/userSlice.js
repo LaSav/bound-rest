@@ -3,6 +3,7 @@ import userService from './userService';
 
 const initialState = {
   profile: {},
+  isComplete: false,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -44,7 +45,7 @@ export const userSlice = createSlice({
   name: 'user',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    resetUser: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -55,6 +56,8 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.profile = action.payload;
+        state.isComplete = action.payload.profileCompleted;
+        console.log(action.payload);
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
@@ -77,5 +80,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { reset } = userSlice.actions;
+export const { resetUser } = userSlice.actions;
 export default userSlice.reducer;
