@@ -24,9 +24,9 @@ function Dashboard() {
       navigate('/login');
     }
 
-    // if (!user.profileCompleted) {
-    //   navigate('/edit-profile')
-    // }
+    if (user && !user.profileCompleted) {
+      navigate('/edit-profile');
+    }
 
     dispatch(getListings());
   }, [user, navigate, isError, message, dispatch]);
