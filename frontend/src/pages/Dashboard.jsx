@@ -5,7 +5,7 @@ import ListingForm from '../components/ListingForm';
 import { getListings, reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
-import { getUser } from '../features/user/userSlice';
+import { getUser, resetUser } from '../features/user/userSlice';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -14,7 +14,6 @@ function Dashboard() {
   const { user } = useSelector((state) => state.auth);
   const { profile, isComplete } = useSelector((state) => state.user);
   console.log('isComplete:', isComplete);
-  console.log(profile);
 
   const { listings, isLoading, isError, message } = useSelector(
     (state) => state.listings
@@ -32,56 +31,44 @@ function Dashboard() {
     if (!user) {
       navigate('/login');
     }
-
-    console.log('user Boolean:', user);
-    console.log('profileCompleted Boolean:', !user.profileCompled);
-    console.log('isComplete Boolean:', isComplete);
-    console.log(
-      'second comparison Boolean:',
-      !user.profileCompleted || !isComplete
-    );
-    console.log(
-      'total Boolean:',
-      user && (!user.profileCompleted || !isComplete)
-    );
-
-    if (user && (!user.profileCompleted || !isComplete)) {
-      navigate('/edit-profile');
-    }
-    console.log(isComplete);
-    console.log(user);
-  }, [user, isComplete, navigate]);
+  }, [user, navigate]);
 
   useEffect(() => {
     return () => {
       dispatch(reset());
+      dispatch(resetUser());
     };
   }, [dispatch]);
 
   if (isLoading) {
     return <Spinner />;
   }
-  return (
-    <>
-      <section className='heading'>
-        <h1>Welcome {user && user.name}</h1>
-      </section>
-      <h2>Create a New Listing</h2>
-      <ListingForm />
-      <h2>Your Active Listings:</h2>
-      <section className='content'>
-        {listings.length > 0 ? (
-          <div className='listings'>
-            {listings.map((listing) => (
-              <ListingItem key={listing._id} listing={listing} />
-            ))}
-          </div>
-        ) : (
-          <h3>You haven't made any Listings yet</h3>
-        )}
-      </section>
-    </>
-  );
+
+  if (isComplete || user.profileCompleted) {
+    return (
+      <>
+        <section className='heading'>
+          <h1>Welcome {user && user.name}</h1>
+        </section>
+        <h2>Create a New Listing</h2>
+        <ListingForm />
+        <h2>Your Active Listings:</h2>
+        <section className='content'>
+          {listings.length > 0 ? (
+            <div className='listings'>
+              {listings.map((listing) => (
+                <ListingItem key={listing._id} listing={listing} />
+              ))}
+            </div>
+          ) : (
+            <h3>You haven't made any Listings yet</h3>
+          )}
+        </section>
+      </>
+    );
+  } else {
+    return <h3>Complete your profile</h3>;
+  }
 }
 
 export default Dashboard;

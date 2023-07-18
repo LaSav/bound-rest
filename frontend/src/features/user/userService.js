@@ -10,7 +10,6 @@ const getUser = async (token) => {
     },
   };
   const response = await axios.get(API_URL, config);
-  console.log('Response Data:', response.data);
   return response.data;
 };
 
@@ -22,7 +21,6 @@ const editUser = async (data, token) => {
     },
   };
   const response = await axios.put(API_URL, data, config);
-  console.log('Response Data:', response.data);
   return response.data;
 };
 

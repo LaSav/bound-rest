@@ -57,7 +57,6 @@ export const userSlice = createSlice({
         state.isSuccess = true;
         state.profile = action.payload;
         state.isComplete = action.payload.profileCompleted;
-        console.log(action.payload);
       })
       .addCase(getUser.rejected, (state, action) => {
         state.isLoading = false;
