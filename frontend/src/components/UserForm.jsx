@@ -3,25 +3,32 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editUser } from '../features/user/userSlice';
 
-function UserForm() {
+function UserForm({ profile, isComplete, user }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    bio: '',
-    offeredSkill: 'fullstack developer',
-    portfolio: '',
+    name: profile.name,
+    email: profile.email,
+    bio: profile.bio,
+    offeredSkill: profile.offeredSkill,
+    portfolio: profile.portfolio,
   });
 
   const { name, email, bio, offeredSkill, portfolio } = formData;
+
+  const [disabled, setDisabled] = useState(true);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const handleEdit = (e) => {
+    e.preventDefault();
+    setDisabled(!disabled);
   };
 
   const onSubmit = (e) => {
@@ -52,8 +59,16 @@ function UserForm() {
               name='name'
               value={name}
               placeholder='Enter Your Name'
+              disabled={disabled}
               onChange={onChange}
             />
+            <button
+              type='submit'
+              className='btn btn-block'
+              onClick={handleEdit}
+            >
+              Edit
+            </button>
           </div>
           <div className='form-group'>
             <input
@@ -63,8 +78,16 @@ function UserForm() {
               name='email'
               value={email}
               placeholder='Enter Your Email'
+              disabled={disabled}
               onChange={onChange}
             />
+            <button
+              type='submit'
+              className='btn btn-block'
+              onClick={handleEdit}
+            >
+              Edit
+            </button>
           </div>
           <div className='form-group'>
             <input
@@ -74,8 +97,12 @@ function UserForm() {
               name='bio'
               value={bio}
               placeholder='Create a bio'
+              disabled={disabled}
               onChange={onChange}
             />
+            <button type='submit' className='btn btn-block'>
+              Edit
+            </button>
           </div>
           <div className='form-group'>
             <label htmlFor='offeredSkill'>Select a Skill</label>
@@ -83,6 +110,7 @@ function UserForm() {
               name='offeredSkill'
               id='offeredSkill'
               value={offeredSkill}
+              disabled={disabled}
               onChange={onChange}
             >
               <option value='fullstack developer'>Fullstack developer</option>
@@ -91,6 +119,9 @@ function UserForm() {
               <option value='UX designer'>UX designer</option>
               <option value='copywriter'>Copywriter</option>
             </select>
+            <button type='submit' className='btn btn-block'>
+              Edit
+            </button>
           </div>
           <div className='form-group'>
             <input
@@ -100,12 +131,16 @@ function UserForm() {
               name='portfolio'
               value={portfolio}
               placeholder='Enter your portfolio URL'
+              disabled={disabled}
               onChange={onChange}
             />
+            <button type='submit' className='btn btn-block'>
+              Edit
+            </button>
           </div>
           <div className='form-group'>
             <button type='submit' className='btn btn-block'>
-              Submit
+              Save
             </button>
           </div>
         </form>

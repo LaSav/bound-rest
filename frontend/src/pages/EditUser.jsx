@@ -9,7 +9,7 @@ function EditUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { profile, isLoading, isError, message } = useSelector(
+  const { profile, isLoading, isComplete, isError, message } = useSelector(
     (state) => state.user
   );
 
@@ -34,7 +34,7 @@ function EditUser() {
   return (
     <>
       <h1>EditUser</h1>
-      <UserForm />
+      <UserForm profile={(profile, isComplete, user)} />
     </>
   );
 }

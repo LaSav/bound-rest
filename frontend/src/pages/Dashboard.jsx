@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ListingForm from '../components/ListingForm';
 import { getListings, reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
-import { getUser, resetUser } from '../features/user/userSlice';
+import { getUser, editUser, resetUser } from '../features/user/userSlice';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -18,6 +18,32 @@ function Dashboard() {
   const { listings, isLoading, isError, message } = useSelector(
     (state) => state.listings
   );
+
+  const [formData, setFormData] = useState({
+    bio: '',
+    offeredSkill: 'fullstack developer',
+    portfolio: null ? '' : profile.portfolio,
+  });
+
+  const { bio, offeredSkill, portfolio } = formData;
+
+  const onChange = (e) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const userData = {
+      bio,
+      offeredSkill,
+      portfolio,
+    };
+    dispatch(editUser(userData));
+    navigate('/');
+  };
 
   useEffect(() => {
     if (isError) {
@@ -44,7 +70,7 @@ function Dashboard() {
     return <Spinner />;
   }
 
-  if (isComplete || user.profileCompleted) {
+  if (isComplete || user?.profileCompleted) {
     return (
       <>
         <section className='heading'>
@@ -67,7 +93,59 @@ function Dashboard() {
       </>
     );
   } else {
-    return <h3>Complete your profile</h3>;
+    return (
+      <>
+        <section className='heading'>
+          <h1>{profile.name} Complete Your Profile</h1>
+        </section>
+        <section className='form'>
+          <form onSubmit={onSubmit}>
+            <div className='form-group'>
+              <input
+                type='text'
+                className='form-control'
+                id='bio'
+                name='bio'
+                value={bio}
+                placeholder='Create a bio'
+                onChange={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <label htmlFor='offeredSkill'>Select a Skill</label>
+              <select
+                name='offeredSkill'
+                id='offeredSkill'
+                value={offeredSkill}
+                onChange={onChange}
+              >
+                <option value='fullstack developer'>Fullstack developer</option>
+                <option value='frontend developer'>Frontend developer</option>
+                <option value='backend developer'>Backend developer</option>
+                <option value='UX designer'>UX designer</option>
+                <option value='copywriter'>Copywriter</option>
+              </select>
+            </div>
+            <div className='form-group'>
+              <input
+                type='url'
+                className='form-control'
+                id='portfolio'
+                name='portfolio'
+                value={portfolio}
+                placeholder='Enter your portfolio URL'
+                onChange={onChange}
+              />
+            </div>
+            <div className='form-group'>
+              <button type='submit' className='btn btn-block'>
+                Save
+              </button>
+            </div>
+          </form>
+        </section>
+      </>
+    );
   }
 }
 
