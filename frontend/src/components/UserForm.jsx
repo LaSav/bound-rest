@@ -8,11 +8,11 @@ function UserForm({ profile }) {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: profile?.name,
-    email: profile?.email,
-    bio: profile?.bio,
-    offeredSkill: profile?.offeredSkill,
-    portfolio: profile?.portfolio,
+    name: profile.name,
+    email: profile.email,
+    bio: profile.bio,
+    offeredSkill: profile.offeredSkill,
+    portfolio: profile.portfolio,
   });
 
   const { name, email, bio, offeredSkill, portfolio } = formData;
@@ -62,13 +62,6 @@ function UserForm({ profile }) {
               disabled={disabled}
               onChange={onChange}
             />
-            <button
-              type='submit'
-              className='btn btn-block'
-              onClick={handleEdit}
-            >
-              Edit
-            </button>
           </div>
           <div className='form-group'>
             <input
@@ -81,13 +74,6 @@ function UserForm({ profile }) {
               disabled={disabled}
               onChange={onChange}
             />
-            <button
-              type='submit'
-              className='btn btn-block'
-              onClick={handleEdit}
-            >
-              Edit
-            </button>
           </div>
           <div className='form-group'>
             <input
@@ -100,9 +86,6 @@ function UserForm({ profile }) {
               disabled={disabled}
               onChange={onChange}
             />
-            <button type='submit' className='btn btn-block'>
-              Edit
-            </button>
           </div>
           <div className='form-group'>
             <label htmlFor='offeredSkill'>Select a Skill</label>
@@ -119,9 +102,6 @@ function UserForm({ profile }) {
               <option value='UX designer'>UX designer</option>
               <option value='copywriter'>Copywriter</option>
             </select>
-            <button type='submit' className='btn btn-block'>
-              Edit
-            </button>
           </div>
           <div className='form-group'>
             <input
@@ -134,11 +114,9 @@ function UserForm({ profile }) {
               disabled={disabled}
               onChange={onChange}
             />
-            <button type='submit' className='btn btn-block'>
-              Edit
-            </button>
           </div>
           <div className='form-group'>
+            <p onClick={handleEdit}>Edit</p>
             <button type='submit' className='btn btn-block'>
               Save
             </button>

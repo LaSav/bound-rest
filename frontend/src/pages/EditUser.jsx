@@ -9,17 +9,21 @@ function EditUser() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
-  const { profile, isLoading, isComplete, isError, message } = useSelector(
+  const { profile, isLoading, isError, message } = useSelector(
     (state) => state.user
   );
 
   useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+
     if (!user) {
       navigate('/login');
     }
 
     dispatch(getUser());
-  }, [user, navigate, dispatch]);
+  }, [user, navigate, dispatch, isError, message]);
 
   useEffect(() => {
     return () => {
@@ -34,7 +38,7 @@ function EditUser() {
   return (
     <>
       <h1>EditUser</h1>
-      <UserForm profile={(profile, isComplete, user)} />
+      <UserForm profile={profile} />
     </>
   );
 }
