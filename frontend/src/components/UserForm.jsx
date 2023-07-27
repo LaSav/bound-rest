@@ -3,16 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editUser } from '../features/user/userSlice';
 
-function UserForm({ profile, isComplete, user }) {
+function UserForm({ profile }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
-    name: profile.name,
-    email: profile.email,
-    bio: profile.bio,
-    offeredSkill: profile.offeredSkill,
-    portfolio: profile.portfolio,
+    name: profile?.name,
+    email: profile?.email,
+    bio: profile?.bio,
+    offeredSkill: profile?.offeredSkill,
+    portfolio: profile?.portfolio,
   });
 
   const { name, email, bio, offeredSkill, portfolio } = formData;

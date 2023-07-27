@@ -51,7 +51,7 @@ export const feedListingSlice = createSlice({
   name: 'feedListing',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    resetFeedListing: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -85,5 +85,5 @@ export const feedListingSlice = createSlice({
   },
 });
 
-export const { reset } = feedListingSlice.actions;
+export const { resetFeedListing } = feedListingSlice.actions;
 export default feedListingSlice.reducer;

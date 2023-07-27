@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { getFeed, reset } from '../features/feed/feedSlice';
+import { getFeed, resetFeed } from '../features/feed/feedSlice';
 import Spinner from '../components/Spinner';
 import FeedItem from '../components/FeedItem';
 
@@ -20,6 +20,12 @@ function Feed() {
 
     dispatch(getFeed());
   }, [isError, message, dispatch]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetFeed());
+    };
+  }, [dispatch]);
 
   const filteredListings = listings.filter((listing) => {
     return listing.requiredSkill

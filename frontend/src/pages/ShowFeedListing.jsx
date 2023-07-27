@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   getFeedListing,
   requestListing,
+  resetFeedListing,
 } from '../features/feedListing/feedListingSlice';
 
 function ShowFeedListing() {
@@ -23,16 +24,22 @@ function ShowFeedListing() {
     }
     if (!user) {
       // BUG: 'Cannot read properties of null reading '_id'' Should I reset listing here?
-      // FIX: change user._id to user?._id
+      // FIXED: change user._id to user?._id
       navigate('/login');
     }
     dispatch(getFeedListing(listingId));
   }, [user, navigate, isError, message, dispatch, listingId]);
 
+  useEffect(() => {
+    return () => {
+      dispatch(resetFeedListing());
+    };
+  }, [dispatch]);
+
   let content;
-  if (user._id === listing.user) {
+  if (user?._id === listing.user) {
     content = <h3 style={{ color: 'orange' }}>You created this listing</h3>;
-  } else if (requested === user._id || listing.requests?.includes(user._id)) {
+  } else if (requested === user?._id || listing.requests?.includes(user?._id)) {
     content = (
       <h3 style={{ color: 'orange' }}>
         You have requested to join this listing
