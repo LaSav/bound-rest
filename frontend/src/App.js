@@ -9,6 +9,7 @@ import Feed from './pages/Feed';
 import ShowFeedListing from './pages/ShowFeedListing';
 import ShowListing from './pages/ShowListing';
 import EditUser from './pages/EditUser';
+import ShowUser from './pages/ShowUser';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
             <Route path={'/feed'} element={<Feed />} />
             <Route path={'/feed/:listingId'} element={<ShowFeedListing />} />
             <Route path={'/listings/:listingId'} element={<ShowListing />} />
+            <Route path={'/users/:userId'} element={<ShowUser />} />
             <Route path={'/edit-profile'} element={<EditUser />} />
           </Routes>
         </div>

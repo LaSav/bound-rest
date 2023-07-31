@@ -140,7 +140,7 @@ const deleteMe = asyncHandler(async (req, res) => {
 
 // @desc Get User by ID
 // @route GET /api/users/:id
-// @access Public
+// @access Private
 const getUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id).select('-password -email');
   res.status(200).json(user);

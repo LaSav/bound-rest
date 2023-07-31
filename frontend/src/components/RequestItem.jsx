@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { matchRequest } from '../features/listing/listingSlice';
@@ -44,7 +45,9 @@ function RequestItem({ request, listing }) {
 
   return (
     <div className='request'>
-      <h3>{request.name}</h3>
+      <Link to={`/users/${request._id}`}>
+        <h3>{request.name}</h3>
+      </Link>
       <h3>{request._id}</h3>
       <h3>{request.createdAt}</h3>
       {content}

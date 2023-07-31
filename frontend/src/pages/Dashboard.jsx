@@ -13,7 +13,6 @@ function Dashboard() {
 
   const { user } = useSelector((state) => state.auth);
   const { profile, isComplete } = useSelector((state) => state.user);
-  console.log('isComplete:', isComplete);
 
   const { listings, isLoading, isError, message } = useSelector(
     (state) => state.listings
