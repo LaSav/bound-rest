@@ -1,9 +1,9 @@
 import Spinner from '../components/Spinner';
-// import UserProfile from '../components/UserProfile';
+import UserProfile from '../components/UserProfile';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getUserById } from '../features/user/userSlice';
+import { getUserById, resetUser } from '../features/user/userSlice';
 
 function ShowUser() {
   const navigate = useNavigate();
@@ -25,7 +25,17 @@ function ShowUser() {
     dispatch(getUserById(userId));
   }, [user, navigate, isError, message, dispatch, userId]);
 
-  return <div>{profile.name}</div>;
+  useEffect(() => {
+    return () => {
+      dispatch(resetUser());
+    };
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  return <UserProfile profile={profile}></UserProfile>;
 }
 
 export default ShowUser;

@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ListingForm from '../components/ListingForm';
 import { getListings, reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
 import { getUser, editUser, resetUser } from '../features/user/userSlice';
+import UserProfile from '../components/UserProfile';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ function Dashboard() {
         <h2>Create a New Listing</h2>
         <ListingForm />
         <h2>Your Active Listings:</h2>
-        <section className='content'>
+        <section className='user-listings'>
           {listings.length > 0 ? (
             <div className='listings'>
               {listings.map((listing) => (
@@ -88,6 +89,13 @@ function Dashboard() {
           ) : (
             <h3>You haven't made any Listings yet</h3>
           )}
+        </section>
+        <section className='user-profile'>
+          <h3>Your Profile</h3>
+          <UserProfile profile={profile} />
+          <Link to={'edit-profile'}>
+            <button>Edit</button>
+          </Link>
         </section>
       </>
     );
