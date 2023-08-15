@@ -41,13 +41,45 @@ Bound is a networking app for digital creatives. Built using the MERN stack and 
 - Feed api + UI :ok_hand:
 - Filtering feature :ok_hand:
 - Request api + UI :ok_hand:
-- Match api + UI
-- User api + UI
+- Match api + UI :ok_hand:
+- User api + UI :ok_hand:
 - Extra UX: In Feed: quick view, quick request. In Dashboard: Personalize Listings
-- Styling
+- Styling - Material UI
 - PWA
 
 ## App Map
+
+#### User-Listing Relationship
+
+```
+const listingSchema = mongoose.Schema(
+    {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: 'User',
+    },
+      text: {
+      type: String,
+      required: [true, 'Please add a text value'],
+    },
+      requiredSkill: {
+      type: String,
+      required: [true, 'Please add a Skill'],
+    },
+      requests: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+      matches: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }],
+    },
+    {
+      timestamps: true,
+    }
+  );
+
+```
+
+The Listing data model references the User who created it by Id.
+
+'requests' and 'matches' are arrays of references to users who have requested to join the Listing or have been matched with by the creator of the Listing.
 
 ### Listings
 
@@ -109,3 +141,7 @@ A user can update their profile and view listings they have requested to.
 #### Deployment
 
 - AWS + netlify
+
+```
+
+```
