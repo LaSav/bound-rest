@@ -141,7 +141,3 @@ A user can update their profile and view listings they have requested to.
 #### Deployment
 
 - AWS + netlify
-
-```
-
-```

@@ -7,6 +7,7 @@ import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
 import { getUser, editUser, resetUser } from '../features/user/userSlice';
 import UserProfile from '../components/UserProfile';
+import Typography from '@mui/material/Typography';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -74,7 +75,7 @@ function Dashboard() {
     return (
       <>
         <section className='heading'>
-          <h1>Welcome {user && user.name}</h1>
+          <Typography variant='h3'>Welcome {user && user.name}</Typography>
         </section>
         <h2>Create a New Listing</h2>
         <ListingForm />
