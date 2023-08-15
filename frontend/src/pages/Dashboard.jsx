@@ -8,6 +8,9 @@ import ListingItem from '../components/ListingItem';
 import { getUser, editUser, resetUser } from '../features/user/userSlice';
 import UserProfile from '../components/UserProfile';
 import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -74,30 +77,44 @@ function Dashboard() {
   if (isComplete || user?.profileCompleted) {
     return (
       <>
-        <section className='heading'>
-          <Typography variant='h3'>Welcome {user && user.name}</Typography>
-        </section>
-        <h2>Create a New Listing</h2>
-        <ListingForm />
-        <h2>Your Active Listings:</h2>
-        <section className='user-listings'>
-          {listings.length > 0 ? (
-            <div className='listings'>
-              {listings.map((listing) => (
-                <ListingItem key={listing._id} listing={listing} />
-              ))}
-            </div>
-          ) : (
-            <h3>You haven't made any Listings yet</h3>
-          )}
-        </section>
-        <section className='user-profile'>
-          <h3>Your Profile</h3>
-          <UserProfile profile={profile} />
-          <Link to={'edit-profile'}>
-            <button>Edit</button>
-          </Link>
-        </section>
+        <Container>
+          <Grid container spacing={2}>
+            <Grid item xs={7}>
+              <section className='heading'>
+                <Typography variant='h3' gutterBottom>
+                  Welcome {user && user.name}
+                </Typography>
+              </section>
+            </Grid>
+            <Grid item xs={5}>
+              <section className='user-profile'>
+                <h3>Your Profile</h3>
+                <UserProfile profile={profile} />
+                <Link to={'edit-profile'}>
+                  <button>Edit</button>
+                </Link>
+              </section>
+            </Grid>
+            <Grid item={6}>
+              <Typography variant='h4' gutterBottom>
+                Create a New Listing
+              </Typography>
+              <ListingForm />
+              <Typography variant='h4'>Your Active Listings:</Typography>
+              <section className='user-listings'>
+                {listings.length > 0 ? (
+                  <div className='listings'>
+                    {listings.map((listing) => (
+                      <ListingItem key={listing._id} listing={listing} />
+                    ))}
+                  </div>
+                ) : (
+                  <h3>You haven't made any Listings yet</h3>
+                )}
+              </section>
+            </Grid>
+          </Grid>
+        </Container>
       </>
     );
   } else {
