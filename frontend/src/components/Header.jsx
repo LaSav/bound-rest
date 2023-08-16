@@ -1,6 +1,10 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout, reset } from '../features/auth/authSlice';
+import AppBar from '@mui/material/AppBar';
+import Toolbar from '@mui/material/Toolbar';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 function Header() {
   const navigate = useNavigate();
@@ -13,34 +17,59 @@ function Header() {
     navigate('/');
   };
   return (
-    <header className='header'>
-      <div className='logo'>
-        <Link to='/'>Bound</Link>
-      </div>
-      <ul>
+    <AppBar position='static' elevation={0}>
+      <Toolbar>
+        <Button color='inherit'>
+          <Link to='/' style={{ textDecoration: 'none', color: 'black' }}>
+            Dashboard
+          </Link>
+        </Button>
         {user ? (
           <>
-            <li>
-              <button className='btn' onClick={onLogout}>
+            <Button color='inherit'>
+              <Link
+                to='/feed'
+                style={{ textDecoration: 'none', color: 'black' }}
+              >
+                Feed
+              </Link>
+            </Button>
+            <Button color='inherit'>
+              <Link
+                to='/edit-profile'
+                style={{ textDecoration: 'none', color: 'black' }}
+              >
+                Profile
+              </Link>
+            </Button>
+            <div style={{ marginLeft: 'auto' }}>
+              <Button color='inherit' onClick={onLogout}>
                 Logout
-              </button>
-            </li>
-            <li>
-              <Link to='/feed'>Feed</Link>
-            </li>
+              </Button>
+            </div>
           </>
         ) : (
           <>
-            <li>
-              <Link to='/login'>Login</Link>
-            </li>
-            <li>
-              <Link to='/register'>Register</Link>
-            </li>
+            <Button color='inherit'>
+              <Link
+                to='/login'
+                style={{ textDecoration: 'none', color: 'black' }}
+              >
+                Login
+              </Link>
+            </Button>
+            <Button color='inherit'>
+              <Link
+                to='/register'
+                style={{ textDecoration: 'none', color: 'black' }}
+              >
+                Register
+              </Link>
+            </Button>
           </>
         )}
-      </ul>
-    </header>
+      </Toolbar>
+    </AppBar>
   );
 }
 
