@@ -11,9 +11,13 @@ import ShowListing from './pages/ShowListing';
 import EditUser from './pages/EditUser';
 import ShowUser from './pages/ShowUser';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
 
 const theme = createTheme({
   palette: {
+    background: {
+      default: '#dee4e9',
+    },
     primary: {
       main: '#dee4e9',
     },
@@ -28,6 +32,7 @@ function App() {
     <>
       <Router>
         <ThemeProvider theme={theme}>
+          <CssBaseline />
           <div className='container'>
             <Header />
             <Routes>

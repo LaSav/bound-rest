@@ -11,6 +11,9 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import { CardActions, CardContent } from '@mui/material';
+import Button from '@mui/material/Button';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -79,39 +82,61 @@ function Dashboard() {
       <>
         <Container>
           <Grid container spacing={2}>
-            <Grid item xs={7}>
-              <section className='heading'>
+            <Grid item xs={7} display='flex' alignItems='center'>
+              <Box padding={2}>
                 <Typography variant='h3' gutterBottom>
                   Welcome {user && user.name}
                 </Typography>
-              </section>
+              </Box>
             </Grid>
-            <Grid item xs={5}>
-              <section className='user-profile'>
-                <h3>Your Profile</h3>
-                <UserProfile profile={profile} />
-                <Link to={'edit-profile'}>
-                  <button>Edit</button>
-                </Link>
-              </section>
+            <Grid item display='flex' justifyContent='center' xs={5}>
+              <Card
+                elevation={0}
+                sx={{
+                  backgroundColor: 'primary.main',
+                }}
+              >
+                <CardContent>
+                  <h3>Your Profile</h3>
+                  <UserProfile profile={profile} />
+                </CardContent>
+                <CardActions>
+                  <Link to={'edit-profile'}>
+                    <Button variant='outlined' color='secondary'>
+                      Edit
+                    </Button>
+                  </Link>
+                </CardActions>
+              </Card>
             </Grid>
-            <Grid item={6}>
-              <Typography variant='h4' gutterBottom>
-                Create a New Listing
-              </Typography>
-              <ListingForm />
-              <Typography variant='h4'>Your Active Listings:</Typography>
-              <section className='user-listings'>
-                {listings.length > 0 ? (
-                  <div className='listings'>
-                    {listings.map((listing) => (
-                      <ListingItem key={listing._id} listing={listing} />
-                    ))}
-                  </div>
-                ) : (
-                  <h3>You haven't made any Listings yet</h3>
-                )}
-              </section>
+            <Grid item xs={12}>
+              <Box padding={2}>
+                <Typography variant='h4' color='secondary' gutterBottom>
+                  Create a New Listing
+                </Typography>
+                <ListingForm />
+              </Box>
+            </Grid>
+            <Grid item display='flex' justifyContent='center' xs={6}>
+              <Box padding={2}>
+                <Typography variant='h5'>Your Active Listings:</Typography>
+                <section className='user-listings'>
+                  {listings.length > 0 ? (
+                    <div className='listings'>
+                      {listings.map((listing) => (
+                        <ListingItem key={listing._id} listing={listing} />
+                      ))}
+                    </div>
+                  ) : (
+                    <h3>You haven't made any Listings yet</h3>
+                  )}
+                </section>
+              </Box>
+            </Grid>
+            <Grid item xs={6}>
+              <Box padding={2}>
+                <Typography variant='h5'>Requested to:</Typography>
+              </Box>
             </Grid>
           </Grid>
         </Container>
