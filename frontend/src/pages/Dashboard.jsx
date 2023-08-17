@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ListingForm from '../components/ListingForm';
-import { getListings, reset } from '../features/listings/listingSlice';
+import { reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
-import ListingItem from '../components/ListingItem';
 import { getUser, editUser, resetUser } from '../features/user/userSlice';
 import UserProfile from '../components/UserProfile';
 import Typography from '@mui/material/Typography';
@@ -14,16 +13,15 @@ import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import { CardActions, CardContent } from '@mui/material';
 import Button from '@mui/material/Button';
+import Listings from '../components/Listings';
 
 function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { user } = useSelector((state) => state.auth);
-  const { profile, isComplete } = useSelector((state) => state.user);
-
-  const { listings, isLoading, isError, message } = useSelector(
-    (state) => state.listings
+  const { profile, isComplete, isError, message, isLoading } = useSelector(
+    (state) => state.user
   );
 
   const [formData, setFormData] = useState({
@@ -57,7 +55,6 @@ function Dashboard() {
       console.log(message);
     }
     dispatch(getUser());
-    dispatch(getListings());
   }, [isError, message, dispatch]);
 
   useEffect(() => {
@@ -66,8 +63,10 @@ function Dashboard() {
     }
   }, [user, navigate]);
 
+  // Resets state when navigating away from Dashboard page
   useEffect(() => {
     return () => {
+      // This one resets the listings
       dispatch(reset());
       dispatch(resetUser());
     };
@@ -120,17 +119,7 @@ function Dashboard() {
             <Grid item display='flex' xs={6}>
               <Box padding={2}>
                 <Typography variant='h5'>Your Active Listings:</Typography>
-                <section className='user-listings'>
-                  {listings.length > 0 ? (
-                    <div className='listings'>
-                      {listings.map((listing) => (
-                        <ListingItem key={listing._id} listing={listing} />
-                      ))}
-                    </div>
-                  ) : (
-                    <h3>You haven't made any Listings yet</h3>
-                  )}
-                </section>
+                <Listings />
               </Box>
             </Grid>
             <Grid item xs={6}>
