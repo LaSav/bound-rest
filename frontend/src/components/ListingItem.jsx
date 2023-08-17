@@ -1,23 +1,34 @@
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { deleteListing } from '../features/listings/listingSlice';
+import Card from '@mui/material/Card';
+import Typography from '@mui/material/Typography';
+import { CardContent } from '@mui/material';
+import Divider from '@mui/material/Divider';
+import { Box } from '@mui/material';
 
 function ListingItem({ listing }) {
-  const dispatch = useDispatch();
   return (
-    <div className='listing'>
-      <Link to={`/listings/${listing._id}`}>
-        <h2>{listing.text}</h2>
-      </Link>
-
-      <h3>required skills: {listing.requiredSkill}</h3>
-      <button
-        className='close'
-        onClick={() => dispatch(deleteListing(listing._id))}
+    <Link
+      to={`/listings/${listing._id}`}
+      style={{ textDecoration: 'none', color: 'black' }}
+    >
+      <Box
+        elevation={0}
+        sx={{
+          backgroundColor: 'primary.main',
+          '&:hover': {
+            color: 'secondary.main',
+          },
+        }}
+        marginY={4}
       >
-        Delete Listing
-      </button>
-    </div>
+        <Typography variant='h6'>{listing.text}</Typography>
+
+        <Typography variant='h7'>
+          required skills: {listing.requiredSkill}
+        </Typography>
+      </Box>
+      <Divider />
+    </Link>
   );
 }
 export default ListingItem;

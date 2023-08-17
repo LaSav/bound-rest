@@ -8,6 +8,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import { Stack } from '@mui/material';
+import Add from '@mui/icons-material/Add';
 
 function ListingForm() {
   const [text, setText] = useState('');
@@ -64,6 +65,7 @@ function ListingForm() {
               variant='outlined'
               color='secondary'
               fullWidth
+              startIcon={<Add />}
               sx={{
                 height: '56px',
               }}
