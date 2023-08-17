@@ -7,6 +7,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { Stack } from '@mui/material';
 
 function ListingForm() {
   const [text, setText] = useState('');
@@ -22,47 +23,57 @@ function ListingForm() {
     setRequiredSkill('');
   };
   return (
-    <Box>
-      <form noValidate autoComplete='off' onSubmit={onSubmit}>
-        <Box width='80%' margin={2}>
-          <TextField
-            label='Listing Description'
-            type='text'
-            name='text'
-            id='text'
-            multiline
-            rows={5}
-            value={text}
-            fullWidth
-            onChange={(e) => setText(e.target.value)}
-          />
-        </Box>
-        <Box width='40%' margin={2}>
-          <Typography variant='h6' color='secondary'>
-            Select the skill required for this listing
-          </Typography>
-          <Select
-            name='requiredSkill'
-            id='requiredSkill'
-            value={requiredSkill}
-            label='Select the Skill required for this listing'
-            fullWidth
-            onChange={(e) => setRequiredSkill(e.target.value)}
-          >
-            <MenuItem value='fullstack developer'>Fullstack developer</MenuItem>
-            <MenuItem value='frontend developer'>Frontend developer</MenuItem>
-            <MenuItem value='backend developer'>Backend developer</MenuItem>
-            <MenuItem value='UX designer'>UX designer</MenuItem>
-            <MenuItem value='copywriter'>Copywriter</MenuItem>
-          </Select>
-        </Box>
-        <Box margin={2}>
-          <Button type='submit' variant='outlined' color='secondary'>
-            Add Listing
-          </Button>
-        </Box>
-      </form>
-    </Box>
+    <form noValidate autoComplete='off' onSubmit={onSubmit}>
+      <Stack spacing={2}>
+        <TextField
+          label='Listing Description'
+          type='text'
+          name='text'
+          id='text'
+          multiline
+          rows={7}
+          value={text}
+          fullWidth
+          onChange={(e) => setText(e.target.value)}
+        />
+        <Typography variant='h6' color='secondary'>
+          Select the skill required for this listing
+        </Typography>
+        <Stack direction='row' spacing={2}>
+          <Box width='50%'>
+            <Select
+              name='requiredSkill'
+              id='requiredSkill'
+              value={requiredSkill}
+              label='Select the Skill required for this listing'
+              onChange={(e) => setRequiredSkill(e.target.value)}
+              fullWidth
+            >
+              <MenuItem value='fullstack developer'>
+                Fullstack developer
+              </MenuItem>
+              <MenuItem value='frontend developer'>Frontend developer</MenuItem>
+              <MenuItem value='backend developer'>Backend developer</MenuItem>
+              <MenuItem value='UX designer'>UX designer</MenuItem>
+              <MenuItem value='copywriter'>Copywriter</MenuItem>
+            </Select>
+          </Box>
+          <Box width='50%'>
+            <Button
+              type='submit'
+              variant='outlined'
+              color='secondary'
+              fullWidth
+              sx={{
+                height: '56px',
+              }}
+            >
+              Add Listing
+            </Button>
+          </Box>
+        </Stack>
+      </Stack>
+    </form>
   );
 }
 

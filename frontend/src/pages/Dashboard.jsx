@@ -82,14 +82,14 @@ function Dashboard() {
       <>
         <Container>
           <Grid container spacing={2}>
-            <Grid item xs={7} display='flex' alignItems='center'>
+            <Grid item xs={12} display='flex' alignItems='center'>
               <Box padding={2}>
                 <Typography variant='h3' gutterBottom>
                   Welcome {user && user.name}
                 </Typography>
               </Box>
             </Grid>
-            <Grid item display='flex' justifyContent='center' xs={5}>
+            <Grid item display='flex' alignItems='center' xs={4}>
               <Card
                 elevation={0}
                 sx={{
@@ -109,7 +109,7 @@ function Dashboard() {
                 </CardActions>
               </Card>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={8}>
               <Box padding={2}>
                 <Typography variant='h4' color='secondary' gutterBottom>
                   Create a New Listing
@@ -117,7 +117,7 @@ function Dashboard() {
                 <ListingForm />
               </Box>
             </Grid>
-            <Grid item display='flex' justifyContent='center' xs={6}>
+            <Grid item display='flex' xs={6}>
               <Box padding={2}>
                 <Typography variant='h5'>Your Active Listings:</Typography>
                 <section className='user-listings'>

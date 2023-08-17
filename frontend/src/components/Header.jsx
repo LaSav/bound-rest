@@ -17,7 +17,7 @@ function Header() {
     navigate('/');
   };
   return (
-    <AppBar position='static' elevation={0}>
+    <AppBar position='sticky' elevation={0}>
       <Toolbar>
         <Button color='inherit'>
           <Link to='/feed' style={{ textDecoration: 'none', color: 'black' }}>
