@@ -1,7 +1,5 @@
 import { Link } from 'react-router-dom';
-import Card from '@mui/material/Card';
 import Typography from '@mui/material/Typography';
-import { CardContent } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import { Box } from '@mui/material';
 
@@ -19,7 +17,8 @@ function ListingItem({ listing }) {
             color: 'secondary.main',
           },
         }}
-        marginY={4}
+        marginY={3}
+        pr={3}
       >
         <Typography variant='h6'>{listing.text}</Typography>
 

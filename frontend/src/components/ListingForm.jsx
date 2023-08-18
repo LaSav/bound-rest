@@ -28,6 +28,7 @@ function ListingForm() {
       <Stack spacing={2}>
         <TextField
           label='Listing Description'
+          variant='outlined'
           type='text'
           name='text'
           id='text'
@@ -63,7 +64,7 @@ function ListingForm() {
             <Button
               type='submit'
               variant='outlined'
-              color='secondary'
+              color='success'
               fullWidth
               startIcon={<Add />}
               sx={{

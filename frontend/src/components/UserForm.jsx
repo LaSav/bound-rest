@@ -1,11 +1,43 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUser, resetUser } from '../features/user/userSlice';
 import { editUser } from '../features/user/userSlice';
+import Spinner from './Spinner';
+import { Container } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import DoneIcon from '@mui/icons-material/Done';
+import Box from '@mui/material/Box';
 
-function UserForm({ profile }) {
+function UserForm() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const { profile, isLoading, isError, message } = useSelector(
+    (state) => state.user
+  );
+
+  useEffect(() => {
+    if (isError) {
+      console.log(message);
+    }
+
+    dispatch(getUser());
+  }, [navigate, dispatch, isError, message]);
+
+  // I may need to include this hook on pages which use the form to reset state.
+
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(resetUser());
+  //   };
+  // }, [dispatch]);
 
   const [formData, setFormData] = useState({
     name: profile.name,
@@ -44,85 +76,104 @@ function UserForm({ profile }) {
     navigate('/');
   };
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <>
-      <section className='heading'>
-        <h1>Edit your Profile</h1>
-      </section>
-      <section className='form'>
-        <form onSubmit={onSubmit}>
-          <div className='form-group'>
-            <input
+      <Container>
+        <Typography variant='h6'>Edit your Profile</Typography>
+
+        <form noValidate autoComplete='off' onSubmit={onSubmit}>
+          <Stack spacing={2}>
+            <TextField
               type='text'
               className='form-control'
               id='name'
               name='name'
               value={name}
-              placeholder='Enter Your Name'
+              label='Name'
               disabled={disabled}
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <input
+            <TextField
               type='email'
               className='form-control'
               id='email'
               name='email'
               value={email}
-              placeholder='Enter Your Email'
+              label='Email'
               disabled={disabled}
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <input
+            <TextField
               type='text'
               className='form-control'
               id='bio'
               name='bio'
               value={bio}
-              placeholder='Create a bio'
+              label='Bio'
+              multiline
+              rows={3}
               disabled={disabled}
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <label htmlFor='offeredSkill'>Select a Skill</label>
-            <select
+            <Typography variant='h6' htmlFor='offeredSkill'>
+              Select a Skill
+            </Typography>
+            <Select
               name='offeredSkill'
               id='offeredSkill'
+              label='Select your skill'
               value={offeredSkill}
               disabled={disabled}
               onChange={onChange}
             >
-              <option value='fullstack developer'>Fullstack developer</option>
-              <option value='frontend developer'>Frontend developer</option>
-              <option value='backend developer'>Backend developer</option>
-              <option value='UX designer'>UX designer</option>
-              <option value='copywriter'>Copywriter</option>
-            </select>
-          </div>
-          <div className='form-group'>
-            <input
+              <MenuItem value='fullstack developer'>
+                Fullstack developer
+              </MenuItem>
+              <MenuItem value='frontend developer'>Frontend developer</MenuItem>
+              <MenuItem value='backend developer'>Backend developer</MenuItem>
+              <MenuItem value='UX designer'>UX designer</MenuItem>
+              <MenuItem value='copywriter'>Copywriter</MenuItem>
+            </Select>
+            <TextField
               type='url'
               className='form-control'
               id='portfolio'
               name='portfolio'
               value={portfolio}
-              placeholder='Enter your portfolio URL'
+              label='Portfolio URL'
               disabled={disabled}
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <p onClick={handleEdit}>Edit</p>
-            <button type='submit' className='btn btn-block'>
-              Save
-            </button>
-          </div>
+            <Stack direction='row' spacing={2}>
+              <Box width='50%'>
+                <Button
+                  fullWidth
+                  endIcon={<DoneIcon />}
+                  variant='contained'
+                  color='success'
+                  type='submit'
+                >
+                  Save
+                </Button>
+              </Box>
+              <Box width='50%'>
+                <Button
+                  color='secondary'
+                  fullWidth
+                  variant='contained'
+                  onClick={handleEdit}
+                >
+                  Edit
+                </Button>
+              </Box>
+            </Stack>
+          </Stack>
         </form>
-      </section>
+      </Container>
     </>
   );
 }
