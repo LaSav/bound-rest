@@ -6,6 +6,7 @@ import { reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
 import { getUser, editUser, resetUser } from '../features/user/userSlice';
 import UserProfile from '../components/UserProfile';
+import UserForm from '../components/UserForm';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -14,6 +15,7 @@ import Card from '@mui/material/Card';
 import { CardActions, CardContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import Listings from '../components/Listings';
+import EditToggle from '../components/EditToggle';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -88,7 +90,7 @@ function Dashboard() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item display='flex' alignItems='center' xs={4}>
+            <Grid xs={5}>
               <Card
                 elevation={0}
                 sx={{
@@ -96,8 +98,7 @@ function Dashboard() {
                 }}
               >
                 <CardContent>
-                  <h3>Your Profile</h3>
-                  <UserProfile profile={profile} />
+                  <EditToggle profile={profile} isLoading={isLoading} />
                 </CardContent>
                 <CardActions>
                   <Link to={'edit-profile'}>
@@ -108,7 +109,7 @@ function Dashboard() {
                 </CardActions>
               </Card>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={7}>
               <Box padding={2}>
                 <Typography variant='h4' color='secondary' gutterBottom>
                   Create a New Listing
