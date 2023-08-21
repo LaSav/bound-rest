@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { login, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
 
 function Login() {
   const [formData, setFormData] = useState({
@@ -56,41 +61,42 @@ function Login() {
 
   return (
     <>
-      <section className='heading'>
-        <h1>Login</h1>
-        <p>Login to your Account</p>
-      </section>
-      <section className='form'>
-        <form onSubmit={onSubmit}>
-          <div className='form-group'>
-            <input
+      <Container maxWidth='sm'>
+        <Typography variant='h4'>Login</Typography>
+
+        <form noValidate autoComplete='off' onSubmit={onSubmit}>
+          <Stack spacing={2}>
+            <TextField
               type='email'
               className='form-control'
               id='email'
               name='email'
               value={email}
-              placeholder='Email'
+              label='Email'
+              fullWidth
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <input
+            <TextField
               type='password'
               className='form-control'
               id='password'
               name='password'
               value={password}
-              placeholder='Password'
+              label='Password'
+              fullWidth
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <button type='submit' className='btn btn-block'>
+            <Button
+              type='submit'
+              variant='outlined'
+              color='secondary'
+              fullWidth
+            >
               Submit
-            </button>
-          </div>
+            </Button>
+          </Stack>
         </form>
-      </section>
+      </Container>
     </>
   );
 }

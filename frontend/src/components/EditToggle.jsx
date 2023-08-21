@@ -17,7 +17,7 @@ function EditToggle({ profile, isLoading }) {
       ) : (
         <UserForm profile={profile} isLoading={isLoading} />
       )}
-      <Button variant='contained' color='secondary' onClick={toggleEdit}>
+      <Button variant='outlined' color='secondary' onClick={toggleEdit}>
         Edit
       </Button>
     </div>

@@ -7,7 +7,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { Stack } from '@mui/material';
+import Stack from '@mui/material/Stack';
 import Add from '@mui/icons-material/Add';
 
 function ListingForm() {

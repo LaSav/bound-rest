@@ -27,7 +27,7 @@ function UserForm({ profile, isLoading }) {
 
   const { name, email, bio, offeredSkill, portfolio } = formData;
 
-  const [disabled, setDisabled] = useState(true);
+  // const [disabled, setDisabled] = useState(true);
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -36,10 +36,10 @@ function UserForm({ profile, isLoading }) {
     }));
   };
 
-  const handleEdit = (e) => {
-    e.preventDefault();
-    setDisabled(!disabled);
-  };
+  // const handleEdit = (e) => {
+  //   e.preventDefault();
+  //   setDisabled(!disabled);
+  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -71,7 +71,7 @@ function UserForm({ profile, isLoading }) {
             name='name'
             value={name}
             label='Name'
-            disabled={disabled}
+            // disabled={disabled}
             onChange={onChange}
           />
           <TextField
@@ -81,7 +81,7 @@ function UserForm({ profile, isLoading }) {
             name='email'
             value={email}
             label='Email'
-            disabled={disabled}
+            // disabled={disabled}
             onChange={onChange}
           />
           <TextField
@@ -93,7 +93,7 @@ function UserForm({ profile, isLoading }) {
             label='Bio'
             multiline
             rows={3}
-            disabled={disabled}
+            // disabled={disabled}
             onChange={onChange}
           />
           <Typography variant='h6' htmlFor='offeredSkill'>
@@ -104,7 +104,7 @@ function UserForm({ profile, isLoading }) {
             id='offeredSkill'
             label='Select your skill'
             value={offeredSkill}
-            disabled={disabled}
+            // disabled={disabled}
             onChange={onChange}
           >
             <MenuItem value='fullstack developer'>Fullstack developer</MenuItem>
@@ -120,7 +120,7 @@ function UserForm({ profile, isLoading }) {
             name='portfolio'
             value={portfolio}
             label='Portfolio URL'
-            disabled={disabled}
+            // disabled={disabled}
             onChange={onChange}
             size='small'
           />
@@ -137,14 +137,14 @@ function UserForm({ profile, isLoading }) {
               </Button>
             </Box>
             <Box width='50%'>
-              <Button
+              {/* <Button
                 color='secondary'
                 fullWidth
                 variant='contained'
                 onClick={handleEdit}
               >
                 Edit
-              </Button>
+              </Button> */}
             </Box>
           </Stack>
         </Stack>

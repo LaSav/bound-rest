@@ -5,8 +5,6 @@ import ListingForm from '../components/ListingForm';
 import { reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
 import { getUser, editUser, resetUser } from '../features/user/userSlice';
-import UserProfile from '../components/UserProfile';
-import UserForm from '../components/UserForm';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
@@ -16,6 +14,11 @@ import { CardActions, CardContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import Listings from '../components/Listings';
 import EditToggle from '../components/EditToggle';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import Stack from '@mui/material/Stack';
+import DoneIcon from '@mui/icons-material/Done';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -102,9 +105,9 @@ function Dashboard() {
                 </CardContent>
                 <CardActions>
                   <Link to={'edit-profile'}>
-                    <Button variant='outlined' color='secondary'>
+                    {/* <Button variant='outlined' color='secondary'>
                       Edit
-                    </Button>
+                    </Button> */}
                   </Link>
                 </CardActions>
               </Card>
@@ -135,55 +138,66 @@ function Dashboard() {
   } else {
     return (
       <>
-        <section className='heading'>
-          <h1>{profile.name} Complete Your Profile</h1>
-        </section>
-        <section className='form'>
-          <form onSubmit={onSubmit}>
-            <div className='form-group'>
-              <input
+        <Container maxWidth='sm'>
+          <Typography variant='h4' gutterBottom>
+            {profile.name} Complete Your Profile
+          </Typography>
+          <form noValidate autoComplete='off' onSubmit={onSubmit}>
+            <Stack spacing={2}>
+              <TextField
                 type='text'
-                className='form-control'
                 id='bio'
                 name='bio'
                 value={bio}
-                placeholder='Create a bio'
+                label='Create a bio'
+                variant='outlined'
+                multiline
+                rows={5}
+                fullWidth
+                placeholder='Tell us about yourself'
                 onChange={onChange}
               />
-            </div>
-            <div className='form-group'>
-              <label htmlFor='offeredSkill'>Select a Skill</label>
-              <select
+              <Typography variant='h6' color='secondary'>
+                Select a skill you specialize in
+              </Typography>
+              <Select
                 name='offeredSkill'
                 id='offeredSkill'
+                fullWidth
                 value={offeredSkill}
                 onChange={onChange}
               >
-                <option value='fullstack developer'>Fullstack developer</option>
-                <option value='frontend developer'>Frontend developer</option>
-                <option value='backend developer'>Backend developer</option>
-                <option value='UX designer'>UX designer</option>
-                <option value='copywriter'>Copywriter</option>
-              </select>
-            </div>
-            <div className='form-group'>
-              <input
+                <MenuItem value='fullstack developer'>
+                  Fullstack developer
+                </MenuItem>
+                <MenuItem value='frontend developer'>
+                  Frontend developer
+                </MenuItem>
+                <MenuItem value='backend developer'>Backend developer</MenuItem>
+                <MenuItem value='UX designer'>UX designer</MenuItem>
+                <MenuItem value='copywriter'>Copywriter</MenuItem>
+              </Select>
+              <TextField
+                variant='outlined'
                 type='url'
-                className='form-control'
                 id='portfolio'
                 name='portfolio'
                 value={portfolio}
-                placeholder='Enter your portfolio URL'
+                label='Enter your portfolio URL'
                 onChange={onChange}
               />
-            </div>
-            <div className='form-group'>
-              <button type='submit' className='btn btn-block'>
+              <Button
+                type='submit'
+                variant='outlined'
+                color='success'
+                fullWidth
+                startIcon={<DoneIcon />}
+              >
                 Save
-              </button>
-            </div>
+              </Button>
+            </Stack>
           </form>
-        </section>
+        </Container>
       </>
     );
   }

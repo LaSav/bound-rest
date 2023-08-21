@@ -4,6 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { register, reset } from '../features/auth/authSlice';
 import Spinner from '../components/Spinner';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
+import Container from '@mui/material/Container';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -62,63 +67,57 @@ function Register() {
 
   return (
     <>
-      <section className='heading'>
-        <h1>Resgister</h1>
-        <p>Please create an account</p>
-      </section>
-      <section className='form'>
-        <form onSubmit={onSubmit}>
-          <div className='form-group'>
-            <input
+      <Container maxWidth='sm'>
+        <Typography variant='h4'>Resgister</Typography>
+        <Typography variant='h5'>Please create an account</Typography>
+        <form noValidate autoComplete='off' onSubmit={onSubmit}>
+          <Stack spacing={2}>
+            <TextField
               type='text'
               className='form-control'
               id='name'
               name='name'
               value={name}
-              placeholder='Enter Your Name'
+              label='Enter Your Name'
+              fullWidth
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <input
+            <TextField
               type='email'
               className='form-control'
               id='email'
               name='email'
               value={email}
-              placeholder='Enter Your Email'
+              label='Enter Your Email'
+              fullWidth
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <input
+            <TextField
               type='password'
               className='form-control'
               id='password'
               name='password'
               value={password}
-              placeholder='Create a Password'
+              label='Create a Password'
+              fullWidth
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <input
+            <TextField
               type='password'
               className='form-control'
               id='password2'
               name='password2'
               value={password2}
-              placeholder='Confirm Password'
+              label='Confirm Password'
+              fullWidth
               onChange={onChange}
             />
-          </div>
-          <div className='form-group'>
-            <button type='submit' className='btn btn-block'>
+            <Button color='secondary' variant='outlined' type='submit'>
               Submit
-            </button>
-          </div>
+            </Button>
+          </Stack>
         </form>
-      </section>
+      </Container>
     </>
   );
 }
