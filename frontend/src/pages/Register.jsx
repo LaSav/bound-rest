@@ -68,8 +68,8 @@ function Register() {
   return (
     <>
       <Container maxWidth='sm'>
-        <Typography variant='h4'>Resgister</Typography>
-        <Typography variant='h5'>Please create an account</Typography>
+        <Typography variant='h4'>Register</Typography>
+        <Typography variant='h5'>Create an account</Typography>
         <form noValidate autoComplete='off' onSubmit={onSubmit}>
           <Stack spacing={2}>
             <TextField
@@ -113,7 +113,7 @@ function Register() {
               onChange={onChange}
             />
             <Button color='secondary' variant='outlined' type='submit'>
-              Submit
+              Create Account
             </Button>
           </Stack>
         </form>

@@ -92,7 +92,7 @@ function Login() {
               color='secondary'
               fullWidth
             >
-              Submit
+              Login
             </Button>
           </Stack>
         </form>

@@ -86,6 +86,7 @@ export const userSlice = createSlice({
       .addCase(editUser.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isComplete = true;
         state.profile = action.payload;
       })
       .addCase(editUser.rejected, (state, action) => {
