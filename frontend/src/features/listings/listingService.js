@@ -41,10 +41,24 @@ const deleteListing = async (listingId, token) => {
   return response.data;
 };
 
+// Get the listings the signed in user is requested to
+const getRequested = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL + 'requested', config);
+
+  return response.data;
+};
+
 const listingService = {
   createListing,
   getListings,
   deleteListing,
+  getRequested,
 };
 
 export default listingService;

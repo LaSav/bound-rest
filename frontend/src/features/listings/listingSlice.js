@@ -3,6 +3,8 @@ import listingService from './listingService';
 
 const initialState = {
   listings: [],
+  requestedListings: [],
+  matchedListings: [],
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -66,6 +68,25 @@ export const deleteListing = createAsyncThunk(
   }
 );
 
+// Get Listings the signed in User has Requested to
+export const getRequested = createAsyncThunk(
+  'listings/getRequested',
+  async (_, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await listingService.getRequested(token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const listingSlice = createSlice({
   name: 'listing',
   initialState,
@@ -111,6 +132,19 @@ export const listingSlice = createSlice({
         );
       })
       .addCase(deleteListing.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(getRequested.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getRequested.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.requestedListings = action.payload;
+      })
+      .addCase(getRequested.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

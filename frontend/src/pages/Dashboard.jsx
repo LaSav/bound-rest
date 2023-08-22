@@ -19,6 +19,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import DoneIcon from '@mui/icons-material/Done';
+import RequestedListings from '../components/RequestedListings';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -125,6 +126,7 @@ function Dashboard() {
             <Grid item xs={6}>
               <Box padding={2}>
                 <Typography variant='h5'>Requested to:</Typography>
+                <RequestedListings />
               </Box>
             </Grid>
           </Grid>
