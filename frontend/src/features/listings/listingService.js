@@ -54,11 +54,25 @@ const getRequested = async (token) => {
   return response.data;
 };
 
+// Get the listings the signed in user is requested to
+const getMatched = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.get(API_URL + 'matched', config);
+
+  return response.data;
+};
+
 const listingService = {
   createListing,
   getListings,
   deleteListing,
   getRequested,
+  getMatched,
 };
 
 export default listingService;
