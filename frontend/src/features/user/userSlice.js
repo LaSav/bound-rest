@@ -28,7 +28,6 @@ export const editUser = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      console.log('editUser action triggered');
       return await userService.editUser(data, token);
     } catch (error) {
       const message =

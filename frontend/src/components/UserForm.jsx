@@ -12,7 +12,7 @@ import Stack from '@mui/material/Stack';
 import DoneIcon from '@mui/icons-material/Done';
 import Box from '@mui/material/Box';
 
-function UserForm({ profile, isLoading }) {
+function UserForm({ profile, isLoading, toggleEdit }) {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -49,6 +49,7 @@ function UserForm({ profile, isLoading }) {
       portfolio,
     };
     dispatch(editUser(userData));
+    toggleEdit();
   };
 
   if (isLoading) {
@@ -134,14 +135,14 @@ function UserForm({ profile, isLoading }) {
               </Button>
             </Box>
             <Box width='50%'>
-              {/* <Button
-                color='secondary'
+              <Button
+                color='warning'
                 fullWidth
                 variant='contained'
-                onClick={handleEdit}
+                onClick={toggleEdit}
               >
-                Edit
-              </Button> */}
+                Cancel
+              </Button>
             </Box>
           </Stack>
         </Stack>

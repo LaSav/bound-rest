@@ -13,13 +13,18 @@ function EditToggle({ profile, isLoading }) {
   return (
     <div>
       {showProfile ? (
-        <UserProfile profile={profile} isLoading={isLoading} />
+        <UserProfile
+          profile={profile}
+          isLoading={isLoading}
+          toggleEdit={toggleEdit}
+        />
       ) : (
-        <UserForm profile={profile} isLoading={isLoading} />
+        <UserForm
+          profile={profile}
+          isLoading={isLoading}
+          toggleEdit={toggleEdit}
+        />
       )}
-      <Button variant='outlined' color='secondary' onClick={toggleEdit}>
-        Edit
-      </Button>
     </div>
   );
 }
