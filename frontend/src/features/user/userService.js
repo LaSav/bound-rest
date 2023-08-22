@@ -20,8 +20,14 @@ const editUser = async (data, token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const response = await axios.put(API_URL + 'me', data, config);
-  return response.data;
+  try {
+    const response = await axios.put(API_URL + 'me', data, config);
+    console.log('editUser API response:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error('editUser API error:', error); // Add this log
+    throw error;
+  }
 };
 
 // Get User by Id

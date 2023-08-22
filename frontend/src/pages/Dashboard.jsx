@@ -77,10 +77,6 @@ function Dashboard() {
     };
   }, [dispatch]);
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
   if (isComplete || user?.profileCompleted) {
     return (
       <>
@@ -136,6 +132,9 @@ function Dashboard() {
       </>
     );
   } else {
+    if (isLoading) {
+      return <Spinner />;
+    }
     return (
       <>
         <Container maxWidth='sm'>

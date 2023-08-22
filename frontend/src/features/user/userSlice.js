@@ -28,6 +28,7 @@ export const editUser = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
+      console.log('editUser action triggered');
       return await userService.editUser(data, token);
     } catch (error) {
       const message =
@@ -36,6 +37,7 @@ export const editUser = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
+      console.error('editUser action error:', message);
       return thunkAPI.rejectWithValue(message);
     }
   }
@@ -87,7 +89,7 @@ export const userSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.isComplete = true;
-        state.profile = action.payload;
+        state.profile = { ...state.profile, ...action.payload };
       })
       .addCase(editUser.rejected, (state, action) => {
         state.isLoading = false;

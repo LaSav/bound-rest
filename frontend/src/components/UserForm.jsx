@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { editUser } from '../features/user/userSlice';
 import Spinner from './Spinner';
@@ -15,7 +14,6 @@ import Box from '@mui/material/Box';
 
 function UserForm({ profile, isLoading }) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     name: profile.name,
@@ -51,7 +49,6 @@ function UserForm({ profile, isLoading }) {
       portfolio,
     };
     dispatch(editUser(userData));
-    navigate('/');
   };
 
   if (isLoading) {

@@ -21,7 +21,7 @@ function ListingForm() {
 
     dispatch(createListing({ text, requiredSkill }));
     setText('');
-    setRequiredSkill('');
+    setRequiredSkill('fullstack developer');
   };
   return (
     <form noValidate autoComplete='off' onSubmit={onSubmit}>
