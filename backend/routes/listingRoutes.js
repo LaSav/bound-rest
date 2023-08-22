@@ -7,8 +7,8 @@ const {
   deleteListing,
   showRequests,
   matchRequests,
-  showRequested,
-  showMatched,
+  getRequested,
+  getMatched,
 } = require('../controllers/listingController');
 
 const { protect } = require('../middleware/authMiddleware');
@@ -16,6 +16,9 @@ const { protect } = require('../middleware/authMiddleware');
 const router = express.Router();
 
 router.route('/').get(protect, getListings).post(protect, createListing);
+
+router.route('/requested').get(protect, getRequested);
+router.route('/matched').get(protect, getMatched);
 
 router
   .route('/:id')
@@ -27,8 +30,5 @@ router
   .route('/requests/:id')
   .get(protect, showRequests)
   .put(protect, matchRequests);
-
-router.route('/requested').get(protect, showRequested);
-router.route('/matched').get(protect, showMatched);
 
 module.exports = router;

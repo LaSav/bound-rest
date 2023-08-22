@@ -186,23 +186,12 @@ const matchRequests = asyncHandler(async (req, res) => {
 //@desc Show Listings a User has Requested to
 //@route GET /api/listings/requested
 //@access Private
-const showRequested = asyncHandler(async (req, res) => {
-  // Get all Listings
-  const listings = await Listing.find();
-  // Get User Id
-  const user = await User.findById(req.user.id);
+const getRequested = asyncHandler(async (req, res) => {
+  const user = req.user.id;
 
-  const requestedListings = [];
-
-  for (i = 0; i < listings.length; i++) {
-    if (
-      listings[i].requests.some(
-        (request) => request.toString() === user._id.toString()
-      )
-    ) {
-      requestedListings.push(listings[i]);
-    }
-  }
+  const requestedListings = await Listing.find({
+    requests: user,
+  });
 
   res.status(200).json(requestedListings);
 });
@@ -210,23 +199,12 @@ const showRequested = asyncHandler(async (req, res) => {
 //@desc Show Listings a User has Matched With
 //@route GET /api/listings/matched
 //@access Private
-const showMatched = asyncHandler(async (req, res) => {
-  // Get all Listings
-  const listings = await Listing.find();
-  // Get User Id
-  const user = await User.findById(req.user.id);
+const getMatched = asyncHandler(async (req, res) => {
+  const user = req.user.id;
 
-  const matchedListings = [];
-
-  for (i = 0; i < listings.length; i++) {
-    if (
-      listings[i].matches.some(
-        (match) => match.toString() === user._id.toString()
-      )
-    ) {
-      matchedListings.push(listings[i]);
-    }
-  }
+  const matchedListings = await Listing.find({
+    matches: user,
+  });
 
   res.status(200).json(matchedListings);
 });
@@ -243,6 +221,6 @@ module.exports = {
   deleteListing,
   showRequests,
   matchRequests,
-  showRequested,
-  showMatched,
+  getRequested,
+  getMatched,
 };
