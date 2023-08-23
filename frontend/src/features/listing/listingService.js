@@ -33,14 +33,22 @@ const matchRequest = async (listingId, data, token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  console.log('Request URL:', API_URL + 'requests/' + listingId);
-  console.log('Request Payload:', { _id: data });
   const response = await axios.put(
     API_URL + 'requests/' + listingId,
     { _id: data },
     config
   );
-  console.log('Response Data:', response.data);
+  return response.data;
+};
+
+// Edit a Listing
+const editListing = async (listingId, data, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.put(API_URL + listingId, data, config);
   return response.data;
 };
 
@@ -48,6 +56,7 @@ const listingService = {
   getListing,
   getRequests,
   matchRequest,
+  editListing,
 };
 
 export default listingService;

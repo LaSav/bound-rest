@@ -25,19 +25,12 @@ function UserForm({ profile, isLoading, toggleEdit }) {
 
   const { name, email, bio, offeredSkill, portfolio } = formData;
 
-  // const [disabled, setDisabled] = useState(true);
-
   const onChange = (e) => {
     setFormData((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
   };
-
-  // const handleEdit = (e) => {
-  //   e.preventDefault();
-  //   setDisabled(!disabled);
-  // };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -69,7 +62,6 @@ function UserForm({ profile, isLoading, toggleEdit }) {
             name='name'
             value={name}
             label='Name'
-            // disabled={disabled}
             onChange={onChange}
           />
           <TextField
@@ -79,7 +71,6 @@ function UserForm({ profile, isLoading, toggleEdit }) {
             name='email'
             value={email}
             label='Email'
-            // disabled={disabled}
             onChange={onChange}
           />
           <TextField
@@ -91,7 +82,6 @@ function UserForm({ profile, isLoading, toggleEdit }) {
             label='Bio'
             multiline
             rows={3}
-            // disabled={disabled}
             onChange={onChange}
           />
           <Typography variant='h6' htmlFor='offeredSkill'>
@@ -102,7 +92,6 @@ function UserForm({ profile, isLoading, toggleEdit }) {
             id='offeredSkill'
             label='Select your skill'
             value={offeredSkill}
-            // disabled={disabled}
             onChange={onChange}
           >
             <MenuItem value='fullstack developer'>Fullstack developer</MenuItem>
@@ -118,7 +107,6 @@ function UserForm({ profile, isLoading, toggleEdit }) {
             name='portfolio'
             value={portfolio}
             label='Portfolio URL'
-            // disabled={disabled}
             onChange={onChange}
             size='small'
           />

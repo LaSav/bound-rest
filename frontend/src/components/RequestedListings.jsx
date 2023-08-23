@@ -1,15 +1,14 @@
-import { getRequested } from '../features/listings/listingSlice';
 import FeedItem from './FeedItem';
 import Spinner from '../components/Spinner';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
+import KeyboardArrowrRightIcon from '@mui/icons-material/KeyboardArrowRight';
 
 function RequestedListings({ toggleRequested }) {
-  // const dispatch = useDispatch();
   const { requestedListings, isLoading, isError, message } = useSelector(
     (state) => state.listings
   );
@@ -17,7 +16,6 @@ function RequestedListings({ toggleRequested }) {
     if (isError) {
       console.log(message);
     }
-    // dispatch(getRequested());
   }, [isError, message]);
 
   if (isLoading) {
@@ -26,17 +24,20 @@ function RequestedListings({ toggleRequested }) {
   return (
     <Stack spacing={1}>
       <Box>
-        <Typography variant='h5'>Requested to:</Typography>
-        <Button variant='outlined' color='secondary' onClick={toggleRequested}>
-          Matched With
+        <Button
+          endIcon={<KeyboardArrowrRightIcon />}
+          color='secondary'
+          onClick={toggleRequested}
+        >
+          Requested
         </Button>
       </Box>
       {requestedListings.length > 0 ? (
-        <div className='requesteds'>
+        <Box>
           {requestedListings.map((requestedListing) => (
             <FeedItem key={requestedListing._id} listing={requestedListing} />
           ))}
-        </div>
+        </Box>
       ) : (
         <h3>You haven't requested any Listings yet</h3>
       )}

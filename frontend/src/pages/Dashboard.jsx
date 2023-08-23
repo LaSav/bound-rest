@@ -98,7 +98,7 @@ function Dashboard() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid xs={5}>
+            <Grid item xs={4}>
               <Card
                 elevation={0}
                 sx={{
@@ -108,16 +108,9 @@ function Dashboard() {
                 <CardContent>
                   <EditToggle profile={profile} isLoading={isLoading} />
                 </CardContent>
-                <CardActions>
-                  <Link to={'edit-profile'}>
-                    {/* <Button variant='outlined' color='secondary'>
-                      Edit
-                    </Button> */}
-                  </Link>
-                </CardActions>
               </Card>
             </Grid>
-            <Grid item xs={7}>
+            <Grid item xs={8}>
               <Box padding={2}>
                 <Typography variant='h4' color='secondary' gutterBottom>
                   Create a New Listing

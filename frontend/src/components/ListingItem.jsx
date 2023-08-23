@@ -18,13 +18,13 @@ function ListingItem({ listing }) {
           },
         }}
         marginY={3}
-        pr={3}
       >
         <Typography variant='h6'>{listing.text}</Typography>
 
         <Typography variant='h7'>
           required skills: {listing.requiredSkill}
         </Typography>
+        <Typography>created by: {listing.user}</Typography>
       </Box>
       <Divider />
     </Link>

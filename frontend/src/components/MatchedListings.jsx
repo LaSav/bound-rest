@@ -1,15 +1,14 @@
-import { getMatched } from '../features/listings/listingSlice';
 import FeedItem from './FeedItem';
 import Spinner from '../components/Spinner';
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
+import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft';
 
 function MatchedListings({ toggleRequested }) {
-  // const dispatch = useDispatch();
   const { matchedListings, isLoading, isError, message } = useSelector(
     (state) => state.listings
   );
@@ -17,7 +16,6 @@ function MatchedListings({ toggleRequested }) {
     if (isError) {
       console.log(message);
     }
-    // dispatch(getMatched());
   }, [isError, message]);
 
   if (isLoading) {
@@ -26,17 +24,20 @@ function MatchedListings({ toggleRequested }) {
   return (
     <Stack spacing={1}>
       <Box>
-        <Typography variant='h5'>Matched With:</Typography>
-        <Button variant='outlined' color='secondary' onClick={toggleRequested}>
-          Requested To
+        <Button
+          startIcon={<KeyboardArrowLeftIcon />}
+          color='secondary'
+          onClick={toggleRequested}
+        >
+          Matched
         </Button>
       </Box>
       {matchedListings.length > 0 ? (
-        <div className='requesteds'>
+        <Box>
           {matchedListings.map((matchedListing) => (
             <FeedItem key={matchedListing._id} listing={matchedListing} />
           ))}
-        </div>
+        </Box>
       ) : (
         <h3>You haven't had any matches yet</h3>
       )}

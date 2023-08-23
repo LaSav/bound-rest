@@ -1,12 +1,12 @@
 import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { getListings } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
+import Stack from '@mui/material/Stack';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 function Listings() {
-  // const dispatch = useDispatch();
-
   const { listings, isLoading, isError, message } = useSelector(
     (state) => state.listings
   );
@@ -15,24 +15,23 @@ function Listings() {
     if (isError) {
       console.log(message);
     }
-    // dispatch(getListings());
   }, [isError, message]);
 
   if (isLoading) {
     return <Spinner />;
   }
   return (
-    <section className='user-listings'>
+    <Stack spacing={1}>
       {listings.length > 0 ? (
-        <div className='listings'>
+        <Box>
           {listings.map((listing) => (
             <ListingItem key={listing._id} listing={listing} />
           ))}
-        </div>
+        </Box>
       ) : (
-        <h3>You haven't made any Listings yet</h3>
+        <Typography variant='p'>You haven't made any Listings yet</Typography>
       )}
-    </section>
+    </Stack>
   );
 }
 
