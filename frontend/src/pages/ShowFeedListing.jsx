@@ -39,6 +39,9 @@ function ShowFeedListing() {
   let content;
   if (user?._id === listing.user) {
     content = <h3 style={{ color: 'orange' }}>You created this listing</h3>;
+  } else if (listing.matches?.includes(user?._id)) {
+    content = <h3 style={{ color: 'green' }}>You have matched this listing</h3>;
+    console.log('matched');
   } else if (requested === user?._id || listing.requests?.includes(user?._id)) {
     content = (
       <h3 style={{ color: 'orange' }}>

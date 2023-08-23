@@ -1,9 +1,13 @@
 import Spinner from '../components/Spinner';
-import UserProfile from '../components/UserProfile';
+// import UserProfile from '../components/UserProfile';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUserById, resetUser } from '../features/user/userSlice';
+import { Stack } from '@mui/material';
+import { Typography } from '@mui/material';
+import { Box } from '@mui/material';
+import { Button } from '@mui/material';
 
 function ShowUser() {
   const navigate = useNavigate();
@@ -35,7 +39,15 @@ function ShowUser() {
     return <Spinner />;
   }
 
-  return <UserProfile profile={profile}></UserProfile>;
+  return (
+    <Stack spacing={1} justifyContent='center'>
+      <Typography variant='p'>{profile.name}</Typography>
+      <Typography variant='p'>{profile.email}</Typography>
+      <Typography variant='p'>{profile.bio}</Typography>
+      <Typography variant='p'>{profile.offeredSkill}</Typography>
+      <Typography variant='p'>{profile.portfolio}</Typography>
+    </Stack>
+  );
 }
 
 export default ShowUser;

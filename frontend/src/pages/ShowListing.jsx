@@ -32,6 +32,7 @@ function ShowListing() {
 
   return (
     <div>
+      {/* Edit Listing goes here */}
       <h1>{listing.text}</h1>
 
       <section className='content'>
