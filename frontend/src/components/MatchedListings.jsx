@@ -5,8 +5,10 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import { Button } from '@mui/material';
 
-function MatchedListings() {
+function MatchedListings({ toggleRequested }) {
   const dispatch = useDispatch();
   const { matchedListings, isLoading, isError, message } = useSelector(
     (state) => state.listings
@@ -23,7 +25,12 @@ function MatchedListings() {
   }
   return (
     <Stack spacing={1}>
-      <Typography variant='h5'>Matched with:</Typography>
+      <Box>
+        <Typography variant='h5'>Matched With:</Typography>
+        <Button variant='outlined' color='secondary' onClick={toggleRequested}>
+          Requested To
+        </Button>
+      </Box>
       {matchedListings.length > 0 ? (
         <div className='requesteds'>
           {matchedListings.map((matchedListing) => (

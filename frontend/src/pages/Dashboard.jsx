@@ -19,8 +19,7 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import DoneIcon from '@mui/icons-material/Done';
-import RequestedListings from '../components/RequestedListings';
-import MatchedListings from '../components/MatchedListings';
+import RequestedToggle from '../components/RequestedToggle';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -126,7 +125,7 @@ function Dashboard() {
             </Grid>
             <Grid item xs={6}>
               <Box padding={2}>
-                <MatchedListings />
+                <RequestedToggle />
               </Box>
             </Grid>
           </Grid>

@@ -1,7 +1,6 @@
 import UserForm from './UserForm';
 import UserProfile from './UserProfile';
 import { useState } from 'react';
-import Button from '@mui/material/Button';
 
 function EditToggle({ profile, isLoading }) {
   const [showProfile, setShowProfile] = useState(true);
