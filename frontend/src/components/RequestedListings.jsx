@@ -9,7 +9,7 @@ import Box from '@mui/material/Box';
 import { Button } from '@mui/material';
 
 function RequestedListings({ toggleRequested }) {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { requestedListings, isLoading, isError, message } = useSelector(
     (state) => state.listings
   );
@@ -17,8 +17,8 @@ function RequestedListings({ toggleRequested }) {
     if (isError) {
       console.log(message);
     }
-    dispatch(getRequested());
-  }, [isError, message, dispatch]);
+    // dispatch(getRequested());
+  }, [isError, message]);
 
   if (isLoading) {
     return <Spinner />;

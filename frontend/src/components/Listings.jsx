@@ -5,7 +5,7 @@ import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
 
 function Listings() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const { listings, isLoading, isError, message } = useSelector(
     (state) => state.listings
@@ -15,8 +15,8 @@ function Listings() {
     if (isError) {
       console.log(message);
     }
-    dispatch(getListings());
-  }, [isError, message, dispatch]);
+    // dispatch(getListings());
+  }, [isError, message]);
 
   if (isLoading) {
     return <Spinner />;
