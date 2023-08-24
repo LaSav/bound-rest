@@ -1,9 +1,9 @@
 import Spinner from '../components/Spinner';
-import RequestItem from '../components/RequestItem';
 import { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getListing, getRequests } from '../features/listing/listingSlice';
+import EditListingToggle from '../components/EditListingToggle';
 
 function ShowListing() {
   const dispatch = useDispatch();
@@ -30,29 +30,7 @@ function ShowListing() {
     return <Spinner />;
   }
 
-  return (
-    <div>
-      {/* Edit Listing goes here */}
-      <h1>{listing.text}</h1>
-
-      <section className='content'>
-        {requests.length > 0 ? (
-          <div className='requests'>
-            <h2>You have {requests.length} requests to this Listing</h2>
-            {requests.map((request) => (
-              <RequestItem
-                key={request._id}
-                request={request}
-                listing={listing}
-              />
-            ))}
-          </div>
-        ) : (
-          <h3>You dont have any requests to this listing yet</h3>
-        )}
-      </section>
-    </div>
-  );
+  return <EditListingToggle listing={listing} requests={requests} />;
 }
 
 export default ShowListing;

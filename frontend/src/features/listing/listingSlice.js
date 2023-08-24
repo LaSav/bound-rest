@@ -69,12 +69,12 @@ export const matchRequest = createAsyncThunk(
 );
 
 // Edit a Listing
-export const editListing = createAsyncThunk(
-  'listing/edit',
+export const updateListing = createAsyncThunk(
+  'listing/update',
   async ({ id, data }, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await listingService.editListing(id, data, token);
+      return await listingService.updateListing(id, data, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -134,15 +134,15 @@ export const listingSlice = createSlice({
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(editListing.pending, (state) => {
+      .addCase(updateListing.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(editListing.fulfilled, (state, action) => {
+      .addCase(updateListing.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
         state.listing = { ...state.listing, ...action.payload };
       })
-      .addCase(editListing.rejected, (state, action) => {
+      .addCase(updateListing.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

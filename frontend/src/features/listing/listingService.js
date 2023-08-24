@@ -42,7 +42,7 @@ const matchRequest = async (listingId, data, token) => {
 };
 
 // Edit a Listing
-const editListing = async (listingId, data, token) => {
+const updateListing = async (listingId, data, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -56,7 +56,7 @@ const listingService = {
   getListing,
   getRequests,
   matchRequest,
-  editListing,
+  updateListing,
 };
 
 export default listingService;
