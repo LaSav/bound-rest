@@ -4,6 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getListing, getRequests } from '../features/listing/listingSlice';
 import EditListingToggle from '../components/EditListingToggle';
+import { Container } from '@mui/material';
 
 function ShowListing() {
   const dispatch = useDispatch();
@@ -30,7 +31,11 @@ function ShowListing() {
     return <Spinner />;
   }
 
-  return <EditListingToggle listing={listing} requests={requests} />;
+  return (
+    <Container maxWidth='sm'>
+      <EditListingToggle listing={listing} requests={requests} />
+    </Container>
+  );
 }
 
 export default ShowListing;

@@ -37,24 +37,27 @@ function ListingForm({ listing, toggleEdit }) {
     toggleEdit();
   };
   return (
-    <form noValidate autoComplete='off' onSubmit={onSubmit}>
-      <Stack spacing={2}>
-        <TextField
-          label='Listing Description'
-          variant='outlined'
-          type='text'
-          name='text'
-          id='text'
-          multiline
-          rows={7}
-          value={text}
-          fullWidth
-          onChange={onChange}
-        />
-        <Typography variant='h6' color='secondary'>
-          Select the skill required for this listing
-        </Typography>
-        <Stack direction='row' spacing={2}>
+    <>
+      <Typography variant='h3' gutterBottom>
+        Edit Listing
+      </Typography>
+      <form noValidate autoComplete='off' onSubmit={onSubmit}>
+        <Stack spacing={2}>
+          <TextField
+            label='Listing Description'
+            variant='outlined'
+            type='text'
+            name='text'
+            id='text'
+            multiline
+            rows={7}
+            value={text}
+            fullWidth
+            onChange={onChange}
+          />
+          <Typography variant='h6' color='secondary'>
+            Select the skill required for this listing
+          </Typography>
           <Box width='50%'>
             <Select
               name='requiredSkill'
@@ -97,8 +100,8 @@ function ListingForm({ listing, toggleEdit }) {
             </Box>
           </Stack>
         </Stack>
-      </Stack>
-    </form>
+      </form>
+    </>
   );
 }
 
