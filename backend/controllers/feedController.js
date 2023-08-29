@@ -13,15 +13,15 @@ const getFeed = asyncHandler(async (req, res) => {
   if (!requiredSkills) {
     const listings = await Listing.find();
     res.status(200).json(listings);
-  }
+  } else {
+    let listings = [];
+    for (skill of requiredSkills) {
+      const skillListings = await Listing.find({ requiredSkill: skill });
+      listings = listings.concat(skillListings);
+    }
 
-  let listings = [];
-  for (skill of requiredSkills) {
-    const skillListings = await Listing.find({ requiredSkill: skill });
-    listings = listings.concat(skillListings);
+    res.status(200).json(listings);
   }
-
-  res.status(200).json(listings);
 });
 
 // Only authenticated users can send a request

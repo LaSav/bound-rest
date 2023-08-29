@@ -5,8 +5,7 @@ import Spinner from '../components/Spinner';
 import FeedItem from '../components/FeedItem';
 import { Container } from '@mui/material';
 import { Stack } from '@mui/material';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
 function Feed() {
@@ -16,15 +15,26 @@ function Feed() {
     (state) => state.feed
   );
 
-  // const [searchTerm, setSearchTerm] = useState('');
+  const [sortTerms, setSortTerms] = useState([]);
+
+  console.log(sortTerms);
+
+  const handleClick = (newTerm) => {
+    if (sortTerms.includes(newTerm)) {
+      setSortTerms(sortTerms.filter((sortTerm) => sortTerm !== newTerm));
+    } else {
+      setSortTerms([...sortTerms, newTerm]);
+    }
+  };
 
   useEffect(() => {
     if (isError) {
       console.log(message);
     }
 
-    dispatch(getFeed());
-  }, [isError, message, dispatch]);
+    console.log(sortTerms);
+    dispatch(getFeed({ requiredSkills: sortTerms }));
+  }, [isError, message, dispatch, sortTerms]);
 
   useEffect(() => {
     return () => {
@@ -54,42 +64,26 @@ function Feed() {
     <>
       <Container maxWidth='md'>
         <Grid container spacing={2}>
-          <Grid item xs={2}>
+          <Grid item xs={3}>
             <Stack spacing={3}>
               <label htmlFor='searchTerm'>Filter:</label>
-              <FormControlLabel
-                control={<Checkbox color='secondary' value='all' />}
-                label='all'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox color='secondary' value='fullstack developer' />
-                }
-                label='Fullstack Developer'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox color='secondary' value='frontend developer' />
-                }
-                label='Frontend Developer'
-              />
-              <FormControlLabel
-                control={
-                  <Checkbox color='secondary' value='backend developer' />
-                }
-                label='Backend Developer'
-              />
-              <FormControlLabel
-                control={<Checkbox color='secondary' value='UX designer' />}
-                label='UX Designer'
-              />
-              <FormControlLabel
-                control={<Checkbox color='secondary' value='copywriter' />}
-                label='Copywriter'
-              />
+              <Button
+                variant='outlined'
+                color='secondary'
+                onClick={() => handleClick('frontend developer')}
+              >
+                Front-End Developer
+              </Button>
+              <Button
+                variant='outlined'
+                color='secondary'
+                onClick={() => handleClick('backend developer')}
+              >
+                Back-End Developer
+              </Button>
             </Stack>
           </Grid>
-          <Grid item xs={10}>
+          <Grid item xs={9}>
             <Stack spacing={2}>{content}</Stack>
           </Grid>
         </Grid>

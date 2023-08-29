@@ -10,17 +10,22 @@ const initialState = {
 };
 
 // Get User Listings
-export const getFeed = createAsyncThunk('feed/getAll', async (_, thunkAPI) => {
-  try {
-    return await feedService.getFeed();
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(message);
+export const getFeed = createAsyncThunk(
+  'feed/getAll',
+  async (queryParams, thunkAPI) => {
+    try {
+      return await feedService.getFeed(queryParams);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
   }
-});
+);
 
 export const feedSlice = createSlice({
   name: 'feed',
