@@ -8,25 +8,20 @@ const User = require('../models/userModel');
 // @route GET /api/feed
 // @access Public
 const getFeed = asyncHandler(async (req, res) => {
-  const { requiredSkill } = req.query;
+  const { requiredSkills } = req.query;
 
-  if (!requiredSkill) {
-    return res
-      .status(400)
-      .json({ error: 'requiredSkill parameter is required' });
+  if (!requiredSkills) {
+    const listings = await Listing.find();
+    res.status(200).json(listings);
   }
 
-  try {
-    // Use $eq to perform an exact match
-    const listings = await Listing.find({
-      requiredSkill: { $eq: requiredSkill },
-    });
-
-    res.json(listings);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Server error' });
+  let listings = [];
+  for (skill of requiredSkills) {
+    const skillListings = await Listing.find({ requiredSkill: skill });
+    listings = listings.concat(skillListings);
   }
+
+  res.status(200).json(listings);
 });
 
 // Only authenticated users can send a request
@@ -67,7 +62,7 @@ const requestListing = asyncHandler(async (req, res) => {
 
   await listing.save();
 
-  res.json(user._id);
+  res.status(200).json(user._id);
 });
 
 // @desc Geet a single listing
