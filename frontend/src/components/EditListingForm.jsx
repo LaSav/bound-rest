@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
 import DoneIcon from '@mui/icons-material/Done';
 
-function ListingForm({ listing, toggleEdit }) {
+function EditListingForm({ listing, toggleEdit }) {
   const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
@@ -105,4 +105,4 @@ function ListingForm({ listing, toggleEdit }) {
   );
 }
 
-export default ListingForm;
+export default EditListingForm;

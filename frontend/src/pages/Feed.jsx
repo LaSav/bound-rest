@@ -18,7 +18,12 @@ function Feed() {
 
   const [sortTerms, setSortTerms] = useState([]);
 
-  console.log(sortTerms);
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = () => {
+    dispatch(getFeed({ searchText: searchTerm }));
+    setSearchTerm('');
+  };
 
   const handleClick = (newTerm) => {
     if (sortTerms.includes(newTerm)) {
@@ -34,7 +39,7 @@ function Feed() {
     }
 
     console.log(sortTerms);
-    dispatch(getFeed({ requiredSkills: sortTerms, searchText: searchTerm }));
+    dispatch(getFeed({ requiredSkills: sortTerms }));
   }, [isError, message, dispatch, sortTerms]);
 
   useEffect(() => {
@@ -103,7 +108,19 @@ function Feed() {
               >
                 Copywriter
               </Button>
-              <TextField label='search'>Search</TextField>
+              <TextField
+                label='search'
+                onChange={(e) => setSearchTerm(e.target.value)}
+              >
+                Search
+              </TextField>
+              <Button
+                variant='outlined'
+                color='secondary'
+                onClick={() => handleSearch()}
+              >
+                Search
+              </Button>
             </Stack>
           </Grid>
           <Grid item xs={9}>
