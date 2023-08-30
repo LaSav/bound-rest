@@ -7,6 +7,7 @@ import { Container } from '@mui/material';
 import { Stack } from '@mui/material';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
 
 function Feed() {
   const dispatch = useDispatch();
@@ -33,7 +34,7 @@ function Feed() {
     }
 
     console.log(sortTerms);
-    dispatch(getFeed({ requiredSkills: sortTerms }));
+    dispatch(getFeed({ requiredSkills: sortTerms, searchText: searchTerm }));
   }, [isError, message, dispatch, sortTerms]);
 
   useEffect(() => {
@@ -62,11 +63,18 @@ function Feed() {
 
   return (
     <>
-      <Container maxWidth='md'>
-        <Grid container spacing={2}>
+      <Container maxWidth='lg'>
+        <Grid container spacing={5}>
           <Grid item xs={3}>
             <Stack spacing={3}>
               <label htmlFor='searchTerm'>Filter:</label>
+              <Button
+                variant='outlined'
+                color='secondary'
+                onClick={() => handleClick('fullstack developer')}
+              >
+                Fullstack Developer
+              </Button>
               <Button
                 variant='outlined'
                 color='secondary'
@@ -81,6 +89,21 @@ function Feed() {
               >
                 Back-End Developer
               </Button>
+              <Button
+                variant='outlined'
+                color='secondary'
+                onClick={() => handleClick('UX designer')}
+              >
+                UX Designer
+              </Button>
+              <Button
+                variant='outlined'
+                color='secondary'
+                onClick={() => handleClick('copywriter')}
+              >
+                Copywriter
+              </Button>
+              <TextField label='search'>Search</TextField>
             </Stack>
           </Grid>
           <Grid item xs={9}>

@@ -8,12 +8,15 @@ const User = require('../models/userModel');
 // @route GET /api/feed
 // @access Public
 const getFeed = asyncHandler(async (req, res) => {
-  const { requiredSkills } = req.query;
+  const { requiredSkills, searchText } = req.query;
+  console.log(searchText);
 
-  if (!requiredSkills) {
+  if (!requiredSkills && !searchText) {
     const listings = await Listing.find();
     res.status(200).json(listings);
-  } else {
+  }
+
+  if (requiredSkills) {
     let listings = [];
     for (skill of requiredSkills) {
       const skillListings = await Listing.find({ requiredSkill: skill });
@@ -21,6 +24,13 @@ const getFeed = asyncHandler(async (req, res) => {
     }
 
     res.status(200).json(listings);
+  }
+
+  if (searchText) {
+    const listings = await Listing.find({
+      text: { $regex: searchText, $options: 'i' },
+    });
+    res.json(listings);
   }
 });
 
