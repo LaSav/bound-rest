@@ -9,7 +9,6 @@ const User = require('../models/userModel');
 // @access Public
 const getFeed = asyncHandler(async (req, res) => {
   const { requiredSkills, searchText } = req.query;
-  console.log(searchText);
 
   if (!requiredSkills && !searchText) {
     const listings = await Listing.find();

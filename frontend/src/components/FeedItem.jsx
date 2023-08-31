@@ -2,8 +2,12 @@ import { Link } from 'react-router-dom';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
+import Spinner from '../components/Spinner';
 
-function FeedItem({ listing }) {
+function FeedItem({ listing, isLoading }) {
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <Link
       to={`/feed/${listing._id}`}
