@@ -4,19 +4,11 @@ import { getFeed, resetFeed } from '../features/feed/feedSlice';
 import FeedItem from '../components/FeedItem';
 import { Container } from '@mui/material';
 import { Stack } from '@mui/material';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { css } from '@emotion/react';
-
-const buttonStyles = {
-  normal: 'secondary',
-  active: css`
-    background-color: blue;
-    color: white;
-    border: 1px solid blue;
-  `,
-};
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import ToggleButton from '@mui/material/ToggleButton';
+import Button from '@mui/material/Button';
 
 function Feed() {
   const dispatch = useDispatch();
@@ -29,15 +21,18 @@ function Feed() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  // const [activeButton, setActiveButton] = useState('false');
+  const [activeButtons, setActiveButtons] = useState([]);
 
-  // if (activeButton === 'false') {
-  // }
+  const handleActiveButtons = (event, newActiveButtons) => {
+    setActiveButtons(newActiveButtons);
+  };
 
   const handleSearch = (e) => {
     e.preventDefault();
     dispatch(getFeed({ searchText: searchTerm }));
     setSearchTerm('');
+    setSortTerms([]);
+    setActiveButtons([]);
   };
 
   const handleClick = (newTerm) => {
@@ -76,66 +71,52 @@ function Feed() {
           <Grid item xs={3}>
             <Stack spacing={3}>
               <label htmlFor='searchTerm'>Filter:</label>
-              <Button
-                variant='outlined'
-                color='secondary'
-                onClick={() => handleClick('fullstack developer')}
-                sx={
-                  sortTerms.includes('fullstack developer')
-                    ? buttonStyles.active
-                    : buttonStyles.normal
-                }
+              <ToggleButtonGroup
+                orientation='vertical'
+                value={activeButtons}
+                onChange={handleActiveButtons}
               >
-                Fullstack Developer
-              </Button>
-              <Button
-                variant='outlined'
-                color='secondary'
-                onClick={() => handleClick('frontend developer')}
-                sx={
-                  sortTerms.includes('frontend developer')
-                    ? buttonStyles.active
-                    : buttonStyles.normal
-                }
-              >
-                Front-End Developer
-              </Button>
-              <Button
-                variant='outlined'
-                color='secondary'
-                onClick={() => handleClick('backend developer')}
-                sx={
-                  sortTerms.includes('backend developer')
-                    ? buttonStyles.active
-                    : buttonStyles.normal
-                }
-              >
-                Back-End Developer
-              </Button>
-              <Button
-                variant='outlined'
-                color='secondary'
-                onClick={() => handleClick('UX designer')}
-                sx={
-                  sortTerms.includes('UX designer')
-                    ? buttonStyles.active
-                    : buttonStyles.normal
-                }
-              >
-                UX Designer
-              </Button>
-              <Button
-                variant='outlined'
-                color='secondary'
-                onClick={() => handleClick('copywriter')}
-                sx={
-                  sortTerms.includes('copywriter')
-                    ? buttonStyles.active
-                    : buttonStyles.normal
-                }
-              >
-                Copywriter
-              </Button>
+                <ToggleButton
+                  value='fullstack developer'
+                  variant='outlined'
+                  color='secondary'
+                  onClick={() => handleClick('fullstack developer')}
+                >
+                  Fullstack Developer
+                </ToggleButton>
+                <ToggleButton
+                  value='frontend developer'
+                  variant='outlined'
+                  color='secondary'
+                  onClick={() => handleClick('frontend developer')}
+                >
+                  Front-End Developer
+                </ToggleButton>
+                <ToggleButton
+                  value='backend developer'
+                  variant='outlined'
+                  color='secondary'
+                  onClick={() => handleClick('backend developer')}
+                >
+                  Back-End Developer
+                </ToggleButton>
+                <ToggleButton
+                  value='UX designer'
+                  variant='outlined'
+                  color='secondary'
+                  onClick={() => handleClick('UX designer')}
+                >
+                  UX Designer
+                </ToggleButton>
+                <ToggleButton
+                  value='copywriter'
+                  variant='outlined'
+                  color='secondary'
+                  onClick={() => handleClick('copywriter')}
+                >
+                  Copywriter
+                </ToggleButton>
+              </ToggleButtonGroup>
               <form noValidate autoComplete='off' onSubmit={handleSearch}>
                 <TextField
                   label='search'
