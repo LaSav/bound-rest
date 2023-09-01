@@ -28,19 +28,6 @@ const getListings = async (token) => {
   return response.data;
 };
 
-// Delete a Listing
-const deleteListing = async (listingId, token) => {
-  const config = {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  };
-
-  const response = await axios.delete(API_URL + listingId, config);
-
-  return response.data;
-};
-
 // Get the listings the signed in user is requested to
 const getRequested = async (token) => {
   const config = {
@@ -70,7 +57,6 @@ const getMatched = async (token) => {
 const listingService = {
   createListing,
   getListings,
-  deleteListing,
   getRequested,
   getMatched,
 };

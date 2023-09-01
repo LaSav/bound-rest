@@ -49,25 +49,6 @@ export const getListings = createAsyncThunk(
   }
 );
 
-// Delete a Listing
-export const deleteListing = createAsyncThunk(
-  'listings/delete',
-  async (id, thunkAPI) => {
-    try {
-      const token = thunkAPI.getState().auth.user.token;
-      return await listingService.deleteListing(id, token);
-    } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(message);
-    }
-  }
-);
-
 // Get Listings the signed in User has Requested to
 export const getRequested = createAsyncThunk(
   'listings/getRequested',
@@ -136,21 +117,6 @@ export const listingSlice = createSlice({
         state.listings = action.payload;
       })
       .addCase(getListings.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-        state.message = action.payload;
-      })
-      .addCase(deleteListing.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteListing.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.isSuccess = true;
-        state.listings = state.listings.filter(
-          (listing) => listing._id !== action.payload.id
-        );
-      })
-      .addCase(deleteListing.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

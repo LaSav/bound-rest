@@ -1,7 +1,17 @@
 import RequestItem from '../components/RequestItem';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
+import { deleteListing } from '../features/listing/listingSlice';
+import Typography from '@mui/material/Typography';
 
 function ListingEditData({ listing, requests, toggleEdit }) {
+  const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteListing(listing._id));
+  };
+
   return (
     <div>
       <h1>{listing.text}</h1>
@@ -24,6 +34,9 @@ function ListingEditData({ listing, requests, toggleEdit }) {
         )}
         <Button color='secondary' onClick={toggleEdit}>
           Edit
+        </Button>
+        <Button color='warning' onClick={handleDelete}>
+          Delete Listing
         </Button>
       </section>
     </div>

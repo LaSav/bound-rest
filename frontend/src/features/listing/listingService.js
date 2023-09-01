@@ -52,11 +52,25 @@ const updateListing = async (listingId, data, token) => {
   return response.data;
 };
 
+// Delete a Listing
+const deleteListing = async (listingId, token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+
+  const response = await axios.delete(API_URL + listingId, config);
+
+  return response.data;
+};
+
 const listingService = {
   getListing,
   getRequests,
   matchRequest,
   updateListing,
+  deleteListing,
 };
 
 export default listingService;

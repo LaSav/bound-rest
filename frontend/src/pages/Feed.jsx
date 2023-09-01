@@ -31,6 +31,7 @@ function Feed() {
     e.preventDefault();
     dispatch(getFeed({ searchText: searchTerm }));
     setSearchTerm('');
+    // FIX: this is causing the useEffect hook to run
     setSortTerms([]);
     setActiveButtons([]);
   };

@@ -99,7 +99,7 @@ const deleteListing = asyncHandler(async (req, res) => {
 
   await listing.deleteOne();
 
-  res.status(200).json({ id: req.params.id });
+  res.status(200).json({ message: 'Listing successfully deleted.' });
 });
 
 //-------------------- Requests of a User's Listing Functions ------------ //
