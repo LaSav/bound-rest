@@ -5,6 +5,7 @@ const initialState = {
   listing: {},
   requests: [],
   matched: '',
+  deleteMessage: '',
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -172,7 +173,8 @@ export const listingSlice = createSlice({
       .addCase(deleteListing.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.listing = action.payload;
+        state.listing = {};
+        state.deleteMessage = action.payload.message;
       })
       .addCase(deleteListing.rejected, (state, action) => {
         state.isLoading = false;

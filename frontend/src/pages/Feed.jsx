@@ -48,10 +48,12 @@ function Feed() {
     if (isError) {
       console.log(message);
     }
-
-    console.log(sortTerms);
     dispatch(getFeed({ requiredSkills: sortTerms }));
   }, [isError, message, dispatch, sortTerms]);
+
+  useEffect(() => {
+    dispatch(getFeed());
+  }, [dispatch]);
 
   useEffect(() => {
     return () => {
