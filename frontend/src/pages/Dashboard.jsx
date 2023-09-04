@@ -21,11 +21,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import DoneIcon from '@mui/icons-material/Done';
 import RequestedToggle from '../components/RequestedToggle';
-import {
-  getRequested,
-  getMatched,
-  getListings,
-} from '../features/listings/listingSlice';
+import { getRequested, getMatched } from '../features/listings/listingSlice';
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -72,7 +68,6 @@ function Dashboard() {
       console.log(message);
     }
     dispatch(getUser());
-    dispatch(getListings());
     dispatch(getMatched());
     dispatch(getRequested());
   }, [isError, message, dispatch]);

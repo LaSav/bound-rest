@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Spinner from '../components/Spinner';
 import ListingItem from '../components/ListingItem';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { getListings } from '../features/listings/listingSlice';
 
 function Listings() {
+  const dispatch = useDispatch();
   const { listings, isLoading, isError, message } = useSelector(
     (state) => state.listings
   );
@@ -15,7 +18,8 @@ function Listings() {
     if (isError) {
       console.log(message);
     }
-  }, [isError, message]);
+    dispatch(getListings());
+  }, [isError, message, dispatch]);
 
   if (isLoading) {
     return <Spinner />;
