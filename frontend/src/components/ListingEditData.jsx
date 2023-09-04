@@ -5,9 +5,11 @@ import { useState } from 'react';
 import { Button } from '@mui/material';
 import { deleteListing } from '../features/listing/listingSlice';
 import Typography from '@mui/material/Typography';
+import { useNavigate } from 'react-router-dom';
 
 function ListingEditData({ listing, requests, toggleEdit }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const { deleteMessage } = useSelector((state) => state.listing);
@@ -16,8 +18,9 @@ function ListingEditData({ listing, requests, toggleEdit }) {
     setShowConfirmation(true);
   };
 
-  const confirmDelete = async () => {
-    await dispatch(deleteListing(listing._id));
+  const confirmDelete = () => {
+    dispatch(deleteListing(listing._id));
+    navigate('/?message=Listing successfully deleted.');
   };
 
   return (

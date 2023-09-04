@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { useLocation } from 'react-router-dom';
 import ListingForm from '../components/ListingForm';
 import { reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
@@ -29,6 +30,7 @@ import {
 function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const { user } = useSelector((state) => state.auth);
   const { profile, isComplete, isError, message, isLoading } = useSelector(
@@ -42,6 +44,10 @@ function Dashboard() {
   });
 
   const { bio, offeredSkill, portfolio } = formData;
+
+  const listingDeleteMessage = new URLSearchParams(location.search).get(
+    'message'
+  );
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -90,6 +96,7 @@ function Dashboard() {
     return (
       <>
         <Container>
+          <div>{listingDeleteMessage && <p>{listingDeleteMessage}</p>}</div>
           <Grid container spacing={2}>
             <Grid item xs={12} display='flex' alignItems='center'>
               <Box padding={2}>
