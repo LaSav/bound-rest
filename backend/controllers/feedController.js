@@ -3,24 +3,24 @@ const asyncHandler = require('express-async-handler');
 const Listing = require('../models/listingModel');
 const User = require('../models/userModel');
 
-// I might need to remove matches and requests from this response
 // @desc Get Feed
 // @route GET /api/feed
 // @access Public
 const getFeed = asyncHandler(async (req, res) => {
-  const { requiredSkills, searchText } = req.query;
+  const { requiredSkill, searchText } = req.query;
 
-  if (!requiredSkills && !searchText) {
+  if (!requiredSkill && !searchText) {
     const listings = await Listing.find();
     res.status(200).json(listings);
   }
 
-  if (requiredSkills) {
-    let listings = [];
-    for (skill of requiredSkills) {
-      const skillListings = await Listing.find({ requiredSkill: skill });
-      listings = listings.concat(skillListings);
-    }
+  if (requiredSkill) {
+    // let listings = [];
+    // for (skill of requiredSkills) {
+    //   const skillListings = await Listing.find({ requiredSkill: skill });
+    //   listings = listings.concat(skillListings);
+    // }
+    const listings = await Listing.find({ requiredSkill: requiredSkill });
 
     res.status(200).json(listings);
   }

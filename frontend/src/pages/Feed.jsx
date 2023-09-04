@@ -17,43 +17,36 @@ function Feed() {
     (state) => state.feed
   );
 
-  const [sortTerms, setSortTerms] = useState([]);
+  const [sortTerm, setSortTerm] = useState('');
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const [activeButtons, setActiveButtons] = useState([]);
-
-  const handleActiveButtons = (event, newActiveButtons) => {
-    setActiveButtons(newActiveButtons);
-  };
+  console.log(sortTerm);
 
   const handleSearch = (e) => {
     e.preventDefault();
     dispatch(getFeed({ searchText: searchTerm }));
     setSearchTerm('');
-    // FIX: this is causing the useEffect hook to run
-    setSortTerms([]);
-    setActiveButtons([]);
+    setSortTerm('');
   };
 
-  const handleClick = (newTerm) => {
-    if (sortTerms.includes(newTerm)) {
-      setSortTerms(sortTerms.filter((sortTerm) => sortTerm !== newTerm));
-    } else {
-      setSortTerms([...sortTerms, newTerm]);
-    }
+  const handleSortTerm = (event, newTerm) => {
+    setSortTerm(newTerm);
+    dispatch(getFeed({ requiredSkill: newTerm }));
+
+    window.history.pushState(
+      null,
+      '',
+      `?requiredSkill=${encodeURIComponent(newTerm)}`
+    );
   };
 
   useEffect(() => {
     if (isError) {
       console.log(message);
     }
-    dispatch(getFeed({ requiredSkills: sortTerms }));
-  }, [isError, message, dispatch, sortTerms]);
-
-  useEffect(() => {
     dispatch(getFeed());
-  }, [dispatch]);
+  }, [isError, message, dispatch]);
 
   useEffect(() => {
     return () => {
@@ -76,14 +69,14 @@ function Feed() {
               <label htmlFor='searchTerm'>Filter:</label>
               <ToggleButtonGroup
                 orientation='vertical'
-                value={activeButtons}
-                onChange={handleActiveButtons}
+                value={sortTerm}
+                exclusive
+                onChange={handleSortTerm}
               >
                 <ToggleButton
                   value='fullstack developer'
                   variant='outlined'
                   color='secondary'
-                  onClick={() => handleClick('fullstack developer')}
                 >
                   Fullstack Developer
                 </ToggleButton>
@@ -91,7 +84,6 @@ function Feed() {
                   value='frontend developer'
                   variant='outlined'
                   color='secondary'
-                  onClick={() => handleClick('frontend developer')}
                 >
                   Front-End Developer
                 </ToggleButton>
@@ -99,7 +91,6 @@ function Feed() {
                   value='backend developer'
                   variant='outlined'
                   color='secondary'
-                  onClick={() => handleClick('backend developer')}
                 >
                   Back-End Developer
                 </ToggleButton>
@@ -107,7 +98,6 @@ function Feed() {
                   value='UX designer'
                   variant='outlined'
                   color='secondary'
-                  onClick={() => handleClick('UX designer')}
                 >
                   UX Designer
                 </ToggleButton>
@@ -115,7 +105,6 @@ function Feed() {
                   value='copywriter'
                   variant='outlined'
                   color='secondary'
-                  onClick={() => handleClick('copywriter')}
                 >
                   Copywriter
                 </ToggleButton>
