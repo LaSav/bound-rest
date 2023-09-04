@@ -111,7 +111,7 @@ export const listingSlice = createSlice({
   name: 'listing',
   initialState,
   reducers: {
-    reset: (state) => initialState,
+    resetListing: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
@@ -184,5 +184,5 @@ export const listingSlice = createSlice({
   },
 });
 
-export const { reset } = listingSlice.actions;
+export const { resetListing } = listingSlice.actions;
 export default listingSlice.reducer;

@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { getListing, getRequests } from '../features/listing/listingSlice';
 import EditListingToggle from '../components/EditListingToggle';
 import { Container } from '@mui/material';
+import { resetListing } from '../features/listing/listingSlice';
 
 function ShowListing() {
   const dispatch = useDispatch();
@@ -26,6 +27,12 @@ function ShowListing() {
     dispatch(getListing(listingId));
     dispatch(getRequests(listingId));
   }, [user, navigate, isError, message, dispatch, listingId]);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetListing());
+    };
+  }, [dispatch]);
 
   if (isLoading) {
     return <Spinner />;
