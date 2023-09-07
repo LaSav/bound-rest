@@ -34,17 +34,24 @@ function Feed() {
     setSortTerm(newTerm);
     dispatch(getFeed({ requiredSkill: newTerm }));
 
-    window.history.pushState(
-      null,
-      '',
-      `?requiredSkill=${encodeURIComponent(newTerm)}`
-    );
+    // window.history.pushState(
+    //   null,
+    //   '',
+    //   `?requiredSkill=${encodeURIComponent(newTerm)}`
+    // );
   };
 
   useEffect(() => {
     if (isError) {
       console.log(message);
     }
+    // const queryParams = new URLSearchParams(window.location.search);
+    // const sortParam = queryParams.get('requiredSkill');
+
+    // if (sortParam) {
+    //   setSortTerm(sortParam);
+    //   dispatch(getFeed({ requiredSkill: sortParam }));
+    // }
     dispatch(getFeed());
   }, [isError, message, dispatch]);
 
