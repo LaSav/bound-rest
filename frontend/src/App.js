@@ -8,7 +8,7 @@ import Header from './components/Header';
 import Feed from './pages/Feed';
 import ShowFeedListing from './pages/ShowFeedListing';
 import ShowListing from './pages/ShowListing';
-import EditUser from './pages/EditUser';
+import Settings from './pages/Settings';
 import ShowUser from './pages/ShowUser';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -44,7 +44,7 @@ function App() {
               <Route path={'/feed/:listingId'} element={<ShowFeedListing />} />
               <Route path={'/listings/:listingId'} element={<ShowListing />} />
               <Route path={'/users/:userId'} element={<ShowUser />} />
-              <Route path={'/edit-profile'} element={<EditUser />} />
+              <Route path={'/settings'} element={<Settings />} />
             </Routes>
           </div>
         </ThemeProvider>

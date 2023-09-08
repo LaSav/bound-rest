@@ -33,10 +33,10 @@ function Header() {
             </Button>
             <Button color='inherit'>
               <Link
-                to='/edit-profile'
+                to='/settings'
                 style={{ textDecoration: 'none', color: 'black' }}
               >
-                Profile
+                Settings
               </Link>
             </Button>
             <div style={{ marginLeft: 'auto' }}>
