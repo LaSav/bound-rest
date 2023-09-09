@@ -36,7 +36,7 @@ function Dashboard() {
   const [formData, setFormData] = useState({
     bio: '',
     offeredSkill: 'fullstack developer',
-    portfolio: null ? '' : profile.portfolio,
+    portfolio: '',
   });
 
   const { bio, offeredSkill, portfolio } = formData;

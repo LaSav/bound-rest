@@ -135,7 +135,7 @@ const deleteMe = asyncHandler(async (req, res) => {
 
   await user.deleteOne();
 
-  res.status(200).json({ id: userId });
+  res.status(200).json({ message: 'User successfully deleted' });
 });
 
 // @desc Get User by ID

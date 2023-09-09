@@ -29,10 +29,22 @@ const logout = () => {
   localStorage.removeItem('user');
 };
 
+// Delete logged in User
+const deleteUser = async (token) => {
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  };
+  const response = await axios.delete(API_URL + 'me', config);
+  return response.data;
+};
+
 const authService = {
   register,
   login,
   logout,
+  deleteUser,
 };
 
 export default authService;
