@@ -23,8 +23,6 @@ function ShowFeedListing() {
       console.log(message);
     }
     if (!user) {
-      // BUG: 'Cannot read properties of null reading '_id'' Should I reset listing here?
-      // FIXED: change user._id to user?._id
       navigate('/login');
     }
     dispatch(getFeedListing(listingId));

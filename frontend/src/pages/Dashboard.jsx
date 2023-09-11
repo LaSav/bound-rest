@@ -32,6 +32,7 @@ function Dashboard() {
   const { profile, isComplete, isError, message, isLoading } = useSelector(
     (state) => state.user
   );
+  const { deleteListingMessage } = useSelector((state) => state.listing);
 
   const [formData, setFormData] = useState({
     bio: '',
@@ -40,10 +41,6 @@ function Dashboard() {
   });
 
   const { bio, offeredSkill, portfolio } = formData;
-
-  const listingDeleteMessage = new URLSearchParams(location.search).get(
-    'message'
-  );
 
   const onChange = (e) => {
     setFormData((prevState) => ({
@@ -91,7 +88,7 @@ function Dashboard() {
     return (
       <>
         <Container>
-          <div>{listingDeleteMessage && <p>{listingDeleteMessage}</p>}</div>
+          <div>{deleteListingMessage && <p>{deleteListingMessage}</p>}</div>
           <Grid container spacing={2}>
             <Grid item xs={12} display='flex' alignItems='center'>
               <Box padding={2}>

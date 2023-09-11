@@ -20,7 +20,7 @@ function ListingEditData({ listing, requests, toggleEdit }) {
 
   const confirmDelete = () => {
     dispatch(deleteListing(listing._id));
-    navigate('/?message=Listing successfully deleted.');
+    navigate('/');
   };
 
   return (

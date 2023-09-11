@@ -5,7 +5,7 @@ const initialState = {
   listing: {},
   requests: [],
   matched: '',
-  deleteMessage: '',
+  deleteListingMessage: '',
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -111,7 +111,12 @@ export const listingSlice = createSlice({
   name: 'listing',
   initialState,
   reducers: {
-    resetListing: (state) => initialState,
+    resetListing: (state) => {
+      return {
+        ...initialState,
+        message: state.deleteListingMessage,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -174,7 +179,7 @@ export const listingSlice = createSlice({
         state.isLoading = false;
         state.isSuccess = true;
         state.listing = {};
-        state.deleteMessage = action.payload.message;
+        state.deleteListingMessage = action.payload.message;
       })
       .addCase(deleteListing.rejected, (state, action) => {
         state.isLoading = false;
