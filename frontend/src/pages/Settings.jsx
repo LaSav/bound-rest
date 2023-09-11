@@ -17,7 +17,7 @@ function Settings() {
 
   const handleDelete = () => {
     dispatch(deleteUser());
-    navigate('/feed');
+    navigate('/');
   };
 
   return (

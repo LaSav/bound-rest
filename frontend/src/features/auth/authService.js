@@ -37,6 +37,7 @@ const deleteUser = async (token) => {
     },
   };
   const response = await axios.delete(API_URL + 'me', config);
+  localStorage.removeItem('user');
   return response.data;
 };
 
