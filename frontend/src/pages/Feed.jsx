@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getFeed, resetFeed } from '../features/feed/feedSlice';
 import FeedItem from '../components/FeedItem';
 import { Container } from '@mui/material';
@@ -13,15 +13,17 @@ import Button from '@mui/material/Button';
 function Feed() {
   const dispatch = useDispatch();
 
-  const { listings, isLoading, isError, message } = useSelector(
+  const { listings, isLoading, isError, message, page } = useSelector(
     (state) => state.feed
   );
+
+  const observer = useRef(null);
 
   const [sortTerm, setSortTerm] = useState('');
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  console.log(sortTerm);
+  console.log(listings.length);
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -52,8 +54,36 @@ function Feed() {
     //   setSortTerm(sortParam);
     //   dispatch(getFeed({ requiredSkill: sortParam }));
     // }
-    dispatch(getFeed());
-  }, [isError, message, dispatch]);
+    observer.current = new IntersectionObserver(handleObserver, {
+      root: null,
+      rootMargin: '20px',
+      threshold: 0.1,
+    });
+
+    if (listings.length === 0) {
+      dispatch(getFeed({ page: page }));
+    }
+
+    return () => {
+      if (observer.current) {
+        observer.current.disconnect();
+      }
+    };
+  }, [isError, message, dispatch, page]);
+
+  useEffect(() => {
+    if (observer.current && page > 1) {
+      observer.current.observe(
+        document.getElementById('infinite-scroll-trigger')
+      );
+    }
+  }, [page]);
+
+  const handleObserver = (entries) => {
+    if (entries[0].isIntersecting && !isLoading) {
+      dispatch(getFeed({ page: page }));
+    }
+  };
 
   useEffect(() => {
     return () => {
@@ -131,6 +161,7 @@ function Feed() {
           </Grid>
           <Grid item xs={9}>
             <Stack spacing={2}>{content}</Stack>
+            <div id='infinite-scroll-trigger'></div>
           </Grid>
         </Grid>
       </Container>

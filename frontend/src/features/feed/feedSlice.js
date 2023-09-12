@@ -7,6 +7,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: '',
+  page: 1,
 };
 
 // Get User Listings
@@ -41,7 +42,8 @@ export const feedSlice = createSlice({
       .addCase(getFeed.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.listings = action.payload;
+        state.listings = state.listings.concat(action.payload);
+        state.page += 1;
       })
       .addCase(getFeed.rejected, (state, action) => {
         state.isLoading = false;

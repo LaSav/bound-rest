@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
 import ListingForm from '../components/ListingForm';
 import { reset } from '../features/listings/listingSlice';
 import Spinner from '../components/Spinner';
@@ -26,7 +25,6 @@ import { getRequested, getMatched } from '../features/listings/listingSlice';
 function Dashboard() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const location = useLocation();
 
   const { user } = useSelector((state) => state.auth);
   const { profile, isComplete, isError, message, isLoading } = useSelector(

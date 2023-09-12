@@ -7,10 +7,13 @@ const User = require('../models/userModel');
 // @route GET /api/feed
 // @access Public
 const getFeed = asyncHandler(async (req, res) => {
-  const { requiredSkill, searchText } = req.query;
+  const { requiredSkill, searchText, page } = req.query;
+  const perPage = 10;
+
+  const skip = (page - 1) * perPage;
 
   if (!requiredSkill && !searchText) {
-    const listings = await Listing.find();
+    const listings = await Listing.find().skip(skip).limit(perPage);
     res.status(200).json(listings);
   }
 
