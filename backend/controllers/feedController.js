@@ -7,33 +7,64 @@ const User = require('../models/userModel');
 // @route GET /api/feed
 // @access Public
 const getFeed = asyncHandler(async (req, res) => {
-  const { requiredSkill, searchText, page } = req.query;
-  const perPage = 10;
+  const page = req.query.page || 1;
+  const pageSize = 10;
 
-  const skip = (page - 1) * perPage;
+  const skip = (page - 1) * pageSize;
 
-  if (!requiredSkill && !searchText) {
-    const listings = await Listing.find().skip(skip).limit(perPage);
-    res.status(200).json(listings);
-  }
+  // if (!requiredSkill && !searchText) {
+  const listings = await Listing.find().skip(skip).limit(pageSize);
+  res.status(200).json(listings);
+  // }
 
-  if (requiredSkill) {
-    // let listings = [];
-    // for (skill of requiredSkills) {
-    //   const skillListings = await Listing.find({ requiredSkill: skill });
-    //   listings = listings.concat(skillListings);
-    // }
-    const listings = await Listing.find({ requiredSkill: requiredSkill });
+  // if (requiredSkill) {
+  // let listings = [];
+  // for (skill of requiredSkills) {
+  //   const skillListings = await Listing.find({ requiredSkill: skill });
+  //   listings = listings.concat(skillListings);
+  // }
+  //   const listings = await Listing.find({ requiredSkill: requiredSkill });
 
-    res.status(200).json(listings);
-  }
+  //   res.status(200).json(listings).skip(skip).limit(perPage);
+  // }
 
-  if (searchText) {
-    const listings = await Listing.find({
-      text: { $regex: searchText, $options: 'i' },
-    });
-    res.json(listings);
-  }
+  // if (searchText) {
+  //   const listings = await Listing.find({
+  //     text: { $regex: searchText, $options: 'i' },
+  //   });
+  //   res.json(listings).skip(skip).limit(perPage);
+  // }
+});
+
+// @desc Search Feed
+// @route GET /api/feed/search
+// @access public
+const searchFeed = asyncHandler(async (req, res) => {
+  const { query } = req.query;
+  const page = req.query.page || 1;
+  const pageSize = 10;
+
+  const skip = (page - 1) * pageSize;
+
+  const listings = await Listing.find({
+    text: { $regex: query, $options: 'i' },
+  });
+  res.json(listings).skip(skip).limit(pageSize);
+});
+
+// @desc Sort Feed
+// @route GET /api/feed/sort
+// @access public
+const sortFeed = asyncHandler(async (req, res) => {
+  const { requiredSkill } = req.query;
+  const page = req.query.page || 1;
+  const pageSize = 10;
+
+  const skip = (page - 1) * pageSize;
+
+  const listings = await Listing.find({ requiredSkill: requiredSkill });
+
+  res.status(200).json(listings).skip(skip).limit(pageSize);
 });
 
 // Only authenticated users can send a request
@@ -86,4 +117,10 @@ const getFeedListing = asyncHandler(async (req, res) => {
   res.status(200).json(listing);
 });
 
-module.exports = { getFeed, requestListing, getFeedListing };
+module.exports = {
+  getFeed,
+  searchFeed,
+  sortFeed,
+  requestListing,
+  getFeedListing,
+};

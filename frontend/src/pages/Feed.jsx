@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
-import { getFeed, resetFeed } from '../features/feed/feedSlice';
+import { getFeed, resetFeed, searchFeed } from '../features/feed/feedSlice';
 import FeedItem from '../components/FeedItem';
 import { Container } from '@mui/material';
 import { Stack } from '@mui/material';
@@ -9,6 +9,7 @@ import TextField from '@mui/material/TextField';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import ToggleButton from '@mui/material/ToggleButton';
 import Button from '@mui/material/Button';
+import Spinner from '../components/Spinner';
 
 function Feed() {
   const dispatch = useDispatch();
@@ -24,11 +25,13 @@ function Feed() {
   const [searchTerm, setSearchTerm] = useState('');
 
   console.log(listings.length);
+  console.log('search term', searchTerm);
+  console.log('page', page);
 
   const handleSearch = (e) => {
     e.preventDefault();
-    dispatch(getFeed({ searchText: searchTerm }));
-    setSearchTerm('');
+    dispatch(resetFeed());
+    dispatch(searchFeed({ query: searchTerm }));
     setSortTerm('');
   };
 
@@ -60,10 +63,6 @@ function Feed() {
       threshold: 0.1,
     });
 
-    if (listings.length === 0) {
-      dispatch(getFeed({ page: page }));
-    }
-
     return () => {
       if (observer.current) {
         observer.current.disconnect();
@@ -72,16 +71,25 @@ function Feed() {
   }, [isError, message, dispatch, page]);
 
   useEffect(() => {
+    dispatch(getFeed({ page: page }));
+  }, [dispatch]);
+
+  useEffect(() => {
     if (observer.current && page > 1) {
       observer.current.observe(
         document.getElementById('infinite-scroll-trigger')
       );
     }
-  }, [page]);
+  }, [page, searchTerm]);
 
   const handleObserver = (entries) => {
     if (entries[0].isIntersecting && !isLoading) {
-      dispatch(getFeed({ page: page }));
+      if (searchTerm) {
+        dispatch(resetFeed());
+        dispatch(searchFeed({ query: searchTerm, page: page }));
+      } else {
+        dispatch(getFeed({ page: page }));
+      }
     }
   };
 
@@ -92,9 +100,7 @@ function Feed() {
   }, [dispatch]);
 
   const content = listings.map((listing) => {
-    return (
-      <FeedItem key={listing._id} listing={listing} isLoading={isLoading} />
-    );
+    return <FeedItem key={listing._id} listing={listing} />;
   });
 
   return (
@@ -161,9 +167,9 @@ function Feed() {
           </Grid>
           <Grid item xs={9}>
             <Stack spacing={2}>{content}</Stack>
-            <div id='infinite-scroll-trigger'></div>
           </Grid>
         </Grid>
+        {isLoading ? <Spinner /> : <div id='infinite-scroll-trigger'></div>}
       </Container>
     </>
   );

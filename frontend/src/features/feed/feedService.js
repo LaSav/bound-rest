@@ -8,8 +8,14 @@ const getFeed = async (queryParams) => {
   return response.data;
 };
 
+const searchFeed = async (queryParams) => {
+  const response = await axios.get(API_URL + 'search', { params: queryParams });
+  return response.data;
+};
+
 const feedService = {
   getFeed,
+  searchFeed,
 };
 
 export default feedService;

@@ -10,12 +10,30 @@ const initialState = {
   page: 1,
 };
 
-// Get User Listings
+// Get Listings
 export const getFeed = createAsyncThunk(
   'feed/getAll',
   async (queryParams, thunkAPI) => {
     try {
       return await feedService.getFeed(queryParams);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
+// Search Listings
+export const searchFeed = createAsyncThunk(
+  'feed/search',
+  async (queryParams, thunkAPI) => {
+    try {
+      return await feedService.searchFeed(queryParams);
     } catch (error) {
       const message =
         (error.response &&
@@ -46,6 +64,20 @@ export const feedSlice = createSlice({
         state.page += 1;
       })
       .addCase(getFeed.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(searchFeed.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(searchFeed.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.listings = state.listings.concat(action.payload);
+        state.page += 1;
+      })
+      .addCase(searchFeed.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
