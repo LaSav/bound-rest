@@ -46,6 +46,24 @@ export const searchFeed = createAsyncThunk(
   }
 );
 
+// Sort Listings
+export const sortFeed = createAsyncThunk(
+  'feed/sort',
+  async (queryParams, thunkAPI) => {
+    try {
+      return await feedService.sortFeed(queryParams);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
+
 export const feedSlice = createSlice({
   name: 'feed',
   initialState,
@@ -78,6 +96,20 @@ export const feedSlice = createSlice({
         state.page += 1;
       })
       .addCase(searchFeed.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(sortFeed.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(sortFeed.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.listings = state.listings.concat(action.payload);
+        state.page += 1;
+      })
+      .addCase(sortFeed.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;

@@ -13,9 +13,15 @@ const searchFeed = async (queryParams) => {
   return response.data;
 };
 
+const sortFeed = async (queryParams) => {
+  const response = await axios.get(API_URL + 'sort', { params: queryParams });
+  return response.data;
+};
+
 const feedService = {
   getFeed,
   searchFeed,
+  sortFeed,
 };
 
 export default feedService;

@@ -1,6 +1,11 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState, useRef } from 'react';
-import { getFeed, resetFeed, searchFeed } from '../features/feed/feedSlice';
+import {
+  getFeed,
+  resetFeed,
+  searchFeed,
+  sortFeed,
+} from '../features/feed/feedSlice';
 import FeedItem from '../components/FeedItem';
 import { Container } from '@mui/material';
 import { Stack } from '@mui/material';
@@ -27,17 +32,19 @@ function Feed() {
   console.log(listings.length);
   console.log('search term', searchTerm);
   console.log('page', page);
+  console.log('sort term', sortTerm);
 
   const handleSearch = (e) => {
     e.preventDefault();
     dispatch(resetFeed());
-    dispatch(searchFeed({ query: searchTerm }));
+    dispatch(searchFeed({ query: searchTerm, page: page }));
     setSortTerm('');
   };
 
   const handleSortTerm = (event, newTerm) => {
     setSortTerm(newTerm);
-    dispatch(getFeed({ requiredSkill: newTerm }));
+    dispatch(resetFeed());
+    dispatch(sortFeed({ requiredSkill: newTerm, page: page }));
 
     // window.history.pushState(
     //   null,
