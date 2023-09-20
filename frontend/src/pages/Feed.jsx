@@ -5,6 +5,7 @@ import {
   resetFeed,
   searchFeed,
   sortFeed,
+  getMoreResults,
 } from '../features/feed/feedSlice';
 import FeedItem from '../components/FeedItem';
 import { Container } from '@mui/material';
@@ -36,15 +37,16 @@ function Feed() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    dispatch(resetFeed());
-    dispatch(searchFeed({ query: searchTerm, page: page }));
     setSortTerm('');
+    dispatch(resetFeed());
+    dispatch(searchFeed({ query: searchTerm, page: 1 }));
   };
 
   const handleSortTerm = (event, newTerm) => {
     setSortTerm(newTerm);
+    setSearchTerm('');
     dispatch(resetFeed());
-    dispatch(sortFeed({ requiredSkill: newTerm, page: page }));
+    dispatch(sortFeed({ requiredSkill: newTerm, page: 1 }));
 
     // window.history.pushState(
     //   null,
@@ -92,8 +94,11 @@ function Feed() {
   const handleObserver = (entries) => {
     if (entries[0].isIntersecting && !isLoading) {
       if (searchTerm) {
-        dispatch(resetFeed());
+        dispatch(getMoreResults());
         dispatch(searchFeed({ query: searchTerm, page: page }));
+      } else if (sortTerm) {
+        dispatch(getMoreResults());
+        dispatch(sortFeed({ requiredSkill: sortTerm, page: page }));
       } else {
         dispatch(getFeed({ page: page }));
       }

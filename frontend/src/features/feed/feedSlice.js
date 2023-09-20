@@ -69,7 +69,15 @@ export const feedSlice = createSlice({
   initialState,
   reducers: {
     resetFeed: (state) => initialState,
+    getMoreResults: (state) => {
+      return {
+        ...initialState,
+        listings: state.listings,
+        page: state.page,
+      };
+    },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(getFeed.pending, (state) => {
@@ -117,5 +125,5 @@ export const feedSlice = createSlice({
   },
 });
 
-export const { resetFeed } = feedSlice.actions;
+export const { resetFeed, getMoreResults } = feedSlice.actions;
 export default feedSlice.reducer;
