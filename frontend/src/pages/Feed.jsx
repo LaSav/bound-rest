@@ -30,6 +30,8 @@ function Feed() {
 
   const [searchTerm, setSearchTerm] = useState('');
 
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+
   console.log(listings.length);
   console.log('search term', searchTerm);
   console.log('page', page);
@@ -84,23 +86,30 @@ function Feed() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (observer.current && page > 1) {
+    if (observer.current && page > 1 && !isLoadingMore) {
       observer.current.observe(
         document.getElementById('infinite-scroll-trigger')
       );
     }
-  }, [page, searchTerm]);
+  }, [page, searchTerm, sortTerm, isLoadingMore]);
 
   const handleObserver = (entries) => {
-    if (entries[0].isIntersecting && !isLoading) {
+    if (entries[0].isIntersecting && !isLoading && !isLoadingMore) {
+      setIsLoadingMore(true);
       if (searchTerm) {
         dispatch(getMoreResults());
-        dispatch(searchFeed({ query: searchTerm, page: page }));
+        dispatch(searchFeed({ query: searchTerm, page: page })).then(() => {
+          setIsLoadingMore(false);
+        });
       } else if (sortTerm) {
         dispatch(getMoreResults());
-        dispatch(sortFeed({ requiredSkill: sortTerm, page: page }));
+        dispatch(sortFeed({ requiredSkill: sortTerm, page: page })).then(() => {
+          setIsLoadingMore(false);
+        });
       } else {
-        dispatch(getFeed({ page: page }));
+        dispatch(getFeed({ page: page })).then(() => {
+          setIsLoadingMore(false);
+        });
       }
     }
   };
