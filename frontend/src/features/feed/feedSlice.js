@@ -69,7 +69,7 @@ export const feedSlice = createSlice({
   initialState,
   reducers: {
     resetFeed: (state) => initialState,
-    getMoreResults: (state) => {
+    stageLoading: (state) => {
       return {
         ...initialState,
         listings: state.listings,
@@ -125,5 +125,5 @@ export const feedSlice = createSlice({
   },
 });
 
-export const { resetFeed, getMoreResults } = feedSlice.actions;
+export const { resetFeed, stageLoading } = feedSlice.actions;
 export default feedSlice.reducer;

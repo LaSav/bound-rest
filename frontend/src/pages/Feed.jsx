@@ -5,7 +5,7 @@ import {
   resetFeed,
   searchFeed,
   sortFeed,
-  getMoreResults,
+  stageLoading,
 } from '../features/feed/feedSlice';
 import FeedItem from '../components/FeedItem';
 import { Container } from '@mui/material';
@@ -97,12 +97,12 @@ function Feed() {
     if (entries[0].isIntersecting && !isLoading && !isLoadingMore) {
       setIsLoadingMore(true);
       if (searchTerm) {
-        dispatch(getMoreResults());
+        dispatch(stageLoading());
         dispatch(searchFeed({ query: searchTerm, page: page })).then(() => {
           setIsLoadingMore(false);
         });
       } else if (sortTerm) {
-        dispatch(getMoreResults());
+        dispatch(stageLoading());
         dispatch(sortFeed({ requiredSkill: sortTerm, page: page })).then(() => {
           setIsLoadingMore(false);
         });
