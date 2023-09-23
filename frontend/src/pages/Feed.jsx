@@ -44,7 +44,7 @@ function Feed() {
     dispatch(searchFeed({ query: searchTerm, page: 1 }));
   };
 
-  const handleSortTerm = (event, newTerm) => {
+  const handleSort = (event, newTerm) => {
     setSortTerm(newTerm);
     setSearchTerm('');
     dispatch(resetFeed());
@@ -107,7 +107,7 @@ function Feed() {
           setIsLoadingMore(false);
         });
       } else {
-        dispatch(getFeed({ page: page })).then(() => {
+        dispatch(getFeed({ page: 1 })).then(() => {
           setIsLoadingMore(false);
         });
       }
@@ -135,7 +135,7 @@ function Feed() {
                 orientation='vertical'
                 value={sortTerm}
                 exclusive
-                onChange={handleSortTerm}
+                onChange={handleSort}
               >
                 <ToggleButton
                   value='fullstack developer'

@@ -12,28 +12,8 @@ const getFeed = asyncHandler(async (req, res) => {
 
   const skip = (page - 1) * pageSize;
 
-  // if (!requiredSkill && !searchText) {
   const listings = await Listing.find().skip(skip).limit(pageSize);
   res.status(200).json(listings);
-  // }
-
-  // if (requiredSkill) {
-  // let listings = [];
-  // for (skill of requiredSkills) {
-  //   const skillListings = await Listing.find({ requiredSkill: skill });
-  //   listings = listings.concat(skillListings);
-  // }
-  //   const listings = await Listing.find({ requiredSkill: requiredSkill });
-
-  //   res.status(200).json(listings).skip(skip).limit(perPage);
-  // }
-
-  // if (searchText) {
-  //   const listings = await Listing.find({
-  //     text: { $regex: searchText, $options: 'i' },
-  //   });
-  //   res.json(listings).skip(skip).limit(perPage);
-  // }
 });
 
 // @desc Search Feed
