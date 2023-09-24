@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getFeed,
   resetFeed,
@@ -24,13 +24,9 @@ function Feed() {
     (state) => state.feed
   );
 
-  const observer = useRef(null);
-
   const [sortTerm, setSortTerm] = useState('');
 
   const [searchTerm, setSearchTerm] = useState('');
-
-  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   console.log(listings.length);
   console.log('search term', searchTerm);
@@ -49,71 +45,28 @@ function Feed() {
     setSearchTerm('');
     dispatch(resetFeed());
     dispatch(sortFeed({ requiredSkill: newTerm, page: 1 }));
-
-    // window.history.pushState(
-    //   null,
-    //   '',
-    //   `?requiredSkill=${encodeURIComponent(newTerm)}`
-    // );
   };
 
+  const getMoreListings = (sortTerm, searchTerm) => {
+    if (sortTerm) {
+      dispatch(sortFeed({ requiredSkill: sortTerm, page: page }));
+    } else if (searchTerm) {
+      dispatch(searchFeed({ query: searchTerm, page: page }));
+    } else {
+      dispatch(getFeed({ page: page }));
+    }
+  };
+
+  // Fetch all listings on component mount
   useEffect(() => {
     if (isError) {
       console.log(message);
     }
-    // const queryParams = new URLSearchParams(window.location.search);
-    // const sortParam = queryParams.get('requiredSkill');
 
-    // if (sortParam) {
-    //   setSortTerm(sortParam);
-    //   dispatch(getFeed({ requiredSkill: sortParam }));
-    // }
-    observer.current = new IntersectionObserver(handleObserver, {
-      root: null,
-      rootMargin: '20px',
-      threshold: 0.1,
-    });
-
-    return () => {
-      if (observer.current) {
-        observer.current.disconnect();
-      }
-    };
-  }, [isError, message, dispatch, page]);
-
-  useEffect(() => {
     dispatch(getFeed({ page: page }));
-  }, [dispatch]);
+  }, [dispatch, message]);
 
-  useEffect(() => {
-    if (observer.current && page > 1 && !isLoadingMore) {
-      observer.current.observe(
-        document.getElementById('infinite-scroll-trigger')
-      );
-    }
-  }, [page, searchTerm, sortTerm, isLoadingMore]);
-
-  const handleObserver = (entries) => {
-    if (entries[0].isIntersecting && !isLoading && !isLoadingMore) {
-      setIsLoadingMore(true);
-      if (searchTerm) {
-        dispatch(stageLoading());
-        dispatch(searchFeed({ query: searchTerm, page: page })).then(() => {
-          setIsLoadingMore(false);
-        });
-      } else if (sortTerm) {
-        dispatch(stageLoading());
-        dispatch(sortFeed({ requiredSkill: sortTerm, page: page })).then(() => {
-          setIsLoadingMore(false);
-        });
-      } else {
-        dispatch(getFeed({ page: 1 })).then(() => {
-          setIsLoadingMore(false);
-        });
-      }
-    }
-  };
-
+  // Cleanup
   useEffect(() => {
     return () => {
       dispatch(resetFeed());
@@ -190,7 +143,18 @@ function Feed() {
             <Stack spacing={2}>{content}</Stack>
           </Grid>
         </Grid>
-        {isLoading ? <Spinner /> : <div id='infinite-scroll-trigger'></div>}
+        {isLoading ? (
+          <Spinner />
+        ) : (
+          <Button
+            variant='secondary'
+            onClick={() => {
+              getMoreListings(sortTerm, searchTerm);
+            }}
+          >
+            Get More Results
+          </Button>
+        )}
       </Container>
     </>
   );
