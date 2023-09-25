@@ -5,15 +5,14 @@ import {
   resetFeed,
   searchFeed,
   sortFeed,
-  stageLoading,
 } from '../features/feed/feedSlice';
 import FeedItem from '../components/FeedItem';
 import { Container } from '@mui/material';
 import { Stack } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import ToggleButton from '@mui/material/ToggleButton';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Spinner from '../components/Spinner';
 
@@ -35,16 +34,20 @@ function Feed() {
 
   const handleSearch = (e) => {
     e.preventDefault();
-    setSortTerm('');
+    setSortTerm('All Listings');
     dispatch(resetFeed());
     dispatch(searchFeed({ query: searchTerm, page: 1 }));
   };
 
-  const handleSort = (event, newTerm) => {
-    setSortTerm(newTerm);
+  const handleSort = (term) => {
+    if (term === '') {
+      dispatch(resetFeed());
+      dispatch(getFeed({ page: 1 }));
+    }
+    setSortTerm(term);
     setSearchTerm('');
     dispatch(resetFeed());
-    dispatch(sortFeed({ requiredSkill: newTerm, page: 1 }));
+    dispatch(sortFeed({ requiredSkill: term, page: 1 }));
   };
 
   const getMoreListings = (sortTerm, searchTerm) => {
@@ -63,8 +66,8 @@ function Feed() {
       console.log(message);
     }
 
-    dispatch(getFeed({ page: page }));
-  }, [dispatch, message]);
+    dispatch(getFeed({ page: 1 }));
+  }, [dispatch, message, isError]);
 
   // Cleanup
   useEffect(() => {
@@ -80,52 +83,27 @@ function Feed() {
   return (
     <>
       <Container maxWidth='lg'>
-        <Grid container spacing={5}>
-          <Grid item xs={3}>
-            <Stack spacing={3}>
-              <label htmlFor='searchTerm'>Filter:</label>
-              <ToggleButtonGroup
-                orientation='vertical'
+        <Grid container spacing={5} justifyContent='center'>
+          <Grid item xs={9}>
+            <Stack spacing={3} direction='row' justifyContent='between'>
+              <Select
+                name='requiredSkill'
+                id='requiredSkill'
                 value={sortTerm}
-                exclusive
-                onChange={handleSort}
+                label='Select the Skill required for this listing'
+                onChange={(e) => handleSort(e.target.value)}
               >
-                <ToggleButton
-                  value='fullstack developer'
-                  variant='outlined'
-                  color='secondary'
-                >
-                  Fullstack Developer
-                </ToggleButton>
-                <ToggleButton
-                  value='frontend developer'
-                  variant='outlined'
-                  color='secondary'
-                >
-                  Front-End Developer
-                </ToggleButton>
-                <ToggleButton
-                  value='backend developer'
-                  variant='outlined'
-                  color='secondary'
-                >
-                  Back-End Developer
-                </ToggleButton>
-                <ToggleButton
-                  value='UX designer'
-                  variant='outlined'
-                  color='secondary'
-                >
-                  UX Designer
-                </ToggleButton>
-                <ToggleButton
-                  value='copywriter'
-                  variant='outlined'
-                  color='secondary'
-                >
-                  Copywriter
-                </ToggleButton>
-              </ToggleButtonGroup>
+                <MenuItem value=''>All Listings</MenuItem>
+                <MenuItem value='fullstack developer'>
+                  Fullstack developer
+                </MenuItem>
+                <MenuItem value='frontend developer'>
+                  Frontend developer
+                </MenuItem>
+                <MenuItem value='backend developer'>Backend developer</MenuItem>
+                <MenuItem value='UX designer'>UX designer</MenuItem>
+                <MenuItem value='copywriter'>Copywriter</MenuItem>
+              </Select>
               <form noValidate autoComplete='off' onSubmit={handleSearch}>
                 <TextField
                   label='search'
