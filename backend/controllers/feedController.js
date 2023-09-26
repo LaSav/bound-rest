@@ -13,7 +13,10 @@ const getFeed = asyncHandler(async (req, res) => {
   const skip = (page - 1) * pageSize;
 
   const listings = await Listing.find().skip(skip).limit(pageSize);
-  res.status(200).json(listings);
+  const numberOfListings = (await Listing.find()).length;
+  const totalPages = Math.ceil(numberOfListings / pageSize);
+
+  res.status(200).json({ listings: listings, totalPages: totalPages });
 });
 
 // @desc Search Feed
@@ -31,7 +34,15 @@ const searchFeed = asyncHandler(async (req, res) => {
   })
     .skip(skip)
     .limit(pageSize);
-  res.status(200).json(listings);
+
+  const numberOfListings = (
+    await Listing.find({
+      text: { $regex: query, $options: 'i' },
+    })
+  ).length;
+  const totalPages = Math.ceil(numberOfListings / pageSize);
+
+  res.status(200).json({ listings: listings, totalPages: totalPages });
 });
 
 // @desc Sort Feed
@@ -48,7 +59,12 @@ const sortFeed = asyncHandler(async (req, res) => {
     .skip(skip)
     .limit(pageSize);
 
-  res.status(200).json(listings);
+  const numberOfListings = (
+    await Listing.find({ requiredSkill: requiredSkill })
+  ).length;
+  const totalPages = Math.ceil(numberOfListings / pageSize);
+
+  res.status(200).json({ listings: listings, totalPages: totalPages });
 });
 
 // Only authenticated users can send a request

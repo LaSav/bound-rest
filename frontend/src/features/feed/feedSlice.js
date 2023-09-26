@@ -7,7 +7,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: '',
-  page: 1,
+  totalPages: 1,
 };
 
 // Get Listings
@@ -79,8 +79,8 @@ export const feedSlice = createSlice({
       .addCase(getFeed.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.listings = state.listings.concat(action.payload);
-        state.page += 1;
+        state.listings = action.payload.listings;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(getFeed.rejected, (state, action) => {
         state.isLoading = false;
@@ -93,8 +93,8 @@ export const feedSlice = createSlice({
       .addCase(searchFeed.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.listings = state.listings.concat(action.payload);
-        state.page += 1;
+        state.listings = action.payload.listings;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(searchFeed.rejected, (state, action) => {
         state.isLoading = false;
@@ -107,8 +107,8 @@ export const feedSlice = createSlice({
       .addCase(sortFeed.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.listings = state.listings.concat(action.payload);
-        state.page += 1;
+        state.listings = action.payload.listings;
+        state.totalPages = action.payload.totalPages;
       })
       .addCase(sortFeed.rejected, (state, action) => {
         state.isLoading = false;

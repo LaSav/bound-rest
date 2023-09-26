@@ -15,48 +15,78 @@ import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Spinner from '../components/Spinner';
+import Box from '@mui/material/Box';
 
 function Feed() {
   const dispatch = useDispatch();
 
-  const { listings, isLoading, isError, message, page } = useSelector(
+  const { listings, isLoading, isError, message, totalPages } = useSelector(
     (state) => state.feed
   );
 
-  const [sortTerm, setSortTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [sortTerm, setSortTerm] = useState('All Listings');
 
   const [searchTerm, setSearchTerm] = useState('');
 
   console.log(listings.length);
   console.log('search term', searchTerm);
-  console.log('page', page);
+  console.log('page', currentPage);
   console.log('sort term', sortTerm);
+  console.log('total pages:', totalPages);
 
   const handleSearch = (e) => {
     e.preventDefault();
     setSortTerm('All Listings');
-    dispatch(resetFeed());
+    // dispatch(resetFeed());
     dispatch(searchFeed({ query: searchTerm, page: 1 }));
   };
 
-  const handleSort = (term) => {
-    if (term === '') {
-      dispatch(resetFeed());
-      dispatch(getFeed({ page: 1 }));
-    }
-    setSortTerm(term);
+  const handleSort = (selectedTerm) => {
+    setSortTerm(selectedTerm);
     setSearchTerm('');
-    dispatch(resetFeed());
-    dispatch(sortFeed({ requiredSkill: term, page: 1 }));
+    // dispatch(resetFeed());
+    if (selectedTerm === 'All Listings') {
+      dispatch(getFeed({ page: 1 }));
+    } else {
+      dispatch(sortFeed({ requiredSkill: selectedTerm, page: 1 }));
+    }
   };
 
-  const getMoreListings = (sortTerm, searchTerm) => {
-    if (sortTerm) {
-      dispatch(sortFeed({ requiredSkill: sortTerm, page: page }));
-    } else if (searchTerm) {
-      dispatch(searchFeed({ query: searchTerm, page: page }));
-    } else {
-      dispatch(getFeed({ page: page }));
+  // const getMoreListings = (sortTerm, searchTerm) => {
+  //   if (sortTerm && sortTerm !== 'All Listings') {
+  //     dispatch(sortFeed({ requiredSkill: sortTerm, page: page }));
+  //   } else if (searchTerm) {
+  //     dispatch(searchFeed({ query: searchTerm, page: page }));
+  //   } else {
+  //     dispatch(getFeed({ page: page }));
+  //   }
+  // };
+
+  const handleNextPage = (sortTerm, searchTerm, currentPage) => {
+    if (currentPage < totalPages) {
+      setCurrentPage(currentPage + 1);
+      if (sortTerm && sortTerm !== 'All Listings') {
+        dispatch(sortFeed({ requiredSkill: sortTerm, page: currentPage + 1 }));
+      } else if (searchTerm) {
+        dispatch(searchFeed({ query: searchTerm, page: currentPage + 1 }));
+      } else {
+        dispatch(getFeed({ page: currentPage + 1 }));
+      }
+    }
+  };
+
+  const handlePreviousPage = (sortTerm, searchTerm, currentPage) => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+      if (sortTerm && sortTerm !== 'All Listings') {
+        dispatch(sortFeed({ requiredSkill: sortTerm, page: currentPage - 1 }));
+      } else if (searchTerm) {
+        dispatch(searchFeed({ query: searchTerm, page: currentPage - 1 }));
+      } else {
+        dispatch(getFeed({ page: currentPage - 1 }));
+      }
     }
   };
 
@@ -69,7 +99,7 @@ function Feed() {
     dispatch(getFeed({ page: 1 }));
   }, [dispatch, message, isError]);
 
-  // Cleanup
+  // Cleanup on component unmount
   useEffect(() => {
     return () => {
       dispatch(resetFeed());
@@ -85,54 +115,62 @@ function Feed() {
       <Container maxWidth='lg'>
         <Grid container spacing={5} justifyContent='center'>
           <Grid item xs={9}>
-            <Stack spacing={3} direction='row' justifyContent='between'>
-              <Select
-                name='requiredSkill'
-                id='requiredSkill'
-                value={sortTerm}
-                label='Select the Skill required for this listing'
-                onChange={(e) => handleSort(e.target.value)}
-              >
-                <MenuItem value=''>All Listings</MenuItem>
-                <MenuItem value='fullstack developer'>
-                  Fullstack developer
-                </MenuItem>
-                <MenuItem value='frontend developer'>
-                  Frontend developer
-                </MenuItem>
-                <MenuItem value='backend developer'>Backend developer</MenuItem>
-                <MenuItem value='UX designer'>UX designer</MenuItem>
-                <MenuItem value='copywriter'>Copywriter</MenuItem>
-              </Select>
-              <form noValidate autoComplete='off' onSubmit={handleSearch}>
-                <TextField
-                  label='search'
-                  onChange={(e) => setSearchTerm(e.target.value)}
+            <Stack spacing={3} direction='row' justifyContent='space-between'>
+              <Box>
+                <form noValidate autoComplete='off' onSubmit={handleSearch}>
+                  <TextField
+                    label='search'
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  >
+                    Search
+                  </TextField>
+                  <Button variant='outlined' color='secondary' type='submit'>
+                    Search
+                  </Button>
+                </form>
+              </Box>
+              <Box>
+                <Select
+                  name='requiredSkill'
+                  id='requiredSkill'
+                  value={sortTerm}
+                  label='Select the Skill required for this listing'
+                  onChange={(e) => handleSort(e.target.value)}
                 >
-                  Search
-                </TextField>
-                <Button variant='outlined' color='secondary' type='submit'>
-                  Search
-                </Button>
-              </form>
+                  <MenuItem value='All Listings'>All Listings</MenuItem>
+                  <MenuItem value='fullstack developer'>
+                    Fullstack developer
+                  </MenuItem>
+                  <MenuItem value='frontend developer'>
+                    Frontend developer
+                  </MenuItem>
+                  <MenuItem value='backend developer'>
+                    Backend developer
+                  </MenuItem>
+                  <MenuItem value='UX designer'>UX designer</MenuItem>
+                  <MenuItem value='copywriter'>Copywriter</MenuItem>
+                </Select>
+              </Box>
             </Stack>
-          </Grid>
-          <Grid item xs={9}>
-            <Stack spacing={2}>{content}</Stack>
+            {isLoading ? <Spinner /> : <Stack spacing={2}>{content}</Stack>}
           </Grid>
         </Grid>
-        {isLoading ? (
-          <Spinner />
-        ) : (
-          <Button
-            variant='secondary'
-            onClick={() => {
-              getMoreListings(sortTerm, searchTerm);
-            }}
-          >
-            Get More Results
-          </Button>
-        )}
+        <Button
+          variant='secondary'
+          onClick={() => {
+            handleNextPage(sortTerm, searchTerm, currentPage);
+          }}
+        >
+          Next
+        </Button>
+        <Button
+          variant='secondary'
+          onClick={() => {
+            handlePreviousPage(sortTerm, searchTerm, currentPage);
+          }}
+        >
+          Previous
+        </Button>
       </Container>
     </>
   );
