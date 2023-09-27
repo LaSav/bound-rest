@@ -54,39 +54,27 @@ function Feed() {
     }
   };
 
-  // const getMoreListings = (sortTerm, searchTerm) => {
-  //   if (sortTerm && sortTerm !== 'All Listings') {
-  //     dispatch(sortFeed({ requiredSkill: sortTerm, page: page }));
-  //   } else if (searchTerm) {
-  //     dispatch(searchFeed({ query: searchTerm, page: page }));
-  //   } else {
-  //     dispatch(getFeed({ page: page }));
-  //   }
-  // };
-
-  const handleNextPage = (sortTerm, searchTerm, currentPage) => {
+  const handleNextPage = (currentPage) => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
-      if (sortTerm && sortTerm !== 'All Listings') {
-        dispatch(sortFeed({ requiredSkill: sortTerm, page: currentPage + 1 }));
-      } else if (searchTerm) {
-        dispatch(searchFeed({ query: searchTerm, page: currentPage + 1 }));
-      } else {
-        dispatch(getFeed({ page: currentPage + 1 }));
-      }
+      getListingsOnPage(sortTerm, searchTerm, currentPage + 1);
     }
   };
 
-  const handlePreviousPage = (sortTerm, searchTerm, currentPage) => {
+  const handlePreviousPage = (currentPage) => {
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
-      if (sortTerm && sortTerm !== 'All Listings') {
-        dispatch(sortFeed({ requiredSkill: sortTerm, page: currentPage - 1 }));
-      } else if (searchTerm) {
-        dispatch(searchFeed({ query: searchTerm, page: currentPage - 1 }));
-      } else {
-        dispatch(getFeed({ page: currentPage - 1 }));
-      }
+      getListingsOnPage(sortTerm, searchTerm, currentPage - 1);
+    }
+  };
+
+  const getListingsOnPage = (sortTerm, searchTerm, page) => {
+    if (sortTerm && sortTerm !== 'All Listings') {
+      dispatch(sortFeed({ requiredSkill: sortTerm, page: page }));
+    } else if (searchTerm) {
+      dispatch(searchFeed({ query: searchTerm, page: page }));
+    } else {
+      dispatch(getFeed({ page: page }));
     }
   };
 
@@ -155,22 +143,26 @@ function Feed() {
             {isLoading ? <Spinner /> : <Stack spacing={2}>{content}</Stack>}
           </Grid>
         </Grid>
-        <Button
-          variant='secondary'
-          onClick={() => {
-            handleNextPage(sortTerm, searchTerm, currentPage);
-          }}
-        >
-          Next
-        </Button>
-        <Button
-          variant='secondary'
-          onClick={() => {
-            handlePreviousPage(sortTerm, searchTerm, currentPage);
-          }}
-        >
-          Previous
-        </Button>
+        {currentPage < totalPages && (
+          <Button
+            variant='secondary'
+            onClick={() => {
+              handleNextPage(currentPage);
+            }}
+          >
+            Next
+          </Button>
+        )}
+        {currentPage > 1 && (
+          <Button
+            variant='secondary'
+            onClick={() => {
+              handlePreviousPage(currentPage);
+            }}
+          >
+            Previous
+          </Button>
+        )}
       </Container>
     </>
   );
