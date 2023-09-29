@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import Spinner from '../components/Spinner';
 import Box from '@mui/material/Box';
+import Pagination from '@mui/material/Pagination';
 
 function Feed() {
   const dispatch = useDispatch();
@@ -143,7 +144,7 @@ function Feed() {
             {isLoading ? <Spinner /> : <Stack spacing={2}>{content}</Stack>}
           </Grid>
         </Grid>
-        {currentPage < totalPages && (
+        {/* {currentPage < totalPages && (
           <Button
             variant='secondary'
             onClick={() => {
@@ -153,6 +154,7 @@ function Feed() {
             Next
           </Button>
         )}
+
         {currentPage > 1 && (
           <Button
             variant='secondary'
@@ -162,7 +164,15 @@ function Feed() {
           >
             Previous
           </Button>
-        )}
+        )} */}
+        <Pagination
+          count={totalPages}
+          page={currentPage}
+          onChange={(event, page) => {
+            getListingsOnPage(sortTerm, searchTerm, page);
+            setCurrentPage(page);
+          }}
+        />
       </Container>
     </>
   );

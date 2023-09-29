@@ -1,6 +1,6 @@
 # Bound MERN REST API
 
-Bound is a networking app for digital creatives. Built using the MERN stack and REST API architecture.
+This is a prototype browser application for Bound, a networking app for digital creatives. Built using the MERN stack and REST API architecture.
 
 ## Features
 
@@ -13,7 +13,9 @@ Bound is a networking app for digital creatives. Built using the MERN stack and 
 ## Built with
 
 - React
+- Redux/ Toolkit
 - HTML
+- Material UI
 - Axios
 - Express
 - Mongoose
@@ -32,6 +34,8 @@ Bound is a networking app for digital creatives. Built using the MERN stack and 
 - Creators of a Listing can match with the requested Users. :ok_hand:
 - Getting Listings a User has requested to. :ok_hand:
 - Getting Listings a User has matched with. :ok_hand:
+- User CRUD :ok_hand:
+- MFA for account delete
 - Users can remove themselves from requests.
 
 #### Frontend
@@ -83,7 +87,7 @@ The Listing data model references the User who created it by Id.
 
 ### Listings
 
-#### Dashboard
+#### Dashboard Page
 
 Users see the listings they've created in the Dashboard. Here, they can view and create listings.
 
