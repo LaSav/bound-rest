@@ -9,7 +9,9 @@ const User = require('../models/userModel');
 // @route GET /api/listings
 // @access Private
 const getListings = asyncHandler(async (req, res) => {
-  const listings = await Listing.find({ user: req.user.id });
+  const listings = await Listing.find({ user: req.user.id }).sort({
+    createdAt: -1,
+  });
   res.status(200).json(listings);
 });
 
@@ -191,7 +193,7 @@ const getRequested = asyncHandler(async (req, res) => {
 
   const requestedListings = await Listing.find({
     requests: user,
-  });
+  }).sort({ createdAt: -1 });
 
   res.status(200).json(requestedListings);
 });
@@ -204,7 +206,7 @@ const getMatched = asyncHandler(async (req, res) => {
 
   const matchedListings = await Listing.find({
     matches: user,
-  });
+  }).sort({ createdAt: -1 });
 
   res.status(200).json(matchedListings);
 });

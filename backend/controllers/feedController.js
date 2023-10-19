@@ -12,7 +12,10 @@ const getFeed = asyncHandler(async (req, res) => {
 
   const skip = (page - 1) * pageSize;
 
-  const listings = await Listing.find().skip(skip).limit(pageSize);
+  const listings = await Listing.find()
+    .skip(skip)
+    .limit(pageSize)
+    .sort({ createdAt: -1 });
   const numberOfListings = (await Listing.find()).length;
   const totalPages = Math.ceil(numberOfListings / pageSize);
 
@@ -33,7 +36,8 @@ const searchFeed = asyncHandler(async (req, res) => {
     text: { $regex: query, $options: 'i' },
   })
     .skip(skip)
-    .limit(pageSize);
+    .limit(pageSize)
+    .sort({ createdAt: -1 });
 
   const numberOfListings = (
     await Listing.find({
@@ -57,7 +61,8 @@ const sortFeed = asyncHandler(async (req, res) => {
 
   const listings = await Listing.find({ requiredSkill: requiredSkill })
     .skip(skip)
-    .limit(pageSize);
+    .limit(pageSize)
+    .sort({ createdAt: -1 });
 
   const numberOfListings = (
     await Listing.find({ requiredSkill: requiredSkill })
@@ -108,7 +113,7 @@ const requestListing = asyncHandler(async (req, res) => {
   res.status(200).json(user._id);
 });
 
-// @desc Geet a single listing
+// @desc Get a single listing
 // @route Get /api/feed/:id
 // @access Public
 const getFeedListing = asyncHandler(async (req, res) => {
