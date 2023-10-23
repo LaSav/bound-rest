@@ -101,7 +101,7 @@ export const listingSlice = createSlice({
       .addCase(createListing.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.listings.push(action.payload);
+        state.listings.splice(0, 0, action.payload);
       })
       .addCase(createListing.rejected, (state, action) => {
         state.isLoading = false;

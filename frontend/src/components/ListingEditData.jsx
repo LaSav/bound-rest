@@ -18,8 +18,8 @@ function ListingEditData({ listing, requests, toggleEdit }) {
     setShowConfirmation(true);
   };
 
-  const confirmDelete = () => {
-    dispatch(deleteListing(listing._id));
+  const confirmDelete = async () => {
+    await dispatch(deleteListing(listing._id));
     navigate('/');
   };
 
