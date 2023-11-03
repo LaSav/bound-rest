@@ -9,8 +9,6 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Card from '@mui/material/Card';
-import { CardActions, CardContent } from '@mui/material';
 import Button from '@mui/material/Button';
 import Listings from '../components/Listings';
 import EditToggle from '../components/EditToggle';
@@ -95,19 +93,18 @@ function Dashboard() {
                 </Typography>
               </Box>
             </Grid>
-            <Grid item xs={4}>
-              <Card
+            <Grid item xs={4} sx={{ border: 1, borderColor: 'primary.dark' }}>
+              <Box
+                padding={2}
                 elevation={0}
                 sx={{
                   backgroundColor: 'primary.main',
                 }}
               >
-                <CardContent>
-                  <EditToggle profile={profile} isLoading={isLoading} />
-                </CardContent>
-              </Card>
+                <EditToggle profile={profile} isLoading={isLoading} />
+              </Box>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={8} sx={{ border: 1, borderColor: 'primary.dark' }}>
               <Box padding={2}>
                 <Typography variant='h4' color='secondary' gutterBottom>
                   Create a New Listing
@@ -115,14 +112,22 @@ function Dashboard() {
                 <ListingForm />
               </Box>
             </Grid>
-            <Grid item display='flex' xs={6}>
-              <Box padding={2}>
+            <Grid
+              item
+              display='flex'
+              xs={6}
+              sx={{ border: 1, borderColor: 'primary.dark' }}
+            >
+              <Box
+                padding={2}
+                sx={{ border: 1, borderColor: 'primary.dark', width: 1 }}
+              >
                 <Typography variant='h5'>Your Active Listings:</Typography>
                 <Listings />
               </Box>
             </Grid>
             <Grid item xs={6}>
-              <Box padding={2}>
+              <Box padding={2} sx={{ border: 1, borderColor: 'primary.dark' }}>
                 <RequestedToggle />
               </Box>
             </Grid>

@@ -16,10 +16,10 @@ import CssBaseline from '@mui/material/CssBaseline';
 const theme = createTheme({
   palette: {
     background: {
-      default: '#dee4e9',
+      default: '#fafafa',
     },
     primary: {
-      main: '#dee4e9',
+      main: '#fafafa',
       dark: '#bec9d4',
     },
     secondary: {
